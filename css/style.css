@@ -751,7 +751,7 @@ p.wp-caption-text { margin-bottom: 0; color: #353535; font-size: 11px;}
 	14. - Most Used / Repeatable Page CSS 
 ------------------------------------------*/
 /*------ Page Header ------------*/
-.tp-page-head{ background:url(../images/page-header-img.jpg);background-position: center; -webkit-background-size: cover; -moz-background-size: cover; background-size: cover; -o-background-size: cover;}
+.tp-page-head{ background:url(../images/hero-image.png);background-position: center; -webkit-background-size: cover; -moz-background-size: cover; background-size: cover; -o-background-size: cover;}
 .tp-page-head .page-header{ border: none; padding: 40px 0px;}
 .tp-page-head .page-header h1{color: #fff;}
 /*----- Breadcrumb --------*/
@@ -799,8 +799,8 @@ form.btn-default.active.focus,
 .side-nav ul{}
 .side-nav ul li{background-color: #fff;border: 1px solid #e9e6e0; margin-top: -1px; color: #fff;  cursor: pointer;}
 .side-nav ul li a {color: #706a68;text-transform: uppercase; font-size: 14px; font-weight: 700;padding: 18px 30px;}
-.side-nav ul li:hover{background:#f9a630;color: #fff; border: 1px solid #f9a630;color: #fff; }
-.side-nav ul li.active{background: #f9a630;color: #fff; border: 1px solid #f9a630; color: #fff;}
+.side-nav ul li:hover{background:#8E203E;color: #fff; border: 1px solid #8E203E;color: #fff; }
+.side-nav ul li.active{background: #8E203E;color: #fff; border: 1px solid #8E203E; color: #fff;}
 .side-nav ul li.active a{color: #fff;}
 .side-nav .nav>li>a:focus, .nav>li>a:hover { text-decoration: none; background-color: transparent;}
 

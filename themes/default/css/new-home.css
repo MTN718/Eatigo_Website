@@ -1359,7 +1359,7 @@ label {
     display: inline-block;
     cursor: pointer;
     position: relative;
-    padding-left: 25px;
+    padding-left: 1px;
     font-size: 14px;
     color: #222;
     height: 28px;
