@@ -1,0 +1,321 @@
+/*login page*/
+
+.login-box, .profile-box {
+    margin: 0 auto;
+    width: 450px;
+    margin-top: 60px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 0px;
+    vertical-align: top;
+    background: #fff;
+    /*border: 1px solid rgba(57,7,8,0.52);*/
+    border-radius: 4px;
+    padding-bottom: 100px !important;
+}
+
+.profile-box {
+    width: 95%;
+    margin-top: 3px;
+}
+
+.login_login_bar {
+    width: 100%;
+    height: auto;
+    font-size: 17px;
+    text-align: center;
+    padding: 5px 0px;
+    color: #999;
+}
+
+.bookingDataDetil {
+    background-color: #FFF;
+    border-top: 1px solid #FFF;
+    overflow: auto;
+    clear: both;
+    margin-top: 10px;
+    display: block;
+    height: auto;
+}
+
+.bookingDataDetil .icon {
+    background-color: #FFF;
+    background-repeat: no-repeat;
+    background-position: center center;
+    float: left;
+    height: 42px;
+    width: 12%;
+    /* margin-right: 10px; */
+    border-radius: 5px 0px 0px 5px;
+    border: 1px solid #ccc;
+    background-size: 25px;
+}
+
+.bookingDataDetil .iconName {
+    background-image: url('http://m.eatigo.com/themes/default/images/newicon/name.svg');
+}
+
+.bookingDataDetil .iconEmail {
+    background-image: url('http://m.eatigo.com/themes/default/images/newicon/email.svg');
+}
+
+.bookingDataDetil .iconPassword {
+    background-image: url('http://m.eatigo.com/themes/default/images/newicon/passwd.svg');
+}
+
+.login_logo_back {
+    float: left;
+    width: 115px;
+    height: 35px;
+    margin-left: 5px;
+    margin-top: 5px;
+    background: url('http://m.eatigo.com/themes/default/images/logo_arrow.svg') right center no-repeat;
+}
+
+.login_login_txt {
+    color: #666;
+    margin-left: 10px;
+    margin-top: 10px;
+    height: auto;
+    width: auto;
+    text-align: left;
+    float: left;
+}
+
+.login_email, .login_password {
+    height: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    border: hidden;
+}
+
+.login_email_l, .login_password_l {
+    float: left;
+    height: 100%;
+    width: 10%;
+    background: url('../../../../../m.eatigo.com/themes/default/images/login/icon_email.png') #FFF center no-repeat;
+}
+
+.login_password_l {
+    background: url('../../../../../m.eatigo.com/themes/default/images/login/icon_lock.png') #FFF center no-repeat;
+}
+
+.login_password {
+    border-top: #EEE solid 2px;
+}
+
+.login_email_txt {
+    float: left;
+    width: 85%;
+    height: 100%;
+    border: hidden;
+}
+
+.login_submit, .login_or, .login_fb, .login_forgot {
+    text-align: center;
+    color: #FFF;
+    height: 44px;
+    padding: 0px;
+    border-radius: 5px;
+    line-height: 44px;
+    font-size: 16px;
+    background: #FF9900;
+    width: 100%;
+    display: block;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.container-login {
+    margin: 0 auto;
+    width: 93%;
+    margin-top: 60px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 0px;
+    vertical-align: top;
+    background: #fff;
+    border: 0px solid #e5e1df;
+    border-radius: 4px;
+    padding-bottom: 5px !important;
+}
+
+.input-box {
+    float: left;
+    height: 42px !important;
+    padding: 0px 0px 0px 2% !important;
+    margin: 0px !important;
+    border: none !important;
+    width: 97% !important;
+    background: #FFF !important;
+    border-radius: 0px 5px 5px 0px !important;
+    line-height: 45px !important;
+    vertical-align: middle !important;
+}
+
+.input-box#sdate, .input-box#sppl, .input-box#stime {
+    width: 100%;
+}
+
+.border-inputbox {
+    display: inline-block;
+    width: 86%;
+    height: auto;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-radius: 0px 5px 5px 0px;
+}
+
+input.input-box:focus {
+    outline-width: 0;
+}
+
+.btn-facebook-login {
+
+    background: url('http://m.eatigo.com/themes/default/images/newicon/facebook.svg') 3% center #4c66a4 no-repeat;
+    background-size: 30px;
+    color: #FFF;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 15px;
+    padding: 0px;
+    cursor: pointer;
+}
+
+.btn-facebook-login-center {
+    padding: 0px;
+    height: 44px;
+    list-style: none;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.login_or, .login_forgot {
+    background: #FFF;
+    color: #CCC;
+}
+
+.login_fb {
+    background: #00C;
+}
+
+.login_forgot {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-size: 18px;
+}
+
+/*--forget--*/
+.forget_bar, .forget_bar_mid, .forget_submit, .forget_bar2 {
+    height: 120px;
+    background: #EEE;
+    width: 100%;
+}
+
+.forget_bar_txt, .forget_bar_txt2 {
+    float: left;
+    margin-top: 30px;
+    width: 100%;
+    height: auto;
+    color: #666;
+    font-size: 16px;
+    text-align: center;
+}
+
+.forget_bar_txt2 {
+    margin-top: 5px;
+    color: #CCC;
+    font-size: 12px;
+}
+
+.forget_bar_mid {
+    height: 40px;
+}
+
+.forget_submit {
+    height: 20px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: #FF9900;
+    color: #FFF;
+    float: left;
+}
+
+.forget_bar2 {
+    background: #FFF; /*border:#063 solid 1px;*/
+    float: left;
+}
+
+.forgotpassword-bottom {
+    float: left;
+    clear: both;
+    width: 100%;
+    height: 300px;
+}
+
+a.login-forgot, a.login-register {
+    float: left;
+    width: 50%;
+    text-align: right;
+    color: #FF9900 !important;
+    padding: 10px 0px;
+    margin-top: 10px;
+}
+
+a.login-forgot {
+    text-align: left;
+}
+
+.detail-Table {
+    display: table;
+}
+
+.detail-Title {
+    display: table-caption;
+    text-align: center;
+}
+
+.detail-Row {
+    display: table-row;
+}
+
+.detail-Cell {
+    display: table-cell;
+}
+
+.normal-font {
+    font-size: 14px !important;
+    font-weight: normal;
+}
+
+/*--regis--*/
+.regis_bar {
+    width: 99.5%;
+    height: auto;
+    border-bottom: 3px solid #BC181F;
+    font-size: 16px;
+}
+
+@media all and (max-width: 455px) {
+    .login-box {
+        width: 93%;
+    }
+}
+
+#login-loader {
+    float: left;
+    clear: both;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 10000;
+    /*opacity: 0.4;
+    filter: alpha(opacity=40);*/
+    padding-top: 25%;
+    top: 0;
+}
