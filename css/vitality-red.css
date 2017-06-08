@@ -140,17 +140,7 @@ body {
   font-weight: 300;
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-a {
-  color: #C2B49A;
-  -webkit-transition: all .5s;
-  -moz-transition: all .5s;
-  transition: all .5s;
-}
-a:hover,
-a:focus {
-  color: #c81b10;
-  text-decoration: none;
-}
+
 p {
   font-size: 18px;
   line-height: 1.5;

@@ -26,7 +26,7 @@
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Istok+Web:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
   <!--font awesome icon -->
-  <link rel="stylesheet" href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- favicon icon -->
   <link rel="shortcut icon" href="images/lo1go.png" type="image/x-icon">
 
@@ -40,12 +40,12 @@
       <![endif]-->
 
 
-  <link rel="stylesheet" type="text/css" href="themes/default/css/theme111ba.css?v=20141226-1">
-  <link rel="stylesheet" type="text/css" href="themes/default/css/jquery-ui.cs">
-  <link rel="stylesheet" type="text/css" href="themes/default/css/idangerous.swiper.css">
-  <link rel="stylesheet" type="text/css" href="themes/default/css/timeslot.css">
-  <link rel="stylesheet" type="text/css" href="themes/default/css/jquery.share079c.css?v=20141017-1">
-  <link rel="stylesheet" type="text/css" href="themes/default/css/new-home.css">
+  <link rel="stylesheet" type="text/css" href="css/theme111ba.css?v=20141226-1">
+  <link rel="stylesheet" type="text/css" href="css/jquery-ui.cs">
+  <link rel="stylesheet" type="text/css" href="css/idangerous.swiper.css">
+  <link rel="stylesheet" type="text/css" href="css/timeslot.css">
+  <link rel="stylesheet" type="text/css" href="css/jquery.share079c.css?v=20141017-1">
+  <link rel="stylesheet" type="text/css" href="css/new-home.css">
   
 
 
@@ -76,7 +76,7 @@
             <ul class="listnone">
               <li><a href="faq.html"> Help </a></li>
               <li><a href="pricing-plan.html">Pricing</a></li>
-              <li><a href="signup-couple.html" class=" ">Are you Vendor ?</a></li>
+              <li><a href="signup-vendor.html" class=" ">Are you Vendor ?</a></li>
               <li><a role="button" data-toggle="collapse" href="#searcharea" aria-expanded="false" aria-controls="searcharea"> <i class="fa fa-search"></i> </a></li>
             </ul>
           </div>
@@ -98,20 +98,19 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="active hoo"><a href="index.html">Home</a></li>
                 <li class="dropdown hoo"> <a href="restaurant.html">Restaurants </a></li>
-		
-		<li class="dropdown hoo"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="fa fa-angle-down"></span></a>
-	          <ul class="dropdown-menu">
-	              <li><a href="login-page.html">Login</a></li>
-                      <li><a href="signup-vendor.html">Sign Up</a></li>
-                      <li><a href="#">Profile</a></li>
-	          </ul>
-	        </li>
+    
+    <li class="dropdown hoo"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="fa fa-angle-down"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="login-page.html">Login</a></li>
+                      <li><a href="signup-couple.html">Sign Up</a></li>
+                      <li><a href="restaurant-profile.html">Profile</a></li>
+            </ul>
+          </li>
           
                
 
                 <!-- /.Mega Dropdown -->
 
-                </li>
                 <li class="hoo"><a href="contact-us.html">Contact Us</a></li>
               </ul>
             </div>
@@ -120,6 +119,7 @@
           </nav>
         </div>
         <!-- /.container-fluid --> 
+  
 
       </div><!-- navigation end -->
      <div class="slider-bg"><!-- slider start-->
@@ -401,8 +401,8 @@
                                                     310 reservations recently
                                                     
                                                 </div>
-                                                <img class="recom-box-img lazy" alt="" data-original="static.eatigo.com/eatigo_TenYuuGrandSathorn_20160225105912_0554.jpg"
-                                                src="static.eatigo.com/eatigo_TenYuuGrandSathorn_20160225105912_0554.jpg"/>
+                                                <img class="recom-box-img lazy" alt="" data-original="images/pica.jpg"
+                                                src="images/pica.jpg"/>
                                             </div>
                                             <div class="float-left">
                                                 <div class="box-detail">
@@ -661,9 +661,6 @@
                                                     var k = '8';
                                                     swipper(k, pp, '2');
                                                 </script>
-                                                <div class="box-banner-bottom" style="display:none;">
-                                                    <img src="themes/default/images/index/eatigo_icon.png" alt="">
-                                                </div>
                                             </div>
 
 
@@ -690,9 +687,9 @@
         <div id="testimonial" class="owl-carousel owl-theme">
           <div class="item testimonial-block">
             <div class="couple-pic"><img src="images/couple-4.jpg" alt="" class="img-circle"></div>
-            <div class="box-detail-rating-gray" style="margin-top: -18px;margin-right: 127px;">
-               <div class="box-detail-rating-yellow_b" style="width:92%;"></div>
-            </div>
+            <div class="col-md-12 rating-box">
+	      <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
+	    </div>
             <div class="feedback-caption">
             	
               <p>"check out this week’s new restaurants on eatigo here! reserve now and get up to 50% off for every restaurant everyday"
@@ -704,9 +701,9 @@
           </div>
           <div class="item testimonial-block">
             <div class="couple-pic"><img src="images/couple-4.jpg" alt="" class="img-circle"></div>
-             <div class="box-detail-rating-gray" style="margin-top: -18px;margin-right: 127px;">
-               <div class="box-detail-rating-yellow_b" style="width:92%;"></div>
-            </div>
+             <div class="col-md-12 rating-box">
+	      <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
+	    </div>
             <div class="feedback-caption">
               <p>"check out this week’s new restaurants on eatigo here! reserve now and get up to 50% off for every restaurant everyday"</p>
             </div>
@@ -716,9 +713,9 @@
           </div>
           <div class="item testimonial-block">
             <div class="couple-pic"><img src="images/couple-4.jpg" alt="" class="img-circle"></div>
-             <div class="box-detail-rating-gray" style="margin-top: -18px;margin-right: 127px;">
-               <div class="box-detail-rating-yellow_b" style="width:92%;"></div>
-            </div>
+            <div class="col-md-12 rating-box">
+	      <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
+	    </div>
             <div class="feedback-caption">
               <p>"Etiam ut metus nisi. Sed non laoreet nisi tinciin interdum risus felis enjoyable day were Notting was a problem from "</p>
             </div>
@@ -747,7 +744,7 @@
                                                           <div class="col-md-3 ft-link">
                                                             <h2>Useful links</h2>
                                                             <ul>
-                                                              <li><a href="#" style="color:#B9657C;">About Us</a></li>
+                                                              <li><a href="about-us.html" style="color:#B9657C;">About Us</a></li>
                                                               <li><a href="#" style="color:#B9657C;">News</a></li>
                                                               <li><a href="#" style="color:#B9657C;">Career</a></li>
                                                               <li><a href="#" style="color:#B9657C;">Privacy Policy</a></li>
@@ -793,37 +790,15 @@
                                                 
 
 
-                                                      <script src="vendor/jquery/jquery.min.js"></script>
-                                                      <script src="vendor/tether/tether.min.js"></script>
-                                                      <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-                                                      <!-- Plugin JavaScript -->
-                                                      <script src="vendor/jquery.easing/jquery.easing.min.js"></script>
-                                                      <script src="vendor/owl-carousel/owl.carousel.js"></script>
-                                                      <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-                                                      <script src="vendor/vide/jquery.vide.min.js"></script>
-                                                      <script src="vendor/mixitup/mixitup.min.js"></script>
-                                                      <script src="vendor/wowjs/wow.min.js"></script>
-
-                                                      <!-- Contact form JavaScript -->
-                                                      <script src="js/contact_me.js"></script>
-                                                      <script src="js/jqBootstrapValidation.js"></script>
-
-                                                      <!-- Custom scripts for this theme -->
-                                                      <script src="js/vitality.js"></script>
-                                                      <script src="js/vitality-mixitup.js"></script>
-
-
-
-                                                      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+                                                    
                                                       <script src="js/jquery.min.js"></script> 
                                                       <!-- Include all compiled plugins (below), or include individual files as needed --> 
                                                       <script src="js/bootstrap.min.js"></script> 
                                                       <script src="js/nav.js"></script> 
-                                                      <script type="text/javascript" src="js/bootstrap-select.js"></script> 
+                                                      <script src="js/bootstrap-select.js"></script> 
                                                       <script src="js/owl.carousel.min.js"></script> 
-                                                      <script type="text/javascript" src="js/slider.js"></script> 
-                                                      <script type="text/javascript" src="js/testimonial.js"></script> 
+                                                      <script src="js/slider.js"></script> 
+                                                      <script src="js/testimonial.js"></script> 
                                                       <script src="js/jquery.sticky.js"></script> 
                                                       <script src="js/header-sticky.js"></script>
 
