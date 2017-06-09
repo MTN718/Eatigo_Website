@@ -39,6 +39,9 @@ switch ($pageName) {
         break;
     case "SHOPCHECKOUT":
         include ("contents/shop-checkout.php");
+        break;
+    case "VENDORPROFILE":
+        include ("contents/shop-checkout.php");
         break;   
 
 }

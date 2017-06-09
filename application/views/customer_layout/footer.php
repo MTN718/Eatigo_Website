@@ -21,7 +21,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Enter E-Mail Address" required>
                         <span class="input-group-btn">
-                            <button class="btn tp-btn-default tp-btn-lg findhover" type="button" style="padding: 9px 20px; background-color: #881938;">Submit</button>
+                            <button class="btn tp-btn-default tp-btn-lg findhover" type="button" style="padding: 9px 20px; background-color: #000;">Submit</button>
                         </span> </div>
                     <!-- /input-group --> 
 

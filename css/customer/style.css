@@ -33,7 +33,14 @@ Description:Wedding Vendor | Vendor Directory HTML Template for All Vendor Listi
 /*-----------------------------
 	01 - General CSS - Basic setup Typography and Template Input css
 ------------------------------*/
-body { font-family: 'Istok Web', sans-serif; font-size: 16px; line-height: 27px; background-color: #faf9f5; color: #706a68; -webkit-font-smoothing: antialiased;}
+@font-face {
+	font-family: "Aleo";
+	src: url("../fonts/Aleo-Regular.otf");
+	font-weight: normal;
+	font-style: normal;
+}
+
+body { font-family: 'Aleo', sans-serif; font-size: 16px; line-height: 27px; background-color: #faf9f5; color: #706a68; -webkit-font-smoothing: antialiased;}
 h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; margin: 0px 0 20px 0px; color: #3c3634;}
 h1 {font-size: 28px; letter-spacing: -1px;}
 h2 {font-size: 18px; letter-spacing: -1px;}
@@ -59,10 +66,10 @@ button.tp-btn-default{height: 48px;}
 ::selection { background: #00aeaf; color: #fff;}
 .no-padding { padding-left: 0px; padding-right: 5px;}
 /*-------- Section Space CSS -------*/
-.spacer { padding-top: 80px; padding-bottom: 80px;}
+.spacer { padding-top: 30px; padding-bottom: 30px;}
 /*------- Title CSS --------*/
 .tp-title{margin-bottom: 30px;}
-.tp-title-center{margin-bottom: 30px; text-align: center;}
+.tp-title-center{margin-bottom: 15px; text-align: center;}
 /*------- Section Color CSS --------*/
 .tp-section{background-color: #fff;
 border-top: 1px solid #fff;
@@ -79,7 +86,7 @@ ul.listnone{list-style: none; margin: 0px; }
 	Template Buttons 
 --------------------------*/
 .btn { font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; font-size: 12px; border-radius: 2px;}
-.tp-btn-default { background-color: #8E203E; color: #fff;}
+.tp-btn-default { background-color: #e41d27; color: #fff;}
 .tp-btn-default:hover {background-color: #FF346C; color: #fff; }
 .tp-btn-primary {background-color: #8E203E; color: #fff;}
 .tp-btn-primary:hover {background-color: #FF346C;color: #fff;}
@@ -111,24 +118,24 @@ ul.listnone{list-style: none; margin: 0px; }
 /*------ Top Bar -------*/
 .search-area{}
 .top-message{}
-.top-message p{margin-bottom: 0px; color: #fff; font-size: 14px;}
-.top-bar{background-color: #881938;padding: 4px 0px}
+.top-message p{margin-bottom: 0px; color: #000000; font-size: 14px;}
+.top-bar{background-color: #fff;padding: 4px 0px;border-bottom: 1px solid #d5d4d4;}
 .top-links{}
 .top-links ul{ float: right;}
 .top-links li{float: left; padding-right: 20px; position: relative;}
 .top-links li:last-child{padding-right: 0px;}
-.top-links li a{font-size: 12px; color: #B9657C; text-transform: uppercase; font-weight: 700;}
+.top-links li a{font-size: 12px; color: #000000; text-transform: uppercase;}
 .top-links li a:hover{ color: #B9657C;}
-.tp-nav {background-color: #8E203E;padding-top: 10px; z-index: 9999; position: relative;}
+.tp-nav {background-color: #fff; padding-top: 10px; z-index: 9999; position: relative; padding-bottom: 12px;}
 .tp-nav .navbar-brand { float: left; height: 50px; padding: 0px; font-size: 18px; line-height: 20px;}
-.tp-nav .navbar-brand>img { display: block; margin-top: 4px;}
+.tp-nav .navbar-brand>img { display: block;}
 /*------ Template Navigation -------*/
 .tp-nav .navbar-default { background-color: rgba(166, 36, 60, 0); border-color: rgba(166, 36, 60, 0); font-family: 'Montserrat', sans-serif; margin-bottom: 0px;}
 .tp-nav .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover{
 	background: transparent;}
 .hoo > a:hover{
-	background: #fff !important;
-	color: black !important;
+	background: #E41D27 !important;
+	color: white !important;
 }
 .findhover:hover{
 	background: #FF346C !important;
@@ -146,7 +153,7 @@ ul.listnone{list-style: none; margin: 0px; }
 .tp-nav .dropdown-menu>li>a { display: block; padding: 10px 20px; clear: both; font-weight: 400; border-bottom: 1px solid #e9e6e0;}
 .tp-nav .dropdown-menu>li>a:focus, .tp-navigation .dropdown-menu>li>a:hover {text-decoration: none;}
 .tp-nav .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover { text-decoration: none; background-color: #fcfbf9; sborder-bottom: 1px solid #e9e6e0;}
-.tp-nav .navbar-default .navbar-nav>li>a { color: #fff; font-weight: 700; font-size: 13px; text-transform:uppercase; padding: 15px 15px 29px 15px;}
+.tp-nav .navbar-default .navbar-nav>li>a { color: #000000; font-weight: 700; font-size: 13px; text-transform:uppercase; padding: 15px 15px 15px 15px;}
 .tp-nav .navbar-default .navbar-nav>li>a span.fa{padding-left: 4px;}
 .tp-nav .dropdown-submenu { position: relative;}
 .tp-nav .navbar-right .dropdown-menu { left: 0px;
@@ -179,18 +186,18 @@ box-shadow: unset;}
 .tp-nav .navbar-default .navbar-collapse, .navbar-default .navbar-form{border-color: #048a8b; }
 .tp-nav .navbar-default .navbar-toggle .icon-bar{background-color: #00aeaf;}
 /*----- Homepage Template Slider --------*/
-#slider .item img {display: block;width: 100%;height: auto;}
+#slider .item img {display: block;width: 100%;height: 320px;}
 .slider-bg{position: relative; background: #eee;}
 .slider{}
 .slider-pic img{position: relative; z-index: -1;}
 .slider-pic{ -webkit-transition: all 0.3s; -moz-transition: all 0.3s;transition: all 0.3s;background: -moz-linear-gradient(top, rgba(16, 14, 13, 0) 0%, rgba(16, 14, 13, 1) 100%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(16, 14, 13, 1)), color-stop(100%, rgba(16, 14, 13, 0)));background: -webkit-linear-gradient(top, rgba(16, 14, 13, 0) 0%, rgba(16, 14, 13, 1) 100%); background: -o-linear-gradient(top, rgba(16, 14, 13, 0) 0%, rgba(16, 14, 13, 1) 100%); background: -ms-linear-gradient(top, rgba(16, 14, 13, 0) 0%, rgba(16, 14, 13, 1) 100%); background: linear-gradient(to bottom, rgba(16, 14, 13, 0) 0%, rgba(16, 14, 13, 1) 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000', GradientType=0 );}
 /*---------- Home Page Finder Section ---------*/
-.find-section { position: absolute; top: 22%; margin: 0 auto; left: 0%; right: 0%; text-align: center; color: #fff; z-index: 1;}
+.find-section { position: absolute; top: 17%; margin: 0 auto; left: 0%; right: 0%; text-align: center; color: #fff; z-index: 1;}
 .finder-block{}
 .finder-caption{ margin-bottom: 20px;display: inline-block;}
 .finder-caption h1 { font-size: 42px; letter-spacing: -1px; font-weight: 700;}
 .finder-caption h1, .finder-caption p { margin-bottom: 20px; color: #fff;}
-.finderform { background-color: rgba(142, 32, 62, 0.5); padding: 20px 0px 20px 20px;}
+.finderform { background-color: rgba(0, 0, 0, 0.5); padding: 20px 0px 20px 20px;}
 .finderform .col-md-5 { padding-right: 15px;}
 .finderform .tp-btn-lg { padding: 14px 14px; margin-left: -18px;}
 
@@ -228,7 +235,7 @@ box-shadow: unset;}
 .social-icon ul li a{ font-size: 24px; color: #fff;}
 .social-icon ul li a:hover{ color: #FF346C;}
 /* ----- Template Tiny Footer -------*/
-.tiny-footer{background-color: #881938; padding-top: 20px; padding-bottom: 20px; text-align: center; color: #fff; font-size: 14px;}
+.tiny-footer{background-color: #000; padding-top: 20px; padding-bottom: 20px; text-align: center; color: #fff; font-size: 14px;}
 
 /*-----------------------
 	03. Listing Page 
@@ -765,6 +772,9 @@ p.wp-caption-text { margin-bottom: 0; color: #353535; font-size: 11px;}
 .filter-box{z-index: 99;}
 .filter-form{background: #fff; border: 1px solid #e9e6e0; padding: 30px 20px; margin-top: -1px; margin-right: 0px; margin-left: 0px;}
 .filter-form .control-label{ display: none;}
+.bootstrap-select > .dropdown-toggle {
+    color: #000 !important;
+}
 form .btn-default{ height: 48px;background-color: #faf9f5; margin-bottom: 0px; border: 1px solid #e9e6e0; color: #2b212f; -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px; color: #55575a; -webkit-appearance: none; -moz-appearance: none;}
 form.btn-default.active.focus,
 .btn-default.active:focus, .btn-default.active:hover,
@@ -1501,7 +1511,7 @@ section.module.parallax h1 { color: #fff; font-size: 38px; font-weight: 700; tex
 }
 }
 @media (min-width: 768px) and (max-width: 1366px) { 
-.find-section{position: absolute; top: 25%; margin: 0 auto; left: 0%; right: 0%; text-align: center; color: #fff; z-index: 1;}
+.find-section{position: absolute; top: 18%; margin: 0 auto; left: 0%; right: 0%; text-align: center; color: #fff; z-index: 1;}
 .finderform .col-md-5 { padding-right: 15px; margin-right: -12px;
 }
 }

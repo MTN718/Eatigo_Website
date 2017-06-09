@@ -35,7 +35,7 @@
                             <div class="form-group col-md-4 no-padding" style="width: 274px;">
                                 <input type="text" class="form-control" placeholder="Enter Restaurant Name">
                             </div>
-                            <button type="submit" class="h btn tp-btn-default tp-btn-lg findhover" style="background-color:#881938;">Find Restaurants</button>
+                            <button type="submit" class="h btn tp-btn-default tp-btn-lg findhover">Find Restaurants</button>
                         </form>
                     </div>
                 </div>
@@ -53,17 +53,17 @@
         <div class="row feature-center"><!-- feature center -->
             <div class="hvr-bounce-in col-md-4 feature-block wow bounceInLeft" data-wow-duration="2s" data-wow-delay=".5s"><!-- feature block -->
                 <div class="feature-icon"><img src="<?php echo base_url();?>images/11111.png" width="100" alt=""></div>
-                <h2 style="margin-bottom: 10px; color: #DF1E2A;">Find Your Favourite Restaurant</h2>
+                <h2 style="margin-bottom: 10px; color: #000;">Find Your Favourite Restaurant</h2>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
             </div><!-- /.feature block -->
             <div class="hvr-bounce-in col-md-4 feature-block wow bounceInUp" data-wow-duration="2s" data-wow-delay=".5s"><!-- feature block -->
                 <div class="feature-icon"><img src="<?php echo base_url();?>images/22222.png" width="100" alt=""></div>
-                <h2 style="margin-bottom: 10px; color: #DF1E2A;">Choose Your Time And Discount</h2>
+                <h2 style="margin-bottom: 10px; color: #000;">Choose Your Time And Discount</h2>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
             </div><!-- /.feature block -->
             <div class="hvr-bounce-in col-md-4 feature-block wow bounceInRight" data-wow-duration="2s" data-wow-delay=".5s"><!-- feature block -->
                 <div class="feature-icon"><img src="<?php echo base_url();?>images/44444.png" width="100" alt=""></div>
-                <h2 style="margin-bottom: 10px; color: #DF1E2A;">Receive Confirmation via sms & Email</h2>
+                <h2 style="margin-bottom: 10px; color: #000;">Receive Confirmation via sms & Email</h2>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
             </div><!-- /.feature block -->
         </div><!-- /.feature center -->
@@ -542,6 +542,18 @@
                         </div>
                         <div class="couple-info">
                             <div class="date">Thu, 21st June, 2017</div>
+                        </div>
+                    </div>
+                    <div class="item testimonial-block">
+                        <div class="couple-pic"><img src="<?php echo base_url();?>images/couple-4.jpg" alt="" class="img-circle"></div>
+                        <div class="col-md-12 rating-box">
+                            <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
+                        </div>
+                        <div class="feedback-caption">
+                            <p>"check out this week’s new restaurants on eatigo here! reserve now and get up to 50% off for every restaurant everyday"</p>
+                        </div>
+                        <div class="couple-info">
+                            <div class="date">Thu, 13th July, 2017</div>
                         </div>
                     </div>
                     <div class="item testimonial-block">
