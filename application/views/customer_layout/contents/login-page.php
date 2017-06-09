@@ -1,4 +1,14 @@
-
+<div class="tp-page-head">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="page-header">
+          <h1>Login Page</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- /.page header -->
 <div class="tp-breadcrumb">
   <div class="container">

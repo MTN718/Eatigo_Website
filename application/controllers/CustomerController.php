@@ -54,4 +54,30 @@ class CustomerController extends BaseController {
         $data['pageName'] = "ABOUT";
         $this->load->view('view_customer', $data);   
     }
+
+    public function restaurantlist() {
+        $data['pageName'] = "RESTAURANTLIST";
+        $this->load->view('view_customer', $data);   
+    }
+
+    public function restaurantdetails() {
+        $data['pageName'] = "RESTAURANTDETAILS";
+        $this->load->view('view_customer', $data);   
+    }
+
+    public function faq() {
+        $data['pageName'] = "FAQ";
+        $this->load->view('view_customer', $data);      
+    }
+
+    public function pricingplan() {
+        $data['pageName'] = "PRICINGPLAN";
+        $this->load->view('view_customer', $data);      
+    }
+
+    public function signupvendor() {
+        $data['pageName'] = "SIGNUPVENDOR";
+        $this->load->view('view_customer', $data);      
+    }
+    
 }

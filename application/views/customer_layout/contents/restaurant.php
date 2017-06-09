@@ -5,7 +5,7 @@
           <div class="col-md-8 tp-title">
           </div>
           <div class="col-md-4 text-right" style="padding-right: 23px;">
-            <div class="btn-group"> <a href="restaurant-list.html" id="list" class="btn list-btn btn-sm" style="color:#706a68"><span class="fa fa-th-list"> </span> </a> <a href="#" id="grid" class="btn  grid-btn active  btn-sm"><span class="fa fa-th"></span> </a> </div>
+            <div class="btn-group"> <a href="<?php echo base_url();?>index.php/CustomerController/restaurantlist" id="list" class="btn list-btn btn-sm" style="color:#706a68"><span class="fa fa-th-list"> </span> </a> <a href="#" id="grid" class="btn  grid-btn active  btn-sm"><span class="fa fa-th"></span> </a> </div>
           </div>
         </div>
         <div class="row">
@@ -129,13 +129,13 @@
 
              <div class="col-md-4 vendor-box"><!-- venue box start-->
 
-               <a href="restaurant-details.html">    
+               <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails">    
 
                  <div class="home-recom-wrap">
 
                   <div class="vendor-image">
 
-                    <a href="restaurant-details.html"><img class="recom-box-img lazy" alt="" src="<?php echo base_url();?>images/pica.jpg" /></a>
+                    <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails"><img class="recom-box-img lazy" alt="" src="<?php echo base_url();?>images/pica.jpg" /></a>
 
                     <div class="favourite-bg" style="background: rgba(0, 0, 0, 0.6);font-size: 13px;bottom: 5px;right: 6px;padding: 5px 12px 5px 12px;">
                      <a href="#" class="">310 reservations recently</a>
@@ -245,7 +245,7 @@
             <!-- /.venue box start-->
             <div class="col-md-4 vendor-box"><!-- venue box start-->
 
-             <a href="restaurant-details.html">    
+             <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails">    
 
                <div class="home-recom-wrap">
 
@@ -361,7 +361,7 @@
           <!-- /.venue box start-->
           <div class="col-md-4 vendor-box"><!-- venue box start-->
 
-           <a href="restaurant-details.html">    
+           <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails">    
 
              <div class="home-recom-wrap">
 
@@ -476,7 +476,7 @@
         </div>
         <div class="col-md-4 vendor-box"><!-- venue box start-->
 
-         <a href="restaurant-details.html">    
+         <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails">    
 
            <div class="home-recom-wrap">
 
@@ -591,7 +591,7 @@
       </div>
       <div class="col-md-4 vendor-box"><!-- venue box start-->
 
-       <a href="restaurant-details.html">    
+       <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails">    
 
          <div class="home-recom-wrap">
 
@@ -706,7 +706,7 @@
     </div>
     <div class="col-md-4 vendor-box"><!-- venue box start-->
 
-     <a href="restaurant-details.html">    
+     <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails">    
 
        <div class="home-recom-wrap">
 
