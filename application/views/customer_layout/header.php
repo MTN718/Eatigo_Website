@@ -6,9 +6,9 @@
             </div>
             <div class="col-md-6 top-links">
                 <ul class="listnone">
-                    <li><a href="faq.html"> Help </a></li>
-                    <li><a href="pricing-plan.html">Pricing</a></li>
-                    <li><a href="signup-vendor.html" class=" ">Are you Vendor ?</a></li>
+                    <li><a href="<?php echo base_url();?>index.php/CustomerController/faq"> Help </a></li>
+                    <li><a href="<?php echo base_url();?>index.php/CustomerController/pricingplan">Pricing</a></li>
+                    <li><a href="<?php echo base_url();?>index.php/CustomerController/signupvendor" class=" ">Are you Vendor ?</a></li>
                     <li><a role="button" data-toggle="collapse" href="#searcharea" aria-expanded="false" aria-controls="searcharea"> <i class="fa fa-search"></i> </a></li>
                 </ul>
             </div>
