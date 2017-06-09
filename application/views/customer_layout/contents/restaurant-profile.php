@@ -1,4 +1,3 @@
-
         <div class="main-container">
           <div class="container">
             <div class="row">
@@ -8,6 +7,20 @@
                     <div class="vendor-profile"> <img src="<?php echo base_url();?>images/vendor-profile.jpg" alt="" class="img-responsive"> </div>
                   </div>
 
+                  <div class="col-md-12 ">
+                    <div class="social-sidebar side-box">
+                      <p class="profile-address"><i class="fa fa-user"></i> ABCDE FGHI
+                        <a href="">
+                          <i class="fa fa-pencil findhover2" style="float: right;"></i>
+                        </a>
+                      </p>
+                      <p class="profile-address"><i class="fa fa-mobile" style="font-size: 22px;"></i> xxxx-xxx-xxx
+                        <a href="">
+                          <i class="fa fa-pencil findhover2" style="float: right;"></i>
+                        </a>
+                      </p>
+                    </div>
+                  </div>
 
                   <div class="col-md-12 ">
                     <div class="social-sidebar side-box">
@@ -28,9 +41,18 @@
               <div class="col-md-8 page-description">
                 <div class="vendr-profile-info">
                   <h1>Profile</h1>
-                  <p class="profile-address"><i class="fa fa-map-marker"></i> Western Gateway, Royal Victoria Dock London.</p>
+                  <p class="profile-address"><i class="fa fa-map-marker"></i> Western Gateway, Royal Victoria Dock London.
+                    <a href="">
+                      <i class="fa fa-pencil findhover2" style="float: right;"></i>
+                    </a>
+                  </p>
                   <p style="margin-bottom: 17px;">
-                    <span class="profile-email"><i class="fa fa-envelope"></i>Info@weddingvenue.com</span></p>
+                    <span class="profile-email"><i class="fa fa-envelope"></i>Info@weddingvenue.com
+                      <a href="">
+                        <i class="fa fa-pencil findhover2" style="float: right;"></i>
+                      </a>
+                    </span>  
+                  </p>
                   </div>
                   <div class="venue-details">
                     <h2>About The Circle Plazz Wedding Vendor</h2>
@@ -45,6 +67,7 @@
                         <li role="presentation" class="active"><a href="#recentproducts" aria-controls="recentproducts" role="tab" data-toggle="tab">Previous Orders</a></li>
                         <li role="presentation"><a href="#featuredproduct" aria-controls="featuredproduct" role="tab" data-toggle="tab">Current Orders</a></li>
                         <li role="presentation"><a href="#toprated" aria-controls="toprated" role="tab" data-toggle="tab">Deleted Order </a></li>
+                        <li role="presentation"><a href="#credit" aria-controls="toprated" role="tab" data-toggle="tab" style="width: 177px;">Your Credit</a></li>
                       </ul>
 
                       <!-- Tab panes -->
@@ -55,7 +78,7 @@
 
                               <div id="bookinglist">
                                 <div class="display_booking" style="display:block;width: 715px;">
-                                  <div class="history-Left">
+                                  <div class="history-Left vendor-image">
                                     <a href="">
                                       <img class="colforheight" src="<?php echo base_url();?>images/pica.jpg" alt="">
                                     </a>
@@ -113,7 +136,7 @@
 
                               <div id="bookinglist">
                                 <div class="display_booking" style="display:block;width: 715px;">
-                                  <div class="history-Left">
+                                  <div class="history-Left vendor-image">
                                     <a href="">
                                       <img class="colforheight" src="<?php echo base_url();?>images/pica.jpg" alt="">
                                     </a>
@@ -179,7 +202,7 @@
 
                               <div id="bookinglist">
                                 <div class="display_booking" style="display:block;width: 715px;">
-                                  <div class="history-Left">
+                                  <div class="history-Left vendor-image">
                                     <a href="">
                                       <img class="colforheight" src="<?php echo base_url();?>images/pica.jpg" alt="">
                                     </a>
@@ -245,7 +268,7 @@
 
                               <div id="bookinglist">
                                 <div class="display_booking" style="display:block;width: 715px;">
-                                  <div class="history-Left">
+                                  <div class="history-Left vendor-image">
                                     <a href="">
                                       <img class="colforheight" src="<?php echo base_url();?>images/pica.jpg" alt="">
                                     </a>
@@ -304,6 +327,53 @@
                             </div>
                           </div>
                         </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="credit">
+                          <div class="row products">
+                            <div class="col-md-12">
+
+                                <div class="order_review">
+                                  <h2></h2>
+                                  <table class="shop_table">
+                                    <thead>
+                                      <tr>
+                                        <th class="product-name">Type</th>
+                                        <th class="product-total">Amount</th>
+                                      </tr>
+                                    </thead>
+                                    <tfoot>
+                                      <tr class="cart-subtotal">
+                                        <th>Earned</th>
+                                        <td><span class="amount">$190.00</span></td>
+                                      </tr>
+                                      <tr class="shipping">
+                                        <th>Purchased</th>
+                                        <td> $190.00</td>
+                                      </tr>
+                                      <tr class="order-total">
+                                        <th>Total</th>
+                                        <td><strong><span class="amount">$380.00</span></strong></td>
+                                      </tr>
+                                    </tfoot>
+                                  </table>
+                                  <form action="<?php echo base_url();?>index.php/CustomerController/pricingplan">
+                                      <button type="submit" onclick="" class="btn tp-btn-default" style="margin-top:15px;  width:140px;float: right;">Add Credits</button>
+                                  </form>    
+                                  <div class="payment-option"> 
+                                    <!-- Multiple Radios -->
+                                    <div class="form-group">
+                                      <div class="radio radio-success">
+                                      </div>
+                                      <div class="radio radio-success">
+                                      </div>
+                                      <div class="radio"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              
+                            </div>
+                          </div>
+                        </div>
                         
                       </div>
                     </div>
@@ -335,4 +405,4 @@
 </div>
 </div>
 
-<div id="googleMap" class="map"></div>
+<div id="googleMap" class="map" style="margin-top:40px;"></div>

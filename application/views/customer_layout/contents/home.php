@@ -531,7 +531,7 @@
             <div class="col-md-12 tp-testimonial">
                 <div id="testimonial" class="owl-carousel owl-theme">
                     <div class="item testimonial-block">
-                        <div class="couple-pic"><img src="images/couple-4.jpg" alt="" class="img-circle"></div>
+                        <div class="couple-pic"><img src="<?php echo base_url();?>images/couple-4.jpg" alt="" class="img-circle"></div>
                         <div class="col-md-12 rating-box">
                             <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
                         </div>
@@ -545,7 +545,7 @@
                         </div>
                     </div>
                     <div class="item testimonial-block">
-                        <div class="couple-pic"><img src="images/couple-4.jpg" alt="" class="img-circle"></div>
+                        <div class="couple-pic"><img src="<?php echo base_url();?>images/couple-4.jpg" alt="" class="img-circle"></div>
                         <div class="col-md-12 rating-box">
                             <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
                         </div>
@@ -557,7 +557,7 @@
                         </div>
                     </div>
                     <div class="item testimonial-block">
-                        <div class="couple-pic"><img src="images/couple-4.jpg" alt="" class="img-circle"></div>
+                        <div class="couple-pic"><img src="<?php echo base_url();?>images/couple-4.jpg" alt="" class="img-circle"></div>
                         <div class="col-md-12 rating-box">
                             <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
                         </div>

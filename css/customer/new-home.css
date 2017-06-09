@@ -5,12 +5,12 @@ body, div, h1, h2, .normal-font, .small-font {
 .prRatingDiv_pro, .prRatingDiv_h {
     float: left;
     width: 65px;
-    background: url(../images/index/doller.jpg) repeat-x 0 0;
+    background: url(../../images/doller.jpg) repeat-x 0 0;
     height: 16px;
 }
 .dollarVal_pro, .dollarVal_h {
     float: left;
-    background: url(../images/index/doller-brown.jpg) repeat-x 0 0;
+    background: url(../../images/doller-brown.jpg) repeat-x 0 0;
     height: 16px;
 }
 
@@ -18,7 +18,7 @@ body, div, h1, h2, .normal-font, .small-font {
     position: absolute;
     left: 4px;
     top: 10px;
-    background: url(../images/index/96x96_red.png) no-repeat 0 0;
+    background: url(../../images/96x96_red.png) no-repeat 0 0;
     background-size: 92px;
     width: 90px;
     height: 90px;
@@ -27,7 +27,7 @@ body, div, h1, h2, .normal-font, .small-font {
 }
 .ratingVal_pro, .ratingVal_h {
     float: left;
-    background: url(../images/index/star-brown.jpg) repeat-x 0 0;
+    background: url(../../images/star-brown.jpg) repeat-x 0 0;
     height: 16px;
 }
 h1 {

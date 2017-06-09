@@ -246,7 +246,7 @@
                       <div class="well-box" id="inquiry">
                         <h2>Enter Reservations Details</h2>
                         <p>Fill in your details and a Venue Specialist will get back to you shortly.</p>
-                        <form class="" action="shop-checkout.html">
+                        <form class="" action="<?php echo base_url();?>index.php/CustomerController/shop_checkout">
 
                           <!-- Text input-->
                           <div class="form-group">
