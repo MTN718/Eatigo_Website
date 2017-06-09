@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['hostname'] = "localhost";
 $config['username'] = "root";
 $config['password'] = "";
-$config['database'] = "bruped";
+$config['database'] = "burped";
 $config['dbdriver'] = "mysql";
 $config['dbprefix'] = "";
 $config['pconnect'] = FALSE;
@@ -39,7 +39,7 @@ $config['dbcollat'] = "utf8_general_ci";
 
 
 
-$config['base_url'] = 'http://192.168.1.114:88/bruped';
+$config['base_url'] = 'http://192.168.0.40/burped';
 
 /*
 |--------------------------------------------------------------------------

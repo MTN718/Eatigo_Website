@@ -1,9 +1,9 @@
 <div class="slider-bg"><!-- slider start-->
     <div id="slider" class="owl-carousel owl-theme slider">
-        <div class="item"><img src="images/hero-image-3.png" alt="Wedding couple just married"></div>
-        <div class="item"><img src="images/hero-image-2.png" alt="Wedding couple just married"></div>
-        <div class="item"><img src="images/hero-image-1.png" alt="Wedding couple just married"></div>
-        <div class="item"><img src="images/hero-image.png" alt="Wedding couple just married"></div>
+        <div class="item"><img src="<?php echo base_url();?>images/hero-image-3.png" alt="Wedding couple just married"></div>
+        <div class="item"><img src="<?php echo base_url();?>images/hero-image-2.png" alt="Wedding couple just married"></div>
+        <div class="item"><img src="<?php echo base_url();?>images/hero-image-1.png" alt="Wedding couple just married"></div>
+        <div class="item"><img src="<?php echo base_url();?>images/hero-image.png" alt="Wedding couple just married"></div>
     </div>
     <div class="find-section"><!-- Find search section-->
         <div class="container">
@@ -52,17 +52,17 @@
         </div>
         <div class="row feature-center"><!-- feature center -->
             <div class="hvr-bounce-in col-md-4 feature-block wow bounceInLeft" data-wow-duration="2s" data-wow-delay=".5s"><!-- feature block -->
-                <div class="feature-icon"><img src="images/11111.png" width="100" alt=""></div>
+                <div class="feature-icon"><img src="<?php echo base_url();?>images/11111.png" width="100" alt=""></div>
                 <h2 style="margin-bottom: 10px; color: #DF1E2A;">Find Your Favourite Restaurant</h2>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
             </div><!-- /.feature block -->
             <div class="hvr-bounce-in col-md-4 feature-block wow bounceInUp" data-wow-duration="2s" data-wow-delay=".5s"><!-- feature block -->
-                <div class="feature-icon"><img src="images/22222.png" width="100" alt=""></div>
+                <div class="feature-icon"><img src="<?php echo base_url();?>images/22222.png" width="100" alt=""></div>
                 <h2 style="margin-bottom: 10px; color: #DF1E2A;">Choose Your Time And Discount</h2>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
             </div><!-- /.feature block -->
             <div class="hvr-bounce-in col-md-4 feature-block wow bounceInRight" data-wow-duration="2s" data-wow-delay=".5s"><!-- feature block -->
-                <div class="feature-icon"><img src="images/44444.png" width="100" alt=""></div>
+                <div class="feature-icon"><img src="<?php echo base_url();?>images/44444.png" width="100" alt=""></div>
                 <h2 style="margin-bottom: 10px; color: #DF1E2A;">Receive Confirmation via sms & Email</h2>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
             </div><!-- /.feature block -->
@@ -94,7 +94,7 @@
         <div class="mix Categories">
 
             <div class="home-group-img location-block"><!-- location block -->
-                <div class="home-group-img lazy vendor-image"><a href="#"><img src="images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
+                <div class="home-group-img lazy vendor-image"><a href="#"><img src="<?php echo base_url();?>images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
                 </div>
                 <div class="group-resto-name">
                     <div class="name-txt">
@@ -111,7 +111,7 @@
         <div class="mix Categories">
 
             <div class="home-group-img location-block"><!-- location block -->
-                <div class="home-group-img lazy vendor-image"><a href="#"><img src="images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
+                <div class="home-group-img lazy vendor-image"><a href="#"><img src="<?php echo base_url();?>images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
                 </div>
                 <div class="group-resto-name">
                     <div class="name-txt">
@@ -128,7 +128,7 @@
         <div class="mix Categories">
 
             <div class="home-group-img location-block"><!-- location block -->
-                <div class="home-group-img lazy vendor-image"><a href="#"><img src="images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
+                <div class="home-group-img lazy vendor-image"><a href="#"><img src="<?php echo base_url();?>images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
                 </div>
                 <div class="group-resto-name">
                     <div class="name-txt">
@@ -143,7 +143,7 @@
         <!-- Grid Item 1 -->
         <div class="mix Categories">
             <div class="home-group-img location-block"><!-- location block -->
-                <div class="home-group-img lazy vendor-image"><a href="#"><img src="images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
+                <div class="home-group-img lazy vendor-image"><a href="#"><img src="<?php echo base_url();?>images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
                 </div>
                 <div class="group-resto-name">
                     <div class="name-txt">
@@ -158,7 +158,7 @@
         <!-- Grid Item 1 -->
         <div class="mix Categories">
             <div class="home-group-img location-block"><!-- location block -->
-                <div class="home-group-img lazy vendor-image"><a href="#"><img src="images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
+                <div class="home-group-img lazy vendor-image"><a href="#"><img src="<?php echo base_url();?>images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
                 </div>
                 <div class="group-resto-name">
                     <div class="name-txt">
@@ -173,7 +173,7 @@
         <!-- Grid Item 1 -->
         <div class="mix Categories">
             <div class="home-group-img location-block"><!-- location block -->
-                <div class="home-group-img lazy vendor-image"><a href="#"><img src="images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
+                <div class="home-group-img lazy vendor-image"><a href="#"><img src="<?php echo base_url();?>images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
                 </div>
                 <div class="group-resto-name">
                     <div class="name-txt">
@@ -188,7 +188,7 @@
         <!-- Grid Item 1 -->
         <div class="mix Categories">
             <div class="home-group-img location-block"><!-- location block -->
-                <div class="home-group-img lazy vendor-image"><a href="#"><img src="images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
+                <div class="home-group-img lazy vendor-image"><a href="#"><img src="<?php echo base_url();?>images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
                 </div>
                 <div class="group-resto-name">
                     <div class="name-txt">
@@ -203,7 +203,7 @@
         <!-- Grid Item 1 -->
         <div class="mix Categories">
             <div class="home-group-img location-block"><!-- location block -->
-                <div class="home-group-img lazy vendor-image"><a href="#"><img src="images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
+                <div class="home-group-img lazy vendor-image"><a href="#"><img src="<?php echo base_url();?>images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
                 </div>
                 <div class="group-resto-name">
                     <div class="name-txt">
@@ -218,7 +218,7 @@
         <!-- Grid Item 1 -->
         <div class="mix Categories">
             <div class="home-group-img location-block"><!-- location block -->
-                <div class="home-group-img lazy vendor-image"><a href="#"><img src="images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
+                <div class="home-group-img lazy vendor-image"><a href="#"><img src="<?php echo base_url();?>images/location-pic.jpg" alt="" class="img-responsive"></a> <a href="#" class="venue-lable"></a> 
                 </div>
                 <div class="group-resto-name">
                     <div class="name-txt">
@@ -230,38 +230,7 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
         <!-- Grid Item 1 -->
         <div class="mix Restaurants" title="Client Name" style="display: none;">
             <a href="vendor-profile.html">    
@@ -277,8 +246,8 @@
                             310 reservations recently
 
                         </div>
-                        <img class="recom-box-img lazy" alt="" data-original="images/pica.jpg"
-                             src="images/pica.jpg"/>
+                        <img class="recom-box-img lazy" alt="" data-original="<?php echo base_url();?>images/pica.jpg"
+                             src="<?php echo base_url();?>images/pica.jpg"/>
                     </div>
                     <div class="float-left">
                         <div class="box-detail">
