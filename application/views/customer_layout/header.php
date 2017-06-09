@@ -1,4 +1,4 @@
-<div class="top-bar">
+  <div class="top-bar">
     <div class="container">
         <div class="row">
             <div class="col-md-6 top-message">
@@ -28,14 +28,14 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active hoo"><a href="index.html">Home</a></li>
-                    <li class="dropdown hoo"> <a href="restaurant.html">Restaurants </a></li>
+                    <li class="active hoo"><a href="<?php echo base_url();?>index.php/CustomerController">Home</a></li>
+                    <li class="dropdown hoo"> <a href="<?php echo base_url();?>index.php/CustomerController/restaurants">Restaurants </a></li>
 
                     <li class="dropdown hoo"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="fa fa-angle-down"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo base_url() . 'customer/login' ?>">Login</a></li>
-                            <li><a href="<?php echo base_url() . 'customer/register' ?>">Sign Up</a></li>
-                            <li><a href="<?php echo base_url() . 'customer/profile' ?>">Profile</a></li>
+                            <li><a href="<?php echo base_url();?>index.php/CustomerController/login">Login</a></li>
+                            <li><a href="<?php echo base_url();?>index.php/CustomerController/register">Sign Up</a></li>
+                            <li><a href="<?php echo base_url();?>index.php/CustomerController/profile">Profile</a></li>
                         </ul>
                     </li>
 
@@ -43,7 +43,7 @@
 
                     <!-- /.Mega Dropdown -->
 
-                    <li class="hoo"><a href="contact-us.html">Contact Us</a></li>
+                    <li class="hoo"><a href="<?php echo base_url();?>index.php/CustomerController/contactus">Contact Us</a></li>
                 </ul>
             </div>
 

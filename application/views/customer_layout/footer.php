@@ -8,7 +8,7 @@
             <div class="col-md-3 ft-link">
                 <h2>Useful links</h2>
                 <ul>
-                    <li><a href="about-us.html" style="color:#B9657C;">About Us</a></li>
+                    <li><a href="<?php echo base_url();?>index.php/CustomerController/about.html" style="color:#B9657C;">About Us</a></li>
                     <li><a href="#" style="color:#B9657C;">News</a></li>
                     <li><a href="#" style="color:#B9657C;">Career</a></li>
                     <li><a href="#" style="color:#B9657C;">Privacy Policy</a></li>

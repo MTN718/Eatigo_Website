@@ -5,7 +5,7 @@
         case "USERMANAGE":
             include ("contents/usermanage.php");
             break;		
-                case "WELCOMEMANAGE":
+        case "WELCOMEMANAGE":
 			include ("contents/welcomemanage.php");
 			break;
 		case "CATEGORYMANAGE":
@@ -35,8 +35,8 @@
 		case "EDITCATEGORY":
 			include ("contents/editcategory.php");
 			break;
-                case "EDITWELCOME":
-                        include ("contents/editwelcome.php");
+        case "EDITWELCOME":
+            include ("contents/editwelcome.php");
 			break;
 		case "EDITBATEGORY":
 			include ("contents/editbategory.php");
@@ -50,7 +50,6 @@
 		case "BANNERLINKMANAGE":
 			include ("contents/bannerlink.php");
 			break;
-
     }
     ?>
 </div>

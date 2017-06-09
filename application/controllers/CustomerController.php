@@ -20,13 +20,38 @@ class CustomerController extends BaseController {
 //        $data = $this->getViewParameters('Login','Customer');
 //        $data['isLogin'] = false;
 //        $this->load->view('view_customer', $data);        
-        echo "aaa";
+        $data['pageName'] = "LOGIN";
+        $this->load->view('view_customer', $data);
     }
     public function register()
     {
 //        $data = $this->getViewParameters('Login','Customer');
 //        $data['isLogin'] = false;
 //        $this->load->view('view_customer', $data);        
-        echo "bbb";
+        $data['pageName'] = "REGISTER";
+        $this->load->view('view_customer', $data);
+    }
+
+    public function profile() {
+        $data['pageName'] = "PROFILE";
+        $this->load->view('view_customer', $data);
+    }
+
+    // profile page 
+    public function contactus() {
+        $data['pageName'] = "CONTACTUS";
+        $this->load->view('view_customer', $data);
+    }
+
+    // function for opening restaurants page 
+    public function restaurants() {
+        $data['pageName'] = "RESTAURANTS";
+        $this->load->view('view_customer', $data);
+    }
+
+    // about us page of footer 
+    public function about() {
+        $data['pageName'] = "ABOUT";
+        $this->load->view('view_customer', $data);   
     }
 }
