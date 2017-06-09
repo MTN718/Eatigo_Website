@@ -21,22 +21,25 @@ switch ($pageName) {
         break;            
     case "ABOUT":
         include ("contents/about-us.php");
-    break;
+        break;
     case "RESTAURANTLIST":
         include ("contents/restaurant-list.php");
-    break;   
+        break;   
     case "RESTAURANTDETAILS":
         include ("contents/restaurant-details.php");
-    break;
+        break;
     case "FAQ":
         include ("contents/faq.php");
-    break;
+        break;
     case "PRICINGPLAN":
         include ("contents/pricing-plan.php");
-    break;
+        break;
     case "SIGNUPVENDOR":
         include ("contents/signup-vendor.php");
-    break;   
+        break;
+    case "SHOPCHECKOUT":
+        include ("contents/shop-checkout.php");
+        break;   
 
 }
 ?>

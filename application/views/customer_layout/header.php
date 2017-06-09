@@ -9,7 +9,7 @@
                     <li><a href="<?php echo base_url();?>index.php/CustomerController/faq"> Help </a></li>
                     <li><a href="<?php echo base_url();?>index.php/CustomerController/pricingplan">Pricing</a></li>
                     <li><a href="<?php echo base_url();?>index.php/CustomerController/signupvendor" class=" ">Are you Vendor ?</a></li>
-                    <li><a role="button" data-toggle="collapse" href="#searcharea" aria-expanded="false" aria-controls="searcharea"> <i class="fa fa-search"></i> </a></li>
+                
                 </ul>
             </div>
         </div>
@@ -23,7 +23,7 @@
 
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                <a class="navbar-brand" href="<?php echo base_url() . '/index' ?>"><img src="images/logo.png" alt="" class="img-responsive"></a> </div>
+                <a class="navbar-brand" href="<?php echo base_url() . '/index' ?>"><img src="<?php echo base_url();?>images/logo.png" alt="" class="img-responsive"></a> </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

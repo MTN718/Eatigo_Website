@@ -129,8 +129,9 @@
                 </tr>
               </tbody>
             </table>
-            
-                <button type="submit" class="btn tp-btn-default" style="margin-top:15px;  width:100px;">Pay Now</button>
+            <form action="<?php echo base_url();?>index.php/CustomerController/profile">
+                <button type="submit" onclick="" class="btn tp-btn-default" style="margin-top:15px;  width:100px;">Pay Now</button>
+            </form>    
             <div class="payment-option"> 
               <!-- Multiple Radios -->
               <div class="form-group">
