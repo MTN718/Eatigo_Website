@@ -60,3 +60,14 @@ $route['customer/([a-zA-Z]+)'] = function ($methodCustomer)
         return 'CustomerController/'.$methodCustomer;
 };
 
+
+$route['admin/([a-zA-Z]+)'] = function ($methodAdmin)
+{         
+    return 'AdminController/'.$methodAdmin;
+};
+$route['admin/([a-zA-Z]+)/([a-zA-Z]*)'] = function ($methodAdmin,$paramter1)
+{    
+    return 'AdminController/'.$methodAdmin;
+};
+
+
