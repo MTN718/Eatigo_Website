@@ -3,19 +3,20 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>DesignPop Panel</title>
+        <title>Bruped Admin Panel</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.5 -->
-        <link rel="stylesheet" href="bootstrap/<?php echo base_url();?>css/bootstrap.min.css">
+        <link rel="stylesheet" href="<?php echo base_url(); ?>css/admin/bootstrap.min.css">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <!-- Ionicons -->
-        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="<?php echo base_url(); ?>dist/css/AdminLTE.min.css">
         <!-- iCheck -->
-        <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
+        <link rel="stylesheet" href="<?php echo base_url(); ?>plugins/iCheck/square/blue.css">
+
+        <script src="<?php echo base_url(); ?>js/admin/sweetalert.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/admin/sweetalert.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,25 +28,23 @@
     <body class="hold-transition login-page">
         <div class="login-box">
             <div class="login-logo">
-                <a href="index.php"><b>DesignPop </b> Panel</a>
+                <a href="<?php echo base_url() . ADMIN_PAGE_HOME; ?>"><b>Bruped </b> Admin Panel</a>
             </div>
             <!-- /.login-logo -->
             <div class="login-box-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
-                <form action="index.php?c=main&m=login" method="post">
+                <form action="<?php echo base_url() . ADMIN_ACTION_LOGIN; ?>" method="post">
                     <div class="form-group has-feedback">
-                        <input type="text" class="form-control" placeholder="UserName" name='user'>
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        <input type="text" class="form-control" placeholder="UserName" name='user'>                        
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" class="form-control" placeholder="Password" name='pw'>
-                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <input type="password" class="form-control" placeholder="Password" name='pw'>                        
                     </div>
                     <div class="row">
                         <div class="col-xs-8">
                             <div class="checkbox icheck">
-                                
+
                             </div>
                         </div>
                         <!-- /.col -->
@@ -61,11 +60,11 @@
         <!-- /.login-box -->
 
         <!-- jQuery 2.2.0 -->
-        <script src="plugins/jQuery/jQuery-2.2.0.min.js"></script>
+        <script src="<?php echo base_url(); ?>plugins/jQuery/jQuery-2.2.0.min.js"></script>
         <!-- Bootstrap 3.3.5 -->
-        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="<?php echo base_url(); ?>bootstrap/js/bootstrap.min.js"></script>
         <!-- iCheck -->
-        <script src="plugins/iCheck/icheck.min.js"></script>
+        <script src="<?php echo base_url(); ?>plugins/iCheck/icheck.min.js"></script>
         <script>
             $(function() {
                 $('input').iCheck({
@@ -74,6 +73,26 @@
                     increaseArea: '20%' // optional
                 });
             });
+        </script>
+        <script>
+        <?php
+        if (isset($message)) {
+            ?>
+                if ('<?php echo $message; ?>' != '')
+                {
+                    swal('<?php echo $message; ?>');
+                }
+            <?php
+        }
+        if (isset($error)) {
+            ?>
+                if ('<?php echo $error; ?>' != '')
+                {
+                    swal('<?php echo $error; ?>','', "error");
+                }
+            <?php
+        }
+        ?>
         </script>
     </body>
 </html>

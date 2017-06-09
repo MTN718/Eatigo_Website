@@ -10,6 +10,9 @@ class BaseController extends CI_Controller {
         parent::__construct();
         $this->connectDB();
         $this->load->helper('url');
+        $this->load->library('session');
+        $this->load->library('utils');
+        $this->load->library('sqlLibs');
     }
     public function connectDB() {
         $this->database = $this->load->database();
@@ -22,6 +25,7 @@ class BaseController extends CI_Controller {
         $data['role'] = $role;
         return $data;
     }
+    
 }
 
 ?>
