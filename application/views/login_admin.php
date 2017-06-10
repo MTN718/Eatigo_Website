@@ -17,6 +17,9 @@
 
         <script src="<?php echo base_url(); ?>js/admin/sweetalert.min.js"></script>
         <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/admin/sweetalert.css">
+        
+        <link rel="shortcut icon" href="<?php echo base_url(); ?>images/lo1go.png" type="image/x-icon">
+        
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

@@ -20,8 +20,8 @@
         var nameElement = document.getElementById('countryName');
         var form = document.getElementById('formCountry');
         if (nameElement.value == '')
-        {
-            alert('Empty name');
+        {            
+            swal('Country Name is Empty', '', 'error');
             return;
         }
         form.submit();

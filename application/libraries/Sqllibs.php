@@ -17,8 +17,7 @@ class Sqllibs {
         $sql = $sql . $where;
         $result = $db->query($sql)->result();
         return $result;
-    }
-
+    }    
     public function getOneRow($db, $tableName, $whereFields) {
         $result = $this->selectAllRows($db, $tableName, $whereFields);
         if (count($result) > 0)
