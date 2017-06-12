@@ -8,6 +8,9 @@
         case "Users":
             include ("contents/users.php");
             break;
+        case "Restaurants":
+            include ("contents/restaurants.php");
+            break;
         case "Countrys":
             include ("contents/countrys.php");
             break;
@@ -20,8 +23,23 @@
         case "Atmospheres":
             include ("contents/atmospheres.php");
             break;
+        case "Categorys":
+            include ("contents/categorys.php");
+            break;
         case "EditCountry":
             include ("contents/edit_country.php");
+            break;
+        case "EditFacility":
+            include ("contents/edit_facility.php");
+            break;
+        case "EditLanguage":
+            include ("contents/edit_language.php");
+            break;
+        case "EditAtom":
+            include ("contents/edit_atom.php");
+            break;
+        case "EditCategory":
+            include ("contents/edit_category.php");
             break;
     }
     ?>

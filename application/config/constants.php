@@ -85,4 +85,41 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 
-define('BASEFOLDER',"tamispannel");
+
+//Admin Panel Route
+
+define('ADMIN_PAGE_HOME','index.php/admin/index');
+define('ADMIN_PAGE_DASHBOARD','index.php/admin/dashboardPage');
+define('ADMIN_PAGE_USERS','index.php/admin/userPage');
+define('ADMIN_PAGE_RESTAURANTS','index.php/admin/restaurantPage');
+define('ADMIN_PAGE_COUNTRYS','index.php/admin/countryPage');
+define('ADMIN_PAGE_FACILITYS','index.php/admin/facilityPage');
+define('ADMIN_PAGE_LANGUAGES','index.php/admin/languagePage');
+define('ADMIN_PAGE_ATMOSPHERES','index.php/admin/atmospherePage');
+define('ADMIN_PAGE_CATEGORYS','index.php/admin/categoryPage');
+
+define('ADMIN_PAGE_EDITCOUNTRY','index.php/AdminController/editCountryPage');
+define('ADMIN_PAGE_EDITFACILITY','index.php/AdminController/editFacilityPage');
+define('ADMIN_PAGE_EDITLANGUAGE','index.php/AdminController/editLanguagePage');
+define('ADMIN_PAGE_EDITATOM','index.php/AdminController/editAtomPage');
+define('ADMIN_PAGE_EDITCATEGORY','index.php/AdminController/editCategoryPage');
+
+
+define('ADMIN_ACTION_LOGIN','index.php/admin/actionLogin');
+define('ADMIN_ACTION_LOGOUT','index.php/admin/actionLogout');
+define('ADMIN_ACTION_ADDCOUNTRY','index.php/admin/actionAddCountry');
+define('ADMIN_ACTION_DELETECOUNTRY','index.php/AdminController/actionDeleteCountry');
+define('ADMIN_ACTION_UPDATECOUNTRY','index.php/AdminController/actionUpdateCountry');
+define('ADMIN_ACTION_ADDFACILITY','index.php/AdminController/actionAddFacility');
+define('ADMIN_ACTION_DELETEFACILITY','index.php/AdminController/actionDeleteFacility');
+define('ADMIN_ACTION_UPDATEFACILITY','index.php/AdminController/actionUpdateFacility');
+define('ADMIN_ACTION_ADDLANGUAGE','index.php/AdminController/actionAddLanguage');
+define('ADMIN_ACTION_DELETELANGUAGE','index.php/AdminController/actionDeleteLanguage');
+define('ADMIN_ACTION_UPDATELANGUAGE','index.php/AdminController/actionUpdateLanguage');
+define('ADMIN_ACTION_ADDATOM','index.php/AdminController/actionAddAtom');
+define('ADMIN_ACTION_DELETEATOM','index.php/AdminController/actionDeleteAtom');
+define('ADMIN_ACTION_UPDATEATOM','index.php/AdminController/actionUpdateAtom');
+define('ADMIN_ACTION_ADDCATEGORY','index.php/AdminController/actionAddCategory');
+define('ADMIN_ACTION_DELETECATEGORY','index.php/AdminController/actionDeleteCategory');
+define('ADMIN_ACTION_UPDATECATEGORY','index.php/AdminController/actionUpdateCategory');
+
