@@ -47,6 +47,62 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/jquery.share079c.css?v=20141017-1">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/new-home.css">
         <link href="<?php echo base_url();?>css/customer/vitality-red.css" rel="stylesheet" type="text/css">
+        <!-- location picker -->
+        <link rel="stylesheet" href="<?php echo base_url();?>map/map1/addresspicker/demos/themes/base/jquery.ui.all.css">
+        <link rel="stylesheet" href="<?php echo base_url();?>map/map1/addresspicker/demos/demo.css">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXXqwPwNL5lIUMr8uLpmBIEo2ncmIsEsU"></script>
+
+        <script src="<?php echo base_url();?>map/ajax/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="<?php echo base_url();?>map/ajax/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script src="<?php echo base_url();?>map/map1/addresspicker/src/jquery.ui.addresspicker.js"></script>
+        <script>
+        $(function() {
+          var addresspicker = $( "#addresspicker" ).addresspicker({
+            componentsFilter: 'country:FR'
+          });
+          var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
+            regionBias: "fr",
+            updateCallback: showCallback,
+            mapOptions: {
+              zoom: 5,
+              center: new google.maps.LatLng(22.7195687, 75.85772580000003),
+              scrollwheel: false,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+            },
+            elements: {
+              map:      "#map",
+              lat:      "#lat",
+              lng:      "#lng",
+              street_number: '#street_number',
+              route: '#route',
+              locality: '#locality',
+              administrative_area_level_2: '#administrative_area_level_2',
+              administrative_area_level_1: '#administrative_area_level_1',
+              country:  '#country',
+              postal_code: '#postal_code',
+              type:    '#type'
+            }
+          });
+
+          var gmarker = addresspickerMap.addresspicker( "marker");
+          gmarker.setVisible(true);
+          addresspickerMap.addresspicker( "updatePosition");
+
+          $('#reverseGeocode').change(function(){
+            $("#addresspicker_map").addresspicker("option", "reverseGeocode", ($(this).val() === 'true'));
+          });
+
+          function showCallback(geocodeResult, parsedGeocodeResult){
+            $('#callback_result').text(JSON.stringify(parsedGeocodeResult, null, 4));
+          }
+          // Update zoom field
+          var map = $("#addresspicker_map").addresspicker("map");
+          google.maps.event.addListener(map, 'idle', function(){
+            $('#zoom').val(map.getZoom());
+          });
+
+        });
+        </script>
 
     </head>
     <body>
@@ -54,8 +110,8 @@
         include('customer_layout/header.php');
         include('customer_layout/content.php');
         include('customer_layout/footer.php');
-        ?>
-        <script src="<?php echo base_url();?>js/customer/jquery.min.js"></script> 
+        ?><!-- 
+        <script src="<?php echo base_url();?>js/customer/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed --> 
         <script src="<?php echo base_url();?>js/customer/bootstrap.min.js"></script> 
         <script src="<?php echo base_url();?>js/customer/nav.js"></script> 
@@ -65,21 +121,14 @@
         <script src="<?php echo base_url();?>js/customer/testimonial.js"></script> 
         <script src="<?php echo base_url();?>js/customer/jquery.sticky.js"></script> 
         <script src="<?php echo base_url();?>js/customer/header-sticky.js"></script>
-
-
-
-    <script src="<?php echo base_url();?>js/select2.min.js" type="text/javascript"></script>
-    <script src="<?php echo base_url();?>js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="<?php echo base_url();?>js/dataTables.tableTools.min.js" type="text/javascript"></script>
-    <script src="<?php echo base_url();?>js/datatables.responsive.js"></script>
-    <script src="<?php echo base_url();?>js/lodash.min.js"></script>
-    <script src="<?php echo base_url();?>js/datatables.js" type="text/javascript"></script>
-
-
-
-
-
-    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>  
+        <!-- datatables -->
+        <script src="<?php echo base_url();?>js/select2.min.js" type="text/javascript"></script>
+        <script src="<?php echo base_url();?>js/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="<?php echo base_url();?>js/dataTables.tableTools.min.js" type="text/javascript"></script>
+        <script src="<?php echo base_url();?>js/datatables.responsive.js"></script>
+        <script src="<?php echo base_url();?>js/lodash.min.js"></script>
+        <script src="<?php echo base_url();?>js/datatables.js" type="text/javascript"></script>
+        <!-- Main Map -->
         <script>
           var myCenter=new google.maps.LatLng(23.0203458,72.5797426);
 

@@ -10,7 +10,12 @@
 .heading_footer{
 	font-size:22px;
 }
-
+.dont_show{
+  display: none;
+}
+.show{
+  display: unset !important;
+}
 .btn1 {
   font-weight: 900;
   padding: 12px 120px;

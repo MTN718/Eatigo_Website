@@ -10,19 +10,6 @@
     </div>
   </div>
 </div>
-<!-- /.page header -->
-<div class="tp-breadcrumb">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <ol class="breadcrumb">
-          <li><a href="#">Home</a></li>
-          <li class="active">Sign Up</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="main-container">
   <div class="container">
     <div class="row">
@@ -35,7 +22,7 @@
       <div class="col-md-6 singup-couple">
         <div class="well-box">
           <h2>Sign Up for a Free Account </h2>
-          <form >
+          <form action="<?php echo base_url();?>index.php/CustomerController/register/create" method="post">
             
             <!-- Text input-->
             <div class="form-group">
@@ -60,59 +47,6 @@
               <label class="control-label" for="phone">Phone<span class="required">*</span></label>
               <input id="phone" name="phone" type="text" placeholder="Phone" class="form-control input-md" required>
             </div>
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="control-label" for="phone">Wedding Date<span class="required">*</span></label>
-            </div>
-            <!-- Select Basic -->
-            <div class="form-group col-md-4 no-padding">
-              <label class="control-label" for="date">Date:</label>
-              <div class="">
-                <select id="date" name="date" class="form-control">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group col-md-4 no-padding">
-              <label class="control-label" for="month">Month:</label>
-              <div class="">
-                <select id="month" name="month" class="form-control">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                  <option value="12">12</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group col-md-4 no-padding">
-              <label class="control-label" for="year">Year:</label>
-              <div class="">
-                <select id="year" name="year" class="form-control">
-                  <option value="1">2016</option>
-                  <option value="2">2017</option>
-                  <option value="3">2018</option>
-                  <option value="4">2019</option>
-                  <option value="5">2020</option>
-                </select>
-              </div>
-            </div>
             
             <!-- Button -->
             <div class="form-group">
@@ -125,28 +59,28 @@
         <div class="row">
           <div class="col-md-6 feature-block">
             <div class="well-box">
-              <div class="feature-icon"> <img src="<?php echo base_url();?>images/11111.png" width="160" alt=""> </div>
+              <div class="feature-icon"> <img src="<?php echo base_url();?>images/11111.png" width="84" alt=""> </div>
               <h3>Restaurant list</h3>
               <p>Nullam porttitor lorem atdiam quis semper diam orci at neque.</p>
             </div>
           </div>
           <div class="col-md-6 feature-block">
             <div class="well-box">
-              <div class="feature-icon"><img src="<?php echo base_url();?>images/33333.png" width="160" alt=""></div>
+              <div class="feature-icon"><img src="<?php echo base_url();?>images/33333.png" width="84" alt=""></div>
               <h3>Discounts</h3>
               <p>Nullam porttitor lorem atdiam quis semper diam orci at neque.</p>
             </div>
           </div>
           <div class="col-md-6 feature-block">
             <div class="well-box">
-              <div class="feature-icon"><img src="<?php echo base_url();?>images/22222.png" width="160"  alt=""></div>
+              <div class="feature-icon"><img src="<?php echo base_url();?>images/22222.png" width="84"  alt=""></div>
               <h3>Confirmation</h3>
               <p>Nullam porttitor lorem atdiam quis semper diam orci at neque.</p>
             </div>
           </div>
           <div class="col-md-6 feature-block">
             <div class="well-box">
-              <div class="feature-icon"><img src="<?php echo base_url();?>images/44444.png" width="160"  alt=""></div>
+              <div class="feature-icon"><img src="<?php echo base_url();?>images/44444.png" width="84"  alt=""></div>
               <h3>Everything you need</h3>
               <p>Nullam porttitor lorem atdiam quis semper diam orci at neque.</p>
             </div>

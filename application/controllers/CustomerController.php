@@ -8,28 +8,34 @@ class CustomerController extends BaseController {
     
     function __construct() {
         parent::__construct();                
-    }    
+    }  
+
     public function index()
     {        
         $data = $this->getViewParameters('Home','Customer');
-        $data['isLogin'] = false;
         $this->load->view('view_customer', $data);                        
     }
+
     public function login()
-    {
-//        $data = $this->getViewParameters('Login','Customer');
-//        $data['isLogin'] = false;
-//        $this->load->view('view_customer', $data);        
+    {       
         $data['pageName'] = "LOGIN";
         $this->load->view('view_customer', $data);
     }
-    public function register()
-    {
-//        $data = $this->getViewParameters('Login','Customer');
-//        $data['isLogin'] = false;
-//        $this->load->view('view_customer', $data);        
+
+    public function register($task="")
+    {        
+
+        $this->load->model('Customer_Modal');
+
         $data['pageName'] = "REGISTER";
         $this->load->view('view_customer', $data);
+
+        if ($task == "create")
+        {
+            $this->Customer_Modal->create_customer();
+            $this->session->set_flashdata('message' , 'user_info_added_successfuly');
+            redirect('CustomerController/login');
+        }  
     }
 
     public function profile() {
@@ -75,9 +81,19 @@ class CustomerController extends BaseController {
         $this->load->view('view_customer', $data);      
     }
 
-    public function signupvendor() {
+    public function signupvendor($task="") {
+
+        $this->load->model('Customer_Modal');
+
         $data['pageName'] = "SIGNUPVENDOR";
-        $this->load->view('view_customer', $data);      
+        $this->load->view('view_customer', $data);
+
+        if ($task == "create")
+        {
+            $this->Customer_Modal->create_vendor();
+            $this->session->set_flashdata('message' , 'user_info_added_successfuly');
+            redirect('CustomerController/login');
+        }  
     }
 
     public function shop_checkout() {
@@ -85,8 +101,8 @@ class CustomerController extends BaseController {
         $this->load->view('view_customer', $data);      
     }
 
-    public function vendor_profile() {
-        $data['pageName'] = "VENDORPROFILE";
+    public function affiliates() {
+        $data['pageName'] = "AFFILIATES";
         $this->load->view('view_customer', $data);      
     }
     

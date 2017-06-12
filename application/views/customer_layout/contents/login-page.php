@@ -33,8 +33,6 @@
       <div class="col-md-offset-3 col-md-6 st-tabs"> 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Customer Login </a></li>
-          <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Restaurant login</a></li>
         </ul>
         
         <!-- Tab panes -->
@@ -60,27 +58,6 @@
               <div class="form-group">
                 <button id="submit" name="submit" class="btn tp-btn-primary tp-btn-lg findhover" style="background-color:#8E203E;">Login</button>
                 <a href="#" class="pull-right"> <small>Forgot Password ?</small></a> </div>
-            </form>
-          </div>
-          <div role="tabpanel" class="tab-pane couple-login" id="profile"><!-- Text input-->
-            <form >
-              
-              <!-- Text input-->
-              <div class="form-group">
-                <label class="control-label" for="email-one">E-mail<span class="required">*</span></label>
-                <input id="email-one" name="email-one" type="text" placeholder="E-Mail" class="form-control input-md" required>
-              </div>
-              
-              <!-- Text input-->
-              <div class="form-group">
-                <label class="control-label" for="password-one">Password<span class="required">*</span></label>
-                <input id="password-one" name="password-one" type="text" placeholder="Password" class="form-control input-md" required>
-              </div>
-              
-              <!-- Button -->
-              <div class="form-group">
-                <button name="submit" class="btn tp-btn-primary tp-btn-lg findhover" style="background-color:#8E203E;">Login</button>
-                <a href="forget-password.html" class="pull-right"> <small>Forgot Password ?</small></a> </div>
             </form>
           </div>
         </div>

@@ -42,6 +42,9 @@ switch ($pageName) {
         break;
     case "VENDORPROFILE":
         include ("contents/vendor-profile.php");
+        break; 
+    case "AFFILIATES":
+        include ("contents/affiliates.php");
         break;   
 
 }

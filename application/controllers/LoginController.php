@@ -31,22 +31,30 @@ class LoginController extends BaseController {
 
             if (0 == $row->role) {
 
-                $this->session->set_userdata('customer_login', '1');             
+                $this->session->set_userdata('customer_login', '1');  
                 $this->session->set_userdata('login_user_id', $row->no);   
                 $this->session->set_userdata('name',$row->name);          
                 $this->session->set_userdata('login_type','customer');
-                redirect(base_url() . 'index.php/CustomerController','refresh');
+                redirect(base_url() . 'index.php/CustomerController/profile','refresh');
             }
             else if (1 == $row->role) {
                 
                 $this->session->set_userdata('vendor_login', '1');             
                 $this->session->set_userdata('login_user_id', $row->no);            
-                $this->session->set_userdata('name',$row->name);           
+                $this->session->set_userdata('name',$row->name);   
                 $this->session->set_userdata('login_type','vendor');
                 redirect(base_url() . 'index.php/VendorController','refresh');
             }       
         }
         
         redirect('CustomerController/login'); 
+    }
+
+    public function logout() {
+        $this->session->unset_userdata('jobposter_login');
+        $this->session->unset_userdata('businessposter_login');
+        $this->session->sess_destroy();
+        $this->session->set_flashdata('logout_notification', 'logged_out');
+        redirect(base_url().'index.php/CustomerController/login', 'refresh');
     }    
 }

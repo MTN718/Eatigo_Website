@@ -33,6 +33,9 @@ Description:Wedding Vendor | Vendor Directory HTML Template for All Vendor Listi
 /*-----------------------------
 	01 - General CSS - Basic setup Typography and Template Input css
 ------------------------------*/
+.dont_show{
+	display: none;
+}
 @font-face {
 	font-family: "Aleo";
 	src: url("../fonts/Aleo-Regular.otf");
