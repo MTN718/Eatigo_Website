@@ -2,13 +2,15 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 top-message">
-                <p style="color: #B9657C;">Welcome to Burped</p>
+                <p>Welcome to Burped</p>
             </div>
             <div class="col-md-6 top-links">
                 <ul class="listnone">
                     <li><a href="<?php echo base_url();?>index.php/CustomerController/faq"> Help </a></li>
                     <li><a href="<?php echo base_url();?>index.php/CustomerController/pricingplan">Pricing</a></li>
                     <li><a href="<?php echo base_url();?>index.php/CustomerController/signupvendor" class=" ">Are you Vendor ?</a></li>
+                    <li><a href="<?php echo base_url();?>index.php/CustomerController/login" class=" ">Login</a></li>
+                    <li><a href="<?php echo base_url();?>index.php/CustomerController/register" class=" ">Sign Up</a></li>
                 
                 </ul>
             </div>
@@ -33,9 +35,8 @@
 
                     <li class="dropdown hoo"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="fa fa-angle-down"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo base_url();?>index.php/CustomerController/login">Login</a></li>
-                            <li><a href="<?php echo base_url();?>index.php/CustomerController/register">Sign Up</a></li>
                             <li><a href="<?php echo base_url();?>index.php/CustomerController/profile">Profile</a></li>
+                            <li><a href="<?php echo base_url();?>index.php/CustomerController/vendor_profile">Vendor Profile</a></li>
                         </ul>
                     </li>
 

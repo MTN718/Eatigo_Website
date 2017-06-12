@@ -84,5 +84,10 @@ class CustomerController extends BaseController {
         $data['pageName'] = "SHOPCHECKOUT";
         $this->load->view('view_customer', $data);      
     }
+
+    public function vendor_profile() {
+        $data['pageName'] = "VENDORPROFILE";
+        $this->load->view('view_customer', $data);      
+    }
     
 }

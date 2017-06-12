@@ -12,6 +12,10 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>Burped</title>
         <!-- Bootstrap -->
+      
+        <link href="<?php echo base_url();?>css/select2.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="<?php echo base_url();?>css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/bootstrap.min.css">
         <!-- Template style.css -->
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/style.css">
@@ -43,6 +47,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/jquery.share079c.css?v=20141017-1">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/new-home.css">
         <link href="<?php echo base_url();?>css/customer/vitality-red.css" rel="stylesheet" type="text/css">
+
     </head>
     <body>
         <?php
@@ -60,6 +65,21 @@
         <script src="<?php echo base_url();?>js/customer/testimonial.js"></script> 
         <script src="<?php echo base_url();?>js/customer/jquery.sticky.js"></script> 
         <script src="<?php echo base_url();?>js/customer/header-sticky.js"></script>
+
+
+
+    <script src="<?php echo base_url();?>js/select2.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url();?>js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url();?>js/dataTables.tableTools.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url();?>js/datatables.responsive.js"></script>
+    <script src="<?php echo base_url();?>js/lodash.min.js"></script>
+    <script src="<?php echo base_url();?>js/datatables.js" type="text/javascript"></script>
+
+
+
+
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>  
         <script>
           var myCenter=new google.maps.LatLng(23.0203458,72.5797426);
 
@@ -169,8 +189,10 @@
         }
       }
       </script>
-      <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap">
-                
-      </script>   
+
+
+
+
+                 
     </body>
 </html>

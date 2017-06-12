@@ -42,24 +42,24 @@
           <div role="tabpanel" class="tab-pane active vendor-login" id="home">
          
 
-            <form >
+            <form class="form-horizontal" action="<?php echo base_url();?>index.php/LoginController/validate_user" method="post">
               
               <!-- Text input-->
               <div class="form-group">
                 <label class="control-label" for="email">E-mail<span class="required">*</span></label>
-                <input id="email" name="email" type="text" placeholder="E-Mail" class="form-control input-md" required>
+                <input id="email" name="email" type="email" placeholder="E-Mail" class="form-control input-md" required>
               </div>
               
               <!-- Text input-->
               <div class="form-group">
                 <label class="control-label" for="password">Password<span class="required">*</span></label>
-                <input id="password" name="password" type="text" placeholder="Password" class="form-control input-md" required>
+                <input id="password" name="password" type="password" placeholder="Password" class="form-control input-md" required>
               </div>
               
               <!-- Button -->
               <div class="form-group">
                 <button id="submit" name="submit" class="btn tp-btn-primary tp-btn-lg findhover" style="background-color:#8E203E;">Login</button>
-                <a href="forget-password.html" class="pull-right"> <small>Forgot Password ?</small></a> </div>
+                <a href="#" class="pull-right"> <small>Forgot Password ?</small></a> </div>
             </form>
           </div>
           <div role="tabpanel" class="tab-pane couple-login" id="profile"><!-- Text input-->
