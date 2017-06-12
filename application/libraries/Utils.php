@@ -7,6 +7,7 @@ class Utils {
     public function redirectPage($pageName) {
         redirect(base_url() . $pageName);
     }
+
     public function isEmptyPost($fields) {
         $error = false;
         foreach ($fields as $field) {
@@ -16,15 +17,15 @@ class Utils {
         }
         return $error;
     }
-    public function inflatePost($fields)
-    {
-        $result = array();        
-        foreach ($fields as $field) {            
+
+    public function inflatePost($fields) {
+        $result = array();
+        foreach ($fields as $field) {
             $result[$field] = $_POST[$field];
         }
         return $result;
     }
-    
+
     public function uploadImage($m_image, $index, $width = 320, $height = 420) {
         $upload_file = $m_image['tmp_name'];
         $path_parts = pathinfo($m_image['name']);
@@ -81,5 +82,23 @@ class Utils {
         chmod($thumb_path, 0777);
         return $thumb_path;
     }
-    
+
+    function distance($lat1, $lon1, $lat2, $lon2, $unit="K") {
+
+        $theta = $lon1 - $lon2;
+        $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+        $dist = acos($dist);
+        $dist = rad2deg($dist);
+        $miles = $dist * 60 * 1.1515;
+        $unit = strtoupper($unit);
+
+        if ($unit == "K") {
+            return ($miles * 1.609344);
+        } else if ($unit == "N") {
+            return ($miles * 0.8684);
+        } else {
+            return $miles;
+        }
+    }
+
 }

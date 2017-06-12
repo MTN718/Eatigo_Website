@@ -118,7 +118,18 @@ class AdminController extends BaseController {
         }
         $data = $this->getViewParameters("Categorys", "Admin");
         $data = $this->setMessages($data);
-        $data['categorys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_category');
+        $tables = 
+        $condition = array('cid','no');
+        $where = null;
+        $selectFields = array(
+            null,
+            array('name as country')
+        );
+        $data['categorys'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_category','tbl_base_country')
+                ,array('cid','no')
+                ,null
+                ,$selectFields = array(null,array('name as country'))
+                );
         $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_country');
         $this->load->view('view_admin', $data);
     }
