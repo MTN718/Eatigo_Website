@@ -38,24 +38,21 @@ class WebserviceController extends BaseController {
                 "select *,(select count(*) from tbl_restaurant as B where B.category=A.no) as countRestaurant  from tbl_category as A where A.cid='".$postVars['cid']."'");
         $result['result'] = 200;
         echo json_encode($result);
-    }
-    function loadTop50Restaurant()
-    {
-        $postVars = $this->utils->inflatePost(array('lat','lng'));
-        $result = array();
-        $restaurants = $this->sqllibs->rawSelectSql($this->db,
-                "select *,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation  from tbl_restaurant as A order by A.avgrate desc limit 0,50");
-        
-        
-        $result['result'] = 200;
-        echo json_encode($result);             
-    }
+    }    
     
     function loadAZRestaurant()
-    {        
+    {   
+        $postVars = $this->utils->inflatePost(array('cid'));
+        $categorys = $this->sqllibs->selectAllRows($this->db, 'tbl_category',array( "cid" =>  $postVars['cid']));
+        $sqlIn = "";
+        foreach($categorys as $category)
+        {
+            $sqlIn = $sqlIn.$category->no.",";
+        }
+        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
+        $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.category in (".$sqlIn.") order by A.avgrate desc limit 0,50";
         $result = array();
-        $result['restaurants'] = $this->sqllibs->rawSelectSql($this->db,
-                "select * from tbl_restaurant order by name asc");
+        $result['restaurants'] = $this->sqllibs->rawSelectSql($this->db,$sqlIn);
         $result['result'] = 200;
         echo json_encode($result);  
     }
@@ -153,5 +150,136 @@ class WebserviceController extends BaseController {
         $result['result'] = 200;
         echo json_encode($result);
     }
+    
+    function register()
+    {
+        $postVars = $this->utils->inflatePost(array('name','email','password','device_type'));
+        if ($this->sqllibs->isExist($this->db, 'tbl_user', array("email" => $postVars['email']))) {
+            $result['result'] = 400;
+            $result['message'] = "Email already registered";
+            echo json_encode($result);            
+            return;
+        }
+        
+        $id = $this->sqllibs->insertRow($this->db, 'tbl_user'
+                , array(
+            "name" => $postVars['name'],
+            "email" => $postVars['email'],
+            "password" => $postVars['password'],
+            "device_type" => $postVars['device_type'],
+        ));
+        $userData = $this->sqllibs->getOneRow($this->db, 'tbl_user', array(
+            "no" => $id,            
+            ));
+        $result = array();
+        $result['user'] = $userData;
+        $result['result'] = 200;
+        echo json_encode($result);
+    }
+    
+    function registerFacebook()
+    {
+        $postVars = $this->utils->inflatePost(array('name','email','device_type'));
+        if ($this->sqllibs->isExist($this->db, 'tbl_user', array("email" => $postVars['email'],"type" => 1))) {
+            $userData = $this->sqllibs->getOneRow($this->db, 'tbl_user', array(
+            "email"  => $postVars['email'],
+            "type"   => 1       
+            ));            
+        }      
+        else
+        {
+            $id = $this->sqllibs->insertRow($this->db, 'tbl_user'
+                    , array(
+                "name" => $postVars['name'],
+                "email" => $postVars['email'],
+                "type" => 1,
+                "device_type" => $postVars['device_type'],
+            ));
+            $userData = $this->sqllibs->getOneRow($this->db, 'tbl_user', array(
+                "no" => $id,            
+                ));
+        }
+        $result = array();
+        $result['user'] = $userData;
+        $result['result'] = 200;
+        echo json_encode($result);
+    }
+    //Incomplete
+    function generateRestaurantArray($restaurants)
+    {
+        $rstArray = array();
+        $index = 0;
+        foreach($restaurants as $rst)
+        {
+            $image = $this->sqllibs->getOneRow($this->db, 'tbl_image_restaurant', array(
+            "rid" => $rst->no
+            ));
+            $rstExtend = (object) array_merge((array)$rst, array('rs_image' =>""));
+            if ($image != null)
+                $rstExtend->rs_image = $image->image;
+            $discounts = $this->sqllibs->selectJoinTables($this->db, array('tbl_map_discount_restaurant','tbl_base_discount')
+                ,array('did','no')
+                ,array('rid'    =>  $rst->no)
+                );
+
+            $rstExtend = (object) array_merge((array)$rstExtend, array('rs_discounts' =>$discounts));
+            $rstArray[$index] = $rstExtend;
+            $index++;
+        }
+        return $rstArray;
+    }
+    function loadTop50Restaurant()
+    {
+        $postVars = $this->utils->inflatePost(array('cid'));
+        $result = array();
+        $categorys = $this->sqllibs->selectAllRows($this->db, 'tbl_category',array( "cid" =>  $postVars['cid']));
+        $sqlIn = "";
+        foreach($categorys as $category)
+        {
+            $sqlIn = $sqlIn.$category->no.",";
+        }
+        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
+        $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.category in (".$sqlIn.") order by A.avgrate desc limit 0,50";
+        $restaurants = $this->sqllibs->rawSelectSql($this->db,$sqlIn);
+        $result['restaurants'] = $this->generateRestaurantArray($restaurants);
+        $result['result'] = 200;
+        echo json_encode($result);
+    }
+    function loadRestaurants()
+    {
+        $postVars = $this->utils->inflatePost(array('cid','page'));
+        $categorys = $this->sqllibs->selectAllRows($this->db, 'tbl_category',array( "cid" =>  $postVars['cid']));
+        $sqlIn = "";
+        foreach($categorys as $category)
+        {
+            $sqlIn = $sqlIn.$category->no.",";
+        }
+        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
+        $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.category in (".$sqlIn.") order by A.avgrate desc limit ".($postVars['page'] * 30).",".(($postVars['page'] + 1) * 30);        
+        $restaurants = $this->sqllibs->rawSelectSql($this->db,$sqlIn);
+        $result['restaurants'] = $this->generateRestaurantArray($restaurants);
+        $result['result'] = 200;
+        echo json_encode($result);
+    }
+    function loadDetailRestaurant()
+    {
+        $postVars = $this->utils->inflatePost(array('rid'));
+        $restaurants = $this->sqllibs->selectAllRows($this->db, 'tbl_restaurant',array( "no" =>  $postVars['rid']));        
+        $rsts = $this->generateRestaurantArray($restaurants);
+        $result['restaurant'] = $rsts[0];
+        $result['result'] = 200;
+        echo json_encode($result);
+    }
+    
+    function loadDetailBook()
+    {
+        
+    }
+    
+    function submitReportReservation()
+    {
+        
+    }
+    
     
 }
