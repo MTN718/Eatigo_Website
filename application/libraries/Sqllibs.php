@@ -98,7 +98,7 @@ class Sqllibs {
         if ($whereFields != null) {
             $where = " where ";
             foreach (array_keys($whereFields) as $key) {
-                $where = $where . $key . "=" . "'" . $whereFields[$key] . "'" . ' and ';
+                $where = $where . "A0.".$key . "=" . "'" . $whereFields[$key] . "'" . ' and ';
             }
             $where = substr($where, 0, strlen($where) - 4);
         }

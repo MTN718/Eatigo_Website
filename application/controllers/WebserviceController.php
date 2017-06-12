@@ -86,11 +86,72 @@ class WebserviceController extends BaseController {
             "password" => $postVars['password']            
             ));
             $result['result'] = 200;
-            echo json_encode($result);
+            echo json_encode( );
             return;
         }
         $result['result'] = 400;
         echo json_encode($result);
         
     }
+    
+    function loadCardList()
+    {
+        $postVars = $this->utils->inflatePost(array('uid'));
+        $cards = $this->sqllibs->selectAllRows($this->db, 'tbl_card',array( "uid" =>  $postVars['uid']));
+        $result = array();
+        $cardInfos = array();
+        for($i = 0;$i < count($cards);$i++)
+        {
+            $cardNumber = $cards[$i]->cardnumber;
+            if (strlen($cardNumber) > 4)
+            {
+                $cardNumber = substr($cardNumber,0,4);
+                $cardNumber = $cardNumber." **** **** ****";
+            }
+            $cardInfos[$i] = $cardNumber;
+        }
+        $result['cards'] = $cardInfos;
+        $result['result'] = 200;
+        echo json_encode($result);
+    }
+    
+    function addCardInfo()
+    {
+        $postVars = $this->utils->inflatePost(array('uid','name','cardnumber','expire','security'));
+        $this->sqllibs->insertRow($this->db, 'tbl_card'
+                , array(
+            "uid" => $postVars['uid'],
+            "name" => $postVars['name'],
+            "cardnumber" => $postVars['cardnumber'],
+            "expire" => $postVars['expire'],
+            "security" => $postVars['security'],
+        ));
+        $result = array();
+        $result['result'] = 200;
+        echo json_encode($result);
+    }
+    
+    function loadReservation()
+    {
+        $postVars = $this->utils->inflatePost(array('uid'));
+        $result = array();        
+        $reservations = $this->sqllibs->selectJoinTables($this->db, array('tbl_reservation','tbl_restaurant')
+                ,array('rid','no')
+                ,array('uid'    =>  $postVars['uid'])
+                ,array(null,array('name as rs_name','about as rs_about'))
+                );
+        $rsArray = array();
+        for ($i = 0;$i < count($reservations);$i++)
+        {            
+            $image = $this->sqllibs->getOneRow($this->db, 'tbl_image_restaurant', array(
+            "rid" => $reservations[$i]->rid
+            ));            
+            $extended = (object) array_merge((array)$reservations[$i], array('rs_image' =>$image->image));
+            $rsArray[$i] = $extended;
+        }
+        $result['reservations'] = $rsArray;
+        $result['result'] = 200;
+        echo json_encode($result);
+    }
+    
 }
