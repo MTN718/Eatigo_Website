@@ -405,4 +405,5 @@
 </div>
 </div>
 
+                    <script src="<?php echo base_url();?>js/customer/jquery.min.js"></script>
 <div id="googleMap" class="map" style="margin-top:40px;"></div>

@@ -1,4 +1,7 @@
-  <div class="top-bar">
+<?php
+    $account_type   = $this->session->userdata('login_type');
+?>
+<div class="top-bar">
     <div class="container">
         <div class="row">
             <div class="col-md-6 top-message">
@@ -8,10 +11,18 @@
                 <ul class="listnone">
                     <li><a href="<?php echo base_url();?>index.php/CustomerController/faq"> Help </a></li>
                     <li><a href="<?php echo base_url();?>index.php/CustomerController/pricingplan">Pricing</a></li>
-                    <li><a href="<?php echo base_url();?>index.php/CustomerController/signupvendor" class=" ">Are you Vendor ?</a></li>
-                    <li><a href="<?php echo base_url();?>index.php/CustomerController/login" class=" ">Login</a></li>
-                    <li><a href="<?php echo base_url();?>index.php/CustomerController/register" class=" ">Sign Up</a></li>
-                
+
+                    <?php if ( $account_type == 'customer' ) { ?>                       
+                        <li><a href="<?php echo base_url();?>index.php/CustomerController/signupvendor" class=" ">Are you Vendor ?</a></li>
+                        <li><a href="<?php echo base_url(); ?>index.php/LoginController/logout">Logout</a></li> 
+                    <?php } else if ( $account_type == 'vendor' ) { ?>
+                        <li><a href="<?php echo base_url(); ?>index.php/LoginController/logout">Logout</a></li>
+                    <?php } else {?>
+                        <li><a href="<?php echo base_url();?>index.php/CustomerController/signupvendor" class=" ">Are you Vendor ?</a></li>
+                        <li><a href="<?php echo base_url();?>index.php/CustomerController/login" class=" ">Login</a></li>
+                        <li><a href="<?php echo base_url();?>index.php/CustomerController/register" class=" ">Sign Up</a></li>
+                    <?php } ?>   
+
                 </ul>
             </div>
         </div>
@@ -33,17 +44,23 @@
                     <li class="active hoo"><a href="<?php echo base_url();?>index.php/CustomerController">Home</a></li>
                     <li class="dropdown hoo"> <a href="<?php echo base_url();?>index.php/CustomerController/restaurants">Restaurants </a></li>
 
+                    <?php if ( $account_type == 'customer' || $account_type == 'vendor') { ?>
                     <li class="dropdown hoo"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="fa fa-angle-down"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo base_url();?>index.php/CustomerController/profile">Profile</a></li>
-                            <li><a href="<?php echo base_url();?>index.php/CustomerController/vendorprofile">Vendor Profile</a></li>
+
+                            <?php if ( $account_type == 'customer' ) { ?>
+                                <li><a href="<?php echo base_url();?>index.php/CustomerController/profile">Profile</a></li>
+                            <?php } else if ( $account_type == 'vendor' ) { ?>
+                                <li><a href="<?php echo base_url();?>index.php/VendorController">Profile</a></li>
+                            <?php } ?>                            
+                            
                         </ul>
                     </li>
+                    <?php } ?>
 
 
-
+                    <li class="dropdown hoo"> <a href="<?php echo base_url();?>index.php/CustomerController/affiliates">Affiliates </a></li>
                     <!-- /.Mega Dropdown -->
-
                     <li class="hoo"><a href="<?php echo base_url();?>index.php/CustomerController/contactus">Contact Us</a></li>
                 </ul>
             </div>
