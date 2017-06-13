@@ -83,7 +83,7 @@ class WebserviceController extends BaseController {
             "password" => $postVars['password']            
             ));
             $result['result'] = 200;
-            echo json_encode( );
+            echo json_encode($result);
             return;
         }
         $result['result'] = 400;
@@ -297,5 +297,12 @@ class WebserviceController extends BaseController {
         
     }
     
-    
+    function testPayment()
+    {
+        $this->stripe->testCheckout();        
+    }
+    function testRefund()
+    {
+        $this->stripe->testRefund();        
+    }
 }

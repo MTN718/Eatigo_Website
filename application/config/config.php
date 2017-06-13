@@ -24,7 +24,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$config['base_url'] = 'http://localhost/burped';
+$config['hostname'] = "localhost";
+$config['username'] = "root";
+$config['password'] = "";
+$config['database'] = "burped";
+$config['dbdriver'] = "mysql";
+$config['dbprefix'] = "";
+$config['pconnect'] = FALSE;
+$config['db_debug'] = TRUE;
+$config['cache_on'] = FALSE;
+$config['cachedir'] = "";
+$config['char_set'] = "utf8";
+$config['dbcollat'] = "utf8_general_ci";
+
+
+
+$config['base_url'] = 'http://192.168.1.114:88/Eatigo_Website/';
+
 
 /*
 |--------------------------------------------------------------------------
