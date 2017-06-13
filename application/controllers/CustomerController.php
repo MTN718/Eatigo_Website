@@ -12,8 +12,12 @@ class CustomerController extends BaseController {
 
     public function index()
     {        
+        $this->load->model('Customer_Modal');
+        
         $data = $this->getViewParameters('Home','Customer');
-        $this->load->view('view_customer', $data);                        
+        $data['categorylist']  = $this->Customer_Modal->category_list();
+        $data['restaurantlist']  = $this->Customer_Modal->restaurant_list();
+        $this->load->view('view_customer', $data);                       
     }
 
     public function login()
@@ -32,9 +36,16 @@ class CustomerController extends BaseController {
 
         if ($task == "create")
         {
-            $this->Customer_Modal->create_customer();
-            $this->session->set_flashdata('message' , 'user_info_added_successfuly');
-            redirect('CustomerController/login');
+            if ($this->Customer_Modal->create_customer()) {
+
+                $this->session->set_flashdata('message' , 'Registration Successful please Login');
+                redirect('CustomerController/login');
+
+            } else {
+
+                $this->session->set_flashdata('message' , 'Email Already Present');
+                redirect('CustomerController/register');
+            }
         }  
     }
 
@@ -90,19 +101,21 @@ class CustomerController extends BaseController {
 
         if ($task == "create")
         {
-            $this->Customer_Modal->create_vendor();
-            $this->session->set_flashdata('message' , 'user_info_added_successfuly');
-            redirect('CustomerController/login');
-        }  
+            if ($this->Customer_Modal->create_vendor()) {
+
+                $this->session->set_flashdata('message' , 'Registration Successful Please Login');
+                redirect('CustomerController/login');
+
+            } else {
+
+                $this->session->set_flashdata('message' , 'Email Already Present');
+                redirect('CustomerController/signupvendor');
+            }
+        } 
     }
 
     public function shop_checkout() {
         $data['pageName'] = "SHOPCHECKOUT";
-        $this->load->view('view_customer', $data);      
-    }
-
-    public function affiliates() {
-        $data['pageName'] = "AFFILIATES";
         $this->load->view('view_customer', $data);      
     }
     

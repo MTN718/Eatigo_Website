@@ -88,7 +88,7 @@
     background: url(https://eatigo.com/home/themes/default/images/new_icon_home/left.svg) no-repeat center center;
     background-size: contain;
     position: absolute;
-    left: -5px;
+    left: 5px;
     top: 16%;
     margin-top: -22px;
     width: 28px;
@@ -101,7 +101,7 @@
     background: url(https://eatigo.com/home/themes/default/images/new_icon_home/right.svg) no-repeat center center;
     background-size: contain;
     position: absolute;
-    right: -5px;
+    right: 5px;
     top: 16%;
     margin-top: -22px;
     width: 28px;

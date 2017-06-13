@@ -46,7 +46,7 @@ class LoginController extends BaseController {
                 redirect(base_url() . 'index.php/VendorController','refresh');
             }       
         }
-        
+        $this->session->set_flashdata('loginerror' , 'Invalid User');
         redirect('CustomerController/login'); 
     }
 

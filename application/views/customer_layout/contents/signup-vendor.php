@@ -14,8 +14,9 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 tp-title-center">
-        <h1>Lorem Ipsum is simply dummy text</h1>
-        <p>Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text</p>
+        <h1>Create an account</h1>
+        <p>
+            Burped Affiliate is a great way to earn money, bring a restaurant to us and you will recieve a percentage of the deals that has been purchased by our customers on those restaurants.</p>
       </div>
     </div>
     <div class="row">
@@ -39,8 +40,12 @@
               
               <!-- Text input-->
               <div class="form-group">
-                <label class="control-label" for="email">E-mail<span class="required">*</span></label>
+                <label class="control-label" for="email">E-mail<span class="required">*&nbsp;&nbsp;&nbsp;
+                <?php if ($this->session->flashdata('message') != ""){ ?>                    
+                  <?php echo $this->session->flashdata('message');?>                    
+                <?php } ?></span></label>
                 <input id="email" name="email" type="email" placeholder="E-Mail" class="form-control input-md" required>
+                 
               </div>
               
               <!-- Text input-->

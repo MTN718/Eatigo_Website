@@ -25,6 +25,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/bootstrap-select.min.css">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/hover.css">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/animate.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/notification.css">
         <!-- Font used in template -->
         <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Istok+Web:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
@@ -32,14 +33,14 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- favicon icon -->
         <link rel="shortcut icon" href="<?php echo base_url();?>images/lo1go.png" type="image/x-icon">
-
+        <!-- Time  Picker -->
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/bootstrap-clockpicker.min.css">
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
               <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
               <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
               <![endif]-->
-
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/theme111ba.css?v=20141226-1">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/jquery-ui.css">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/idangerous.swiper.css">
@@ -47,6 +48,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/jquery.share079c.css?v=20141017-1">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/new-home.css">
         <link href="<?php echo base_url();?>css/customer/vitality-red.css" rel="stylesheet" type="text/css">
+
         <!-- location picker -->
         <link rel="stylesheet" href="<?php echo base_url();?>map/map1/addresspicker/demos/themes/base/jquery.ui.all.css">
         <link rel="stylesheet" href="<?php echo base_url();?>map/map1/addresspicker/demos/demo.css">
@@ -121,6 +123,7 @@
         <script src="<?php echo base_url();?>js/customer/testimonial.js"></script> 
         <script src="<?php echo base_url();?>js/customer/jquery.sticky.js"></script> 
         <script src="<?php echo base_url();?>js/customer/header-sticky.js"></script>
+        <script src="<?php echo base_url();?>js/toastr.js"></script>
         <!-- datatables -->
         <script src="<?php echo base_url();?>js/select2.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>js/jquery.dataTables.min.js" type="text/javascript"></script>
@@ -128,7 +131,10 @@
         <script src="<?php echo base_url();?>js/datatables.responsive.js"></script>
         <script src="<?php echo base_url();?>js/lodash.min.js"></script>
         <script src="<?php echo base_url();?>js/datatables.js" type="text/javascript"></script>
+        <script src="<?php echo base_url();?>js/bootstrap-clockpicker.min.js"></script>
         <!-- Main Map -->
+        <script src="<?php echo base_url();?>js/fileinput.js"></script>
+
         <script>
           var myCenter=new google.maps.LatLng(23.0203458,72.5797426);
 
@@ -238,8 +244,63 @@
         }
       }
       </script>
+      <script type="text/javascript">
+$('.clockpicker').clockpicker()
+  .find('input').change(function(){
+    console.log(this.value);
+  });
+var input = $('#single-input').clockpicker({
+  placement: 'bottom',
+  align: 'left',
+  autoclose: true,
+  'default': 'now'
+});
 
+$('.clockpicker-with-callbacks').clockpicker({
+    donetext: 'Done',
+    init: function() { 
+      console.log("colorpicker initiated");
+    },
+    beforeShow: function() {
+      console.log("before show");
+    },
+    afterShow: function() {
+      console.log("after show");
+    },
+    beforeHide: function() {
+      console.log("before hide");
+    },
+    afterHide: function() {
+      console.log("after hide");
+    },
+    beforeHourSelect: function() {
+      console.log("before hour selected");
+    },
+    afterHourSelect: function() {
+      console.log("after hour selected");
+    },
+    beforeDone: function() {
+      console.log("before done");
+    },
+    afterDone: function() {
+      console.log("after done");
+    }
+  })
+  .find('input').change(function(){
+    console.log(this.value);
+  });
 
+// Manually toggle to the minutes view
+$('#check-minutes').click(function(e){
+  // Have to stop propagation here
+  e.stopPropagation();
+  input.clockpicker('show')
+      .clockpicker('toggleView', 'minutes');
+});
+if (/mobile/i.test(navigator.userAgent)) {
+  $('input').prop('readOnly', true);
+}
+</script>
 
 
                  

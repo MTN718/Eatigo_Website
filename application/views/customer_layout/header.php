@@ -13,7 +13,6 @@
                     <li><a href="<?php echo base_url();?>index.php/CustomerController/pricingplan">Pricing</a></li>
 
                     <?php if ( $account_type == 'customer' ) { ?>                       
-                        <li><a href="<?php echo base_url();?>index.php/CustomerController/signupvendor" class=" ">Are you Vendor ?</a></li>
                         <li><a href="<?php echo base_url(); ?>index.php/LoginController/logout">Logout</a></li> 
                     <?php } else if ( $account_type == 'vendor' ) { ?>
                         <li><a href="<?php echo base_url(); ?>index.php/LoginController/logout">Logout</a></li>
@@ -58,8 +57,6 @@
                     </li>
                     <?php } ?>
 
-
-                    <li class="dropdown hoo"> <a href="<?php echo base_url();?>index.php/CustomerController/affiliates">Affiliates </a></li>
                     <!-- /.Mega Dropdown -->
                     <li class="hoo"><a href="<?php echo base_url();?>index.php/CustomerController/contactus">Contact Us</a></li>
                 </ul>

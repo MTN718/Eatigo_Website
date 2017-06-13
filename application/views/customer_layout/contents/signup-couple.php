@@ -15,7 +15,8 @@
     <div class="row">
       <div class="col-md-12 tp-title-center">
         <h1>Create an account<br>
-          <small>Start Planning  It's Free</small> </h1>
+          <small>
+            Burped Affiliate is a great way to earn money, bring a restaurant to us and you will recieve a percentage of the deals that has been purchased by our customers on those restaurants.</small> </h1>
       </div>
     </div>
     <div class="row">
@@ -32,7 +33,10 @@
             
             <!-- Text input-->
             <div class="form-group">
-              <label class="control-label" for="email">E-mail<span class="required">*</span></label>
+              <label class="control-label" for="email">E-mail<span class="required">*&nbsp;&nbsp;&nbsp;
+                <?php if ($this->session->flashdata('message') != ""){ ?>                    
+                  <?php echo $this->session->flashdata('message');?>                    
+                <?php } ?></span></label>
               <input id="email" name="email" type="text" placeholder="E-Mail" class="form-control input-md" required>
             </div>
             
