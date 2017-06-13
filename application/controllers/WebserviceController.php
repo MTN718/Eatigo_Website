@@ -203,8 +203,7 @@ class WebserviceController extends BaseController {
         $result['user'] = $userData;
         $result['result'] = 200;
         echo json_encode($result);
-    }
-    //Incomplete
+    }    
     function generateRestaurantArray($restaurants)
     {
         $rstArray = array();
@@ -271,13 +270,30 @@ class WebserviceController extends BaseController {
         echo json_encode($result);
     }
     
+    //Incomplete
     function loadDetailBook()
     {
+        $postVars = $this->utils->inflatePost(array('rid'));
         
     }
     
     function submitReportReservation()
     {
+        $postVars = $this->utils->inflatePost(array('email,title,phone,content'));
+        
+        $this->sqllibs->insertRow($this->db, 'tbl_card'
+                , array(
+            "uid" => $postVars['uid'],
+            "name" => $postVars['name'],
+            "cardnumber" => $postVars['cardnumber'],
+            "expire" => $postVars['expire'],
+            "security" => $postVars['security']
+        ));
+        
+        $result = array();
+        $result['restaurant'] = $rsts[0];
+        $result['result'] = 200;
+        echo json_encode($result);
         
     }
     
