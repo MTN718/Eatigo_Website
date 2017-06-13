@@ -244,6 +244,23 @@ class WebserviceController extends BaseController {
         $result['result'] = 200;
         echo json_encode($result);
     }
+    function loadNew10Restaurant()
+    {
+        $postVars = $this->utils->inflatePost(array('cid'));
+        $result = array();
+        $categorys = $this->sqllibs->selectAllRows($this->db, 'tbl_category',array( "cid" =>  $postVars['cid']));
+        $sqlIn = "";
+        foreach($categorys as $category)
+        {
+            $sqlIn = $sqlIn.$category->no.",";
+        }
+        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
+        $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.category in (".$sqlIn.") order by A.createdate desc limit 0,10";
+        $restaurants = $this->sqllibs->rawSelectSql($this->db,$sqlIn);
+        $result['restaurants'] = $this->generateRestaurantArray($restaurants);
+        $result['result'] = 200;
+        echo json_encode($result);
+    }
     function loadRestaurants()
     {
         $postVars = $this->utils->inflatePost(array('cid','page'));
