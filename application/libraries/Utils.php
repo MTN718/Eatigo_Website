@@ -83,7 +83,7 @@ class Utils {
         return $thumb_path;
     }
 
-    function distance($lat1, $lon1, $lat2, $lon2, $unit="K") {
+    function distance($lat1, $lon1, $lat2, $lon2, $unit = "K") {
 
         $theta = $lon1 - $lon2;
         $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
@@ -99,6 +99,16 @@ class Utils {
         } else {
             return $miles;
         }
+    }
+
+    function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
 }

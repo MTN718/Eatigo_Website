@@ -51,8 +51,9 @@ class WebserviceController extends BaseController {
         }
         $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
         $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.category in (".$sqlIn.") order by A.avgrate desc limit 0,50";
-        $result = array();
-        $result['restaurants'] = $this->sqllibs->rawSelectSql($this->db,$sqlIn);
+        $result = array();        
+        $reservations = $this->sqllibs->rawSelectSql($this->db,$sqlIn);    
+        $result['restaurants'] = $reservations;
         $result['result'] = 200;
         echo json_encode($result);  
     }
@@ -100,12 +101,16 @@ class WebserviceController extends BaseController {
         for($i = 0;$i < count($cards);$i++)
         {
             $cardNumber = $cards[$i]->cardnumber;
+            $cardInfo = array();
             if (strlen($cardNumber) > 4)
             {
                 $cardNumber = substr($cardNumber,0,4);
                 $cardNumber = $cardNumber." **** **** ****";
+                
+                $cardInfo['no'] = $cards[$i]->no;
+                $cardInfo['number'] = $cardNumber;                
             }
-            $cardInfos[$i] = $cardNumber;
+            $cardInfos[$i] = $cardInfo;
         }
         $result['cards'] = $cardInfos;
         $result['result'] = 200;
@@ -210,12 +215,9 @@ class WebserviceController extends BaseController {
         $index = 0;
         foreach($restaurants as $rst)
         {
-            $image = $this->sqllibs->getOneRow($this->db, 'tbl_image_restaurant', array(
-            "rid" => $rst->no
-            ));
-            $rstExtend = (object) array_merge((array)$rst, array('rs_image' =>""));
-            if ($image != null)
-                $rstExtend->rs_image = $image->image;
+            $images = $this->sqllibs->selectAllRows($this->db, 'tbl_image_restaurant',array( "rid" =>  $rst->no));
+            $rstExtend = (object) array_merge((array)$rst, array('rs_image' =>$images));
+            
             $discounts = $this->sqllibs->selectJoinTables($this->db, array('tbl_map_discount_restaurant','tbl_base_discount')
                 ,array('did','no')
                 ,array('rid'    =>  $rst->no)
@@ -288,6 +290,55 @@ class WebserviceController extends BaseController {
     }
     
     //Incomplete
+    
+    function submitReservation()
+    {
+        $postVars = $this->utils->inflatePost(array('uid','rid','did','people','cardid','date','time'));        
+        
+        $discountInfo = $this->sqllibs->getOneRow($this->db, 'tbl_map_discount_restaurant', array(
+            "no" => $postVars['did']
+            ));
+        if ($discountInfo->amount > $postVars['people'])
+        {
+            //Generate Code
+            $code = $this->utils->generateRandomString();
+            //Update amount
+            $this->sqllibs->updateRow($this->db, 'tbl_map_discount_restaurant'
+                , array(
+            "amount" => $discountInfo->amount - $postVars['people']
+                )
+                , array(
+            "no" => $postVars['did']
+            ));
+            
+            $cardInfo = $this->sqllibs->getOneRow($this->db, 'tbl_card', array(
+            "no" => $postVars['cardid']
+            ));
+            //Checkout
+            $this->strip->checkOut($cardInfo->cardnumber,$cardInfo->e,$expYear);
+            
+            
+        }
+        else
+        {
+            
+        }
+        $this->sqllibs->insertRow($this->db, 'tbl_reservation'
+                , array(
+            "uid" => $postVars['uid'],
+            "rid" => $postVars['name'],
+            "did" => $postVars['cardnumber'],
+            "code" => $postVars['expire'],
+            "people" => $postVars['security'],
+            "date" => $postVars['security'],
+            "cardid" => $postVars['security'],
+            "time" => $postVars['security']
+        ));
+        
+        
+        
+        
+    }
     function loadDetailBook()
     {
         $postVars = $this->utils->inflatePost(array('rid'));
