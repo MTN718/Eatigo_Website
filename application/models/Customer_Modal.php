@@ -35,7 +35,6 @@ class Customer_Modal extends CI_Model{
         if($email == $check_email) {
             return false;
         }
-
         $data['name']               = $this->input->post('name');
         $data['email']              = $this->input->post('email'); 
         $data['password']           = $this->input->post('password');

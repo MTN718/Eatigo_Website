@@ -45,7 +45,6 @@
                   <?php echo $this->session->flashdata('message');?>                    
                 <?php } ?></span></label>
                 <input id="email" name="email" type="email" placeholder="E-Mail" class="form-control input-md" required>
-                 
               </div>
               
               <!-- Text input-->

@@ -290,3 +290,4 @@
 </div><!-- /. Testimonial Section -->
 
 <script src="<?php echo base_url();?>js/customer/jquery.min.js"></script>
+

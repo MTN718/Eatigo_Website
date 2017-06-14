@@ -411,7 +411,7 @@
                               <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                                 <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/view_discount/<?php echo $data->no;?>">Update</a></li>
                                 <li role="presentation" class="divider"></li>
-                                <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/delete_discount/<?php echo $data->no;?>">Delete</a></li>       
+                                <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/delete_discount/<?php echo $data->no;?>">Delete</a></li>    
                               </ul>
                             </div>
                           </td>

@@ -22,6 +22,7 @@ class VendorController extends BaseController {
         
         $data = $this->getViewParameters('VENDORPROFILE','Customer');
         $data['restaurantlist']  = $this->Vendor_Modal->restaurent_list();
+
         $data['vendor']  = $this->Vendor_Modal->vendore_details();
         $data['resto_no']  = $this->Vendor_Modal->total_restaurant();
         $data['discountlist']  = $this->Vendor_Modal->discount_list();
@@ -137,6 +138,7 @@ class VendorController extends BaseController {
         }
         
         $data = $this->getViewParameters('VENDORPROFILE','Customer');
+
         $data['restaurantlist']  = $this->Vendor_Modal->restaurent_list();
         $data['vendor']  = $this->Vendor_Modal->vendore_details();
         $data['resto_no']  = $this->Vendor_Modal->total_restaurant();

@@ -118,5 +118,10 @@ class CustomerController extends BaseController {
         $data['pageName'] = "SHOPCHECKOUT";
         $this->load->view('view_customer', $data);      
     }
+
+    public function affiliates() {
+        $data['pageName'] = "AFFILIATES";
+        $this->load->view('view_customer', $data);      
+    }
     
 }
