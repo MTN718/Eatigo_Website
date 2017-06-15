@@ -12,7 +12,7 @@ class Stripe {
             'exp_month' => '09',
             'exp_year'=>'2030'
         );
-        echo $this->checkOut($myCard['number'],$myCard['exp_month'],$myCard['exp_year'],'222');
+        echo $this->checkOut($myCard['number'],$myCard['exp_month'],$myCard['exp_year'],'222',1000);
     }
     public function testRefund()
     {

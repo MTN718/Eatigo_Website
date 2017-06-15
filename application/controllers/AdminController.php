@@ -1,7 +1,6 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 require 'BaseController.php';
 
 class AdminController extends BaseController {
@@ -64,16 +63,16 @@ class AdminController extends BaseController {
         $data = $this->getViewParameters("Restaurants", "Admin");
         $data = $this->setMessages($data);
         $data['restaurants'] = $this->sqllibs->selectAllRows($this->db, 'tbl_restaurant');
-        
-        
-        $data['restaurants'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_restaurant','tbl_category')
-                ,array('category','no')
-                ,null
-                ,$selectFields = array(null,array('name as cname'))
-                );
-        
-        
-        
+
+
+        $data['restaurants'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_restaurant', 'tbl_category')
+                , array('category', 'no')
+                , null
+                , $selectFields = array(null, array('name as cname'))
+        );
+
+
+
         $this->load->view('view_admin', $data);
     }
 
@@ -128,39 +127,36 @@ class AdminController extends BaseController {
         }
         $data = $this->getViewParameters("Categorys", "Admin");
         $data = $this->setMessages($data);
-        $tables = 
-        $condition = array('cid','no');
+        $tables = $condition = array('cid', 'no');
         $where = null;
         $selectFields = array(
             null,
             array('name as country')
         );
-        $data['categorys'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_category','tbl_base_country')
-                ,array('cid','no')
-                ,null
-                ,$selectFields = array(null,array('name as country'))
-                );
+        $data['categorys'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_category', 'tbl_base_country')
+                , array('cid', 'no')
+                , null
+                , $selectFields = array(null, array('name as country'))
+        );
         $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_country');
         $this->load->view('view_admin', $data);
     }
-<<<<<<< HEAD
-    
-    public function discountPage()
-    {
+
+    public function discountPage() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
         }
         $data = $this->getViewParameters("Discounts", "Admin");
-        $data = $this->setMessages($data);        
-        $data['discounts'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_map_discount_restaurant','tbl_restaurant')
-                ,array('rid','no')
-                ,null
-                ,array(null,array('name as restaurant'))
-                );        
+        $data = $this->setMessages($data);
+        $data['discounts'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_map_discount_restaurant', 'tbl_restaurant')
+                , array('rid', 'no')
+                , null
+                , array(null, array('name as restaurant'))
+        );
         $this->load->view('view_admin', $data);
     }
-    
+
     public function faqPage() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
@@ -168,11 +164,11 @@ class AdminController extends BaseController {
         }
         $data = $this->getViewParameters("Faq", "Admin");
         $data = $this->setMessages($data);
-        $faq = $this->sqllibs->getOneRow($this->db, 'tbl_faq',null);
-        $data['faq'] = ($faq==null?"":$faq->content);
+        $faq = $this->sqllibs->getOneRow($this->db, 'tbl_faq', null);
+        $data['faq'] = ($faq == null ? "" : $faq->content);
         $this->load->view('view_admin', $data);
     }
-    
+
     public function termPage() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
@@ -180,25 +176,22 @@ class AdminController extends BaseController {
         }
         $data = $this->getViewParameters("Terms", "Admin");
         $data = $this->setMessages($data);
-        $term = $this->sqllibs->getOneRow($this->db, 'tbl_terms',null);
-        $data['term'] = ($term==null?"":$term->content);
+        $term = $this->sqllibs->getOneRow($this->db, 'tbl_terms', null);
+        $data['term'] = ($term == null ? "" : $term->content);
         $this->load->view('view_admin', $data);
     }
-    
-    public function contactusPage()
-    {
+
+    public function contactusPage() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
         }
         $data = $this->getViewParameters("Contactus", "Admin");
         $data = $this->setMessages($data);
-        $content = $this->sqllibs->getOneRow($this->db, 'tbl_contactus',null);
-        $data['content'] = ($content==null?"":$content->content);
+        $content = $this->sqllibs->getOneRow($this->db, 'tbl_contactus', null);
+        $data['content'] = ($content == null ? "" : $content->content);
         $this->load->view('view_admin', $data);
     }
-=======
->>>>>>> origin/master
 
     public function editCountryPage($id) {
         if (!$this->isLogin()) {
@@ -275,7 +268,6 @@ class AdminController extends BaseController {
         $postVars = $this->utils->inflatePost(array('user', 'pw'));
         if ($this->sqllibs->isExist($this->db, 'tbl_base_admin', array("user" => $postVars['user'], "password" => $postVars['pw']))) {
             $this->session->set_userdata(array("adminLogin" => "1"));
-
             $this->utils->redirectPage(ADMIN_PAGE_DASHBOARD);
             return;
         }
@@ -358,7 +350,6 @@ class AdminController extends BaseController {
         $this->sqllibs->deleteRow($this->db, 'tbl_base_country', array(
             "no" => $id
         ));
-
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_COUNTRYS);
     }
@@ -371,7 +362,6 @@ class AdminController extends BaseController {
         $this->sqllibs->deleteRow($this->db, 'tbl_base_facility', array(
             "no" => $id
         ));
-
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_FACILITYS);
     }
@@ -384,7 +374,6 @@ class AdminController extends BaseController {
         $this->sqllibs->deleteRow($this->db, 'tbl_base_language', array(
             "no" => $id
         ));
-
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_LANGUAGES);
     }
@@ -397,7 +386,6 @@ class AdminController extends BaseController {
         $this->sqllibs->deleteRow($this->db, 'tbl_base_atmosphere', array(
             "no" => $id
         ));
-
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_ATMOSPHERES);
     }
@@ -410,9 +398,20 @@ class AdminController extends BaseController {
         $this->sqllibs->deleteRow($this->db, 'tbl_category', array(
             "no" => $id
         ));
-
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_CATEGORYS);
+    }
+
+    public function actionDeleteUser($id) {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $this->sqllibs->deleteRow($this->db, 'tbl_user', array(
+            "no" => $id
+        ));
+        $this->session->set_flashdata('message', "Delete Successful");
+        redirect(base_url() . ADMIN_PAGE_USERS);
     }
 
     public function actionUpdateCountry() {
@@ -503,7 +502,6 @@ class AdminController extends BaseController {
     }
 
     public function actionUpdateCategory() {
-
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
@@ -512,15 +510,12 @@ class AdminController extends BaseController {
         $data = $this->sqllibs->getOneRow($this->db, 'tbl_category', array(
             "no" => $postVars['cid']
         ));
-
         $imageFile = $data->image;
         if (isset($_FILES['uploadLogo0'])) {
             $imageFile = $this->utils->uploadImage($_FILES['uploadLogo0'], 0, 400, 250);
             if ($imageFile == "")
                 $imageFile = $data->image;
         }
-
-
         $this->sqllibs->updateRow($this->db, 'tbl_category'
                 , array(
             "name" => $postVars['categoryName'],
@@ -534,14 +529,13 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_CATEGORYS);
     }
-<<<<<<< HEAD
-    public function actionUpdateFaq()
-    {
+
+    public function actionUpdateFaq() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
         }
-        $postVars = $this->utils->inflatePost(array('faq'));        
+        $postVars = $this->utils->inflatePost(array('faq'));
         $this->sqllibs->updateRow($this->db, 'tbl_faq'
                 , array(
             "content" => $postVars['faq']
@@ -550,13 +544,13 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_FAQ);
     }
-    public function actionUpdateTerms()
-    {
+
+    public function actionUpdateTerms() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
         }
-        $postVars = $this->utils->inflatePost(array('term'));        
+        $postVars = $this->utils->inflatePost(array('term'));
         $this->sqllibs->updateRow($this->db, 'tbl_terms'
                 , array(
             "content" => $postVars['term']
@@ -565,14 +559,13 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_TERMS);
     }
-    
-    public function actionUpdateContact()
-    {
+
+    public function actionUpdateContact() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
         }
-        $postVars = $this->utils->inflatePost(array('content'));        
+        $postVars = $this->utils->inflatePost(array('content'));
         $this->sqllibs->updateRow($this->db, 'tbl_contactus'
                 , array(
             "content" => $postVars['content']
@@ -581,27 +574,25 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_CONTACTUS);
     }
-    
-    public function actionRestaurantFeature($id)
-    {
+
+    public function actionRestaurantFeature($id) {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
         }
-        $rtInfo = $this->sqllibs->getOneRow($this->db, 'tbl_restaurant',array('no'=>$id));
+        $rtInfo = $this->sqllibs->getOneRow($this->db, 'tbl_restaurant', array('no' => $id));
         $featureValue = 0;
         if ($rtInfo->feature == 0)
             $featureValue = 1;
         $this->sqllibs->updateRow($this->db, 'tbl_restaurant'
                 , array(
             "feature" => $featureValue
-                ),
-                array('no'=>$id)
+                ), array('no' => $id)
         );
         $this->session->set_flashdata('message', "Featured");
         redirect(base_url() . ADMIN_PAGE_RESTAURANTS);
     }
-    
+
     public function actionDeleteRestaurant($id) {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
@@ -610,12 +601,8 @@ class AdminController extends BaseController {
         $this->sqllibs->deleteRow($this->db, 'tbl_restaurant', array(
             "no" => $id
         ));
-
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_RESTAURANTS);
     }
-    
-=======
->>>>>>> origin/master
 
 }
