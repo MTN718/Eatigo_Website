@@ -11,6 +11,9 @@
         case "Restaurants":
             include ("contents/restaurants.php");
             break;
+        case "Discounts":
+            include ("contents/discounts.php");
+            break;
         case "Countrys":
             include ("contents/countrys.php");
             break;

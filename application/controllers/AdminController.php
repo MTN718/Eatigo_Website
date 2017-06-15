@@ -64,6 +64,16 @@ class AdminController extends BaseController {
         $data = $this->getViewParameters("Restaurants", "Admin");
         $data = $this->setMessages($data);
         $data['restaurants'] = $this->sqllibs->selectAllRows($this->db, 'tbl_restaurant');
+        
+        
+        $data['restaurants'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_restaurant','tbl_category')
+                ,array('category','no')
+                ,null
+                ,$selectFields = array(null,array('name as cname'))
+                );
+        
+        
+        
         $this->load->view('view_admin', $data);
     }
 
@@ -131,6 +141,22 @@ class AdminController extends BaseController {
                 ,$selectFields = array(null,array('name as country'))
                 );
         $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_country');
+        $this->load->view('view_admin', $data);
+    }
+    
+    public function discountPage()
+    {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $data = $this->getViewParameters("Discounts", "Admin");
+        $data = $this->setMessages($data);        
+        $data['discounts'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_map_discount_restaurant','tbl_restaurant')
+                ,array('rid','no')
+                ,null
+                ,array(null,array('name as restaurant'))
+                );        
         $this->load->view('view_admin', $data);
     }
     
@@ -563,6 +589,39 @@ class AdminController extends BaseController {
         );
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_CONTACTUS);
+    }
+    
+    public function actionRestaurantFeature($id)
+    {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $rtInfo = $this->sqllibs->getOneRow($this->db, 'tbl_restaurant',array('no'=>$id));
+        $featureValue = 0;
+        if ($rtInfo->feature == 0)
+            $featureValue = 1;
+        $this->sqllibs->updateRow($this->db, 'tbl_restaurant'
+                , array(
+            "feature" => $featureValue
+                ),
+                array('no'=>$id)
+        );
+        $this->session->set_flashdata('message', "Featured");
+        redirect(base_url() . ADMIN_PAGE_RESTAURANTS);
+    }
+    
+    public function actionDeleteRestaurant($id) {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $this->sqllibs->deleteRow($this->db, 'tbl_restaurant', array(
+            "no" => $id
+        ));
+
+        $this->session->set_flashdata('message', "Delete Successful");
+        redirect(base_url() . ADMIN_PAGE_RESTAURANTS);
     }
     
 

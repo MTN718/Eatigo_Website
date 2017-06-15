@@ -35,6 +35,17 @@
             </li> 
             
             <?php
+            if ($pageName == "Discounts")
+                echo "<li class='active'>";
+            else
+                echo "<li>";
+            ?>            
+            <a href="<?php echo base_url() . ADMIN_PAGE_DISCOUNTS; ?>">
+                <i class="fa fa-area-chart"></i> <span>Discount Management</span>            
+            </a>
+            </li> 
+            
+            <?php
             if ($pageName == "Transactions")
                 echo "<li class='active'>";
             else

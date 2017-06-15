@@ -9,8 +9,10 @@
                 <tr>
                     <th>No</th>
                     <th>Name</th>
+                    <th>Category</th>
                     <th>Address</th>                   
                     <th>Opening</th>                    
+                    <th>Promote</th>                    
                     <th>Details</th>
                 </tr>
             </thead>
@@ -23,10 +25,28 @@
                     <tr>
                         <td><?php echo $i; ?></td>
                         <td><?php echo $restaurant->name; ?></td>
+                        <td><?php echo $restaurant->cname; ?></td>
                         <td><?php echo $restaurant->address; ?></td>
                         <td><?php echo $restaurant->start_time."~".$restaurant->end_time; ?></td>                        
                         <td>
-                            <a href='index.php?c=main&m=deleteUser&id=<?php echo $user->no; ?>'>Delete</a>&nbsp;&nbsp;&nbsp;
+                            <?php 
+                                if ($restaurant->feature == 0)
+                                    echo "None";
+                                else echo "Featured";
+                            ?>
+                        </td>                        
+                        <td>
+                            <?php
+                                if ($restaurant->feature == 0)
+                                {
+                                    echo "<a href='".base_url().ADMIN_ACTION_RESTAURANT_FEATURE."/".$restaurant->no."'>Set Feature</a>&nbsp;&nbsp;&nbsp;";
+                                }
+                                else
+                                {
+                                    echo "<a href='".base_url().ADMIN_ACTION_RESTAURANT_FEATURE."/".$restaurant->no."'>Set Non-Feature</a>&nbsp;&nbsp;&nbsp;";
+                                }                                
+                            ?>
+                            <a href='<?php echo base_url().ADMIN_ACTION_RESTAURANT_DELETE."/".$restaurant->no;?>'>Delete</a>&nbsp;&nbsp;&nbsp;
                         </td>
                     </tr>
                     <?php

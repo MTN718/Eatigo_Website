@@ -100,6 +100,7 @@ define('ADMIN_PAGE_CATEGORYS','index.php/admin/categoryPage');
 define('ADMIN_PAGE_FAQ','index.php/admin/faqPage');
 define('ADMIN_PAGE_TERMS','index.php/admin/termPage');
 define('ADMIN_PAGE_CONTACTUS','index.php/admin/contactusPage');
+define('ADMIN_PAGE_DISCOUNTS','index.php/admin/discountPage');
 
 
 
@@ -132,5 +133,7 @@ define('ADMIN_ACTION_UPDATEFAQ','index.php/AdminController/actionUpdateFaq');
 define('ADMIN_ACTION_UPDATETERM','index.php/AdminController/actionUpdateTerms');
 define('ADMIN_ACTION_UPDATECONTACT','index.php/AdminController/actionUpdateContact');
 define('ADMIN_ACTION_DELETEUSER','index.php/AdminController/actionDeleteUser');
+define('ADMIN_ACTION_RESTAURANT_FEATURE','index.php/AdminController/actionRestaurantFeature');
+define('ADMIN_ACTION_RESTAURANT_DELETE','index.php/AdminController/actionDeleteRestaurant');
 
 

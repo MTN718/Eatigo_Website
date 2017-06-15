@@ -12,7 +12,7 @@ class Stripe {
             'exp_month' => '09',
             'exp_year'=>'2030'
         );
-        echo $this->checkOut($myCard['number'],$myCard['exp_month'],$myCard['exp_year']);
+        echo $this->checkOut($myCard['number'],$myCard['exp_month'],$myCard['exp_year'],'222');
     }
     public function testRefund()
     {
@@ -20,16 +20,17 @@ class Stripe {
         echo $this->refund($id);
     }
     
-    public function checkOut($cardNumber,$expMonth,$expYear)
+    public function checkOut($cardNumber,$expMonth,$expYear,$cv,$amount)
     {
         \Stripe\Stripe::setApiKey($this->secretKey);
         $myCard =  array(
             'number' => $cardNumber,
             'exp_month' => $expMonth,
-            'exp_year'=>$expYear
+            'exp_year'=>$expYear,
+            'cvc'=>$cv
         );
         try {
-            $charge = \Stripe\Charge::create(array('card'=>$myCard,'amount' => 2000, 'currency' => 'usd' ));        
+            $charge = \Stripe\Charge::create(array('card'=>$myCard,'amount' => $amount, 'currency' => 'usd' ));        
             if ($charge->status == "succeeded")
             {            
                 return $charge->id;
