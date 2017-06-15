@@ -5,8 +5,8 @@
       </div>
       <div class="col-md-4 text-right" style="padding-right: 0px;">
         <div class="btn-group">
-            <a href="#" id="list" class="btn list-btn active btn-sm"><span class="fa fa-th-list">
-            </span> </a> <a href="<?php echo base_url();?>index.php/CustomerController/restaurants" id="grid" style="color:#706a68;" class="btn  grid-btn btn-sm"><span class="fa fa-th"></span> </a>
+          <a href="#" id="list" class="btn list-btn active btn-sm"><span class="fa fa-th-list">
+          </span> </a> <a href="<?php echo base_url();?>index.php/CustomerController/restaurants" id="grid" style="color:#706a68;" class="btn  grid-btn btn-sm"><span class="fa fa-th"></span> </a>
         </div>
       </div>
     </div>
@@ -124,642 +124,127 @@
       </div>
       <div class="col-md-9">
         <div class="row">
-           
-          <div class="col-md-12 vendor-box vendor-box-grid"><!-- venue box start-->
-            <div class="row">
-              <div class="col-md-6 no-right-pd">
-                <div class="vendor-image"><!-- venue pic --> 
-                  <a href="#"><img src="<?php echo base_url();?>images/pica.jpg" alt="wedding venue" class="img-responsive"></a> 
-                  <div class="favourite-bg"><a href="#" class=""><i class="fa fa-heart"></i></a></div>
+
+
+
+
+          <?php if (isset($restaurantlist) and $restaurantlist != NULL) {
+           foreach ($restaurantlist as $restaurant) { 
+            $resto_image = $this->db->get_where('tbl_image_restaurant', array('rid' => $restaurant->no))->row();
+            $discount = $this->db->get_where('tbl_map_discount_restaurant', array('rid' => $restaurant->no, 'status' => 1))->result();
+            $reservations = $this->db->get_where('tbl_reservation', array('rid' => $restaurant->no))->num_rows();
+            ?>
+            
+
+
+            <div class="col-md-12 vendor-box vendor-box-grid"><!-- venue box start-->
+
+              <div class="row">
+                <div class="col-md-6 no-right-pd">
+                  <div class="vendor-image"><!-- venue pic --> 
+                    <?php if(isset($resto_image) and $resto_image->image != NULL) { ?>
+                    <img  class="img-responsive" alt="Restaurant" src="<?php echo base_url();?><?php echo $resto_image->image; ?>">
+                    <?php } else { ?> 
+                    <img class="img-responsive" alt="Restaurant" src="http://placehold.it/600x300" >                         
+                    <?php } ?>
+                    <div class="favourite-bg"><a href="#" class=""><i class="fa fa-heart"></i></a></div>
+                  </div>
                 </div>
+                <!-- /.venue pic -->
+                <div class=" col-md-6 vendor-detail"><!-- venue details -->
+                  <div class="caption" style="padding: 18px;width: 430px;"><!-- caption -->
+                    <div class="box-detail">
+                      <div class="box-detail-name">
+                        <a href="restaurant/name/ten-yuu-grand-sathon/indexa672.html?date=2017-06-06&amp;time=15.30&amp;source=eatigo_recommended">
+                          <h2 class="font-weight-bold"><?php echo $restaurant->name; ?></h2></a>
+                        </div>
+                        <div class="restro-title-box-left">
+                          <div class="box-detail-cuisine normal-font">
+                            <?php echo $restaurant->address; ?>
+                          </div>
+                        </div>
+                        <div class="restro-title-box-right">
+                          <div class="box-detail-rating-gray">
+                            <div class="box-detail-rating-yellow_b" style="width:
+                            <?php $review = $restaurant->reviews; 
+                            if ($review == 1) echo "20%";
+                            if ($review == 2) echo "40%";
+                            if ($review == 3) echo "60%";
+                            if ($review == 4) echo "80%";
+                            if ($review == 5) echo "100%"; 
+                            ?> ;">                                   
+                          </div>
+                        </div>
+                        <div class="box-price-gray">
+                          <div class="box-detail-price-yellow_b" style="width:
+                          <?php $level = $restaurant->level; 
+                          if ($level == 1) echo "20%";
+                          if ($level == 2) echo "40%";
+                          if ($level == 3) echo "60%";
+                          if ($level == 4) echo "80%";
+                          if ($level == 5) echo "100%"; 
+                          ?> ;"> </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="device">
+                      <a class="arrow-left" id="arrow-left-2-8" href="javascript:doNothing();"></a>
+                      <a class="arrow-right" id="arrow-right-2-8"
+                      href="javascript:doNothing();"></a>
+                      <div class="swiper-container" id="timeslot-2-8" style="width:332px;">
+
+                        <div class="swiper-wrapper" <?php if( $discount == NULL) echo "style='color:red;margin-top:24px;'" ?> >
+                          <?php if(isset($discount) and $discount != NULL) {
+                            foreach ($discount as $disc) {                                             
+                              $disc_percent = $this->db->get_where('tbl_base_discount', array('no' => $disc->did))->row();
+                              ?>
+                              
+
+                              <a href="restaurant/name/ten-yuu-grand-sathon/index84e6.html?date=2017-06-06&amp;time=15.30"
+                              class="swiper-slide red-slide">
+                              <div class="home-slot-time normal-font font-weight-bold">
+                                <?php echo $disc->rtime; ?>
+                              </div>
+                              <div class="home-slot-discount">
+                                <h1 class="font-weight-bold">
+                                  <span>-</span><?php echo $disc_percent->percent; ?></h1>
+                                </div>
+                                <div class="home-slot-discount-pc">
+                                  %
+                                </div>
+                                <div class="home-slot-off">
+                                  off
+                                </div>
+                              </a>
+
+                              <?php } 
+                            } else { echo "No Discount Offer";}?>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- venue details --> 
+                
               </div>
-              <!-- /.venue pic -->
-              <div class=" col-md-6 vendor-detail"><!-- venue details -->
-                <div class="caption" style="padding: 18px;width: 430px;"><!-- caption -->
-                  <div class="box-detail">
-                                                    <div class="box-detail-name">
-                                                        <a href="restaurant/name/ten-yuu-grand-sathon/indexa672.html?date=2017-06-06&amp;time=15.30&amp;source=eatigo_recommended">
-                                                            <h2 class="font-weight-bold">Ten Yuu Grand @ Sathon Soi 6</h2></a>
-                                                        </div>
-                                                        <div class="restro-title-box-left">
-                                                            <div class="box-detail-cuisine normal-font">
-                                                                japanese
-                                                            </div>
-                                                            <div class="box-detail-cuisine normal-font">
-                                                                sathon
-                                                            </div>
-                                                        </div>
-                                                        <div class="restro-title-box-right">
-                                                            <div class="box-detail-rating-gray">
-                                                                <div class="box-detail-rating-yellow_b"
-                                                                style="width:92%;"></div>
-                                                            </div>
-                                                            <div class="box-price-gray">
-                                                                <div class="box-detail-price-yellow_b"
-                                                                style="width:100%;"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="device">
-                                                        <a class="arrow-left" id="arrow-left-2-8" href="javascript:doNothing();"></a>
-                                                        <a class="arrow-right" id="arrow-right-2-8"
-                                                        href="javascript:doNothing();"></a>
-                                                        <div class="swiper-container" id="timeslot-2-8" style="width:332px;">
-                                                            <div class="swiper-wrapper">
-                                                                <script>
-                                                                    var pp = 0;
-                                                                </script>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index84e6.html?date=2017-06-06&amp;time=15.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    15:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>50</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <script>
-                                                                    var pp = '0';
-                                                                </script>
-                                                                
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/indexc3e9.html?date=2017-06-06&amp;time=19.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    19:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>10</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index6be3.html?date=2017-06-06&amp;time=21.00"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    21:00
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>20</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index9479.html?date=2017-06-06&amp;time=21.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    21:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>30</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                </div>
-              </div>
+              <?php } 
+            } ?>
+            
+
+            <div class="col-md-12 tp-pagination">
+              <ul class="pagination">
+                <li> <a href="#" aria-label="Previous"> <span aria-hidden="true">Previous</span> </a> </li>
+                <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li> <a href="#" aria-label="Next"> <span aria-hidden="true">NEXT</span> </a> </li>
+              </ul>
             </div>
-            
-            <!-- venue details --> 
-            
-          </div>
-          <!-- /.venue box start-->
-          <div class="col-md-12 vendor-box vendor-box-grid"><!-- venue box start-->
-            <div class="row">
-              <div class="col-md-6 no-right-pd">
-                <div class="  vendor-image"><!-- venue pic --> 
-                  <a href="#"><img src="<?php echo base_url();?>images/vendor-2.jpg" alt="wedding venue" class="img-responsive"></a> 
-                  <div class="favourite-bg"><a href="#" class=""><i class="fa fa-heart"></i></a></div>
-                </div>
-              </div>
-              <!-- /.venue pic -->
-              <div class=" col-md-6 vendor-detail"><!-- venue details -->
-                <div class="caption" style="padding: 18px;width: 430px;"><!-- caption -->
-                  <div class="box-detail">
-                                                    <div class="box-detail-name">
-                                                        <a href="restaurant/name/ten-yuu-grand-sathon/indexa672.html?date=2017-06-06&amp;time=15.30&amp;source=eatigo_recommended">
-                                                            <h2 class="font-weight-bold">Ten Yuu Grand @ Sathon Soi 6</h2></a>
-                                                        </div>
-                                                        <div class="restro-title-box-left">
-                                                            <div class="box-detail-cuisine normal-font">
-                                                                japanese
-                                                            </div>
-                                                            <div class="box-detail-cuisine normal-font">
-                                                                sathon
-                                                            </div>
-                                                        </div>
-                                                        <div class="restro-title-box-right">
-                                                            <div class="box-detail-rating-gray">
-                                                                <div class="box-detail-rating-yellow_b"
-                                                                style="width:92%;"></div>
-                                                            </div>
-                                                            <div class="box-price-gray">
-                                                                <div class="box-detail-price-yellow_b"
-                                                                style="width:100%;"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="device">
-                                                        <a class="arrow-left" id="arrow-left-2-8" href="javascript:doNothing();"></a>
-                                                        <a class="arrow-right" id="arrow-right-2-8"
-                                                        href="javascript:doNothing();"></a>
-                                                        <div class="swiper-container" id="timeslot-2-8" style="width:332px;">
-                                                            <div class="swiper-wrapper">
-                                                                <script>
-                                                                    var pp = 0;
-                                                                </script>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index84e6.html?date=2017-06-06&amp;time=15.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    15:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>50</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <script>
-                                                                    var pp = '0';
-                                                                </script>
-                                                                
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/indexc3e9.html?date=2017-06-06&amp;time=19.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    19:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>10</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index6be3.html?date=2017-06-06&amp;time=21.00"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    21:00
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>20</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index9479.html?date=2017-06-06&amp;time=21.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    21:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>30</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- venue details --> 
-            
-          </div>
-          <!-- /.venue box start-->
-          <div class="col-md-12 vendor-box vendor-box-grid"><!-- venue box start-->
-            <div class="row">
-              <div class="col-md-6 no-right-pd">
-                <div class="  vendor-image"><!-- venue pic --> 
-                  <a href="#"><img src="<?php echo base_url();?>images/vendor-6.jpg" alt="wedding venue" class="img-responsive"></a>
-                  <div class="favourite-bg"><a href="#" class=""><i class="fa fa-heart"></i></a></div>
-                </div>
-              </div>
-              <!-- /.venue pic -->
-              <div class=" col-md-6 vendor-detail"><!-- venue details -->
-                <div class="caption" style="padding: 18px;width: 430px;"><!-- caption -->
-                  <div class="box-detail">
-                                                    <div class="box-detail-name">
-                                                        <a href="restaurant/name/ten-yuu-grand-sathon/indexa672.html?date=2017-06-06&amp;time=15.30&amp;source=eatigo_recommended">
-                                                            <h2 class="font-weight-bold">Ten Yuu Grand @ Sathon Soi 6</h2></a>
-                                                        </div>
-                                                        <div class="restro-title-box-left">
-                                                            <div class="box-detail-cuisine normal-font">
-                                                                japanese
-                                                            </div>
-                                                            <div class="box-detail-cuisine normal-font">
-                                                                sathon
-                                                            </div>
-                                                        </div>
-                                                        <div class="restro-title-box-right">
-                                                            <div class="box-detail-rating-gray">
-                                                                <div class="box-detail-rating-yellow_b"
-                                                                style="width:92%;"></div>
-                                                            </div>
-                                                            <div class="box-price-gray">
-                                                                <div class="box-detail-price-yellow_b"
-                                                                style="width:100%;"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="device">
-                                                        <a class="arrow-left" id="arrow-left-2-8" href="javascript:doNothing();"></a>
-                                                        <a class="arrow-right" id="arrow-right-2-8"
-                                                        href="javascript:doNothing();"></a>
-                                                        <div class="swiper-container" id="timeslot-2-8" style="width:332px;">
-                                                            <div class="swiper-wrapper">
-                                                                <script>
-                                                                    var pp = 0;
-                                                                </script>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index84e6.html?date=2017-06-06&amp;time=15.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    15:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>50</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <script>
-                                                                    var pp = '0';
-                                                                </script>
-                                                                
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/indexc3e9.html?date=2017-06-06&amp;time=19.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    19:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>10</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index6be3.html?date=2017-06-06&amp;time=21.00"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    21:00
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>20</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index9479.html?date=2017-06-06&amp;time=21.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    21:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>30</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- venue details --> 
-            
-          </div>
-          <!-- /.venue box start-->
-          <div class="col-md-12 vendor-box vendor-box-grid"><!-- venue box start-->
-            <div class="row">
-              <div class="col-md-6 no-right-pd">
-                <div class="  vendor-image"><!-- venue pic --> 
-                  <a href="#"><img src="<?php echo base_url();?>images/vendor-3.jpg" alt="wedding venue" class="img-responsive"></a>
-                  <div class="favourite-bg"><a href="#" class=""><i class="fa fa-heart"></i></a></div>
-                </div>
-              </div>
-              <!-- /.venue pic -->
-              <div class=" col-md-6 vendor-detail"><!-- venue details -->
-                <div class="caption" style="padding: 18px;width: 430px;"><!-- caption -->
-                  <div class="box-detail">
-                                                    <div class="box-detail-name">
-                                                        <a href="restaurant/name/ten-yuu-grand-sathon/indexa672.html?date=2017-06-06&amp;time=15.30&amp;source=eatigo_recommended">
-                                                            <h2 class="font-weight-bold">Ten Yuu Grand @ Sathon Soi 6</h2></a>
-                                                        </div>
-                                                        <div class="restro-title-box-left">
-                                                            <div class="box-detail-cuisine normal-font">
-                                                                japanese
-                                                            </div>
-                                                            <div class="box-detail-cuisine normal-font">
-                                                                sathon
-                                                            </div>
-                                                        </div>
-                                                        <div class="restro-title-box-right">
-                                                            <div class="box-detail-rating-gray">
-                                                                <div class="box-detail-rating-yellow_b"
-                                                                style="width:92%;"></div>
-                                                            </div>
-                                                            <div class="box-price-gray">
-                                                                <div class="box-detail-price-yellow_b"
-                                                                style="width:100%;"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="device">
-                                                        <a class="arrow-left" id="arrow-left-2-8" href="javascript:doNothing();"></a>
-                                                        <a class="arrow-right" id="arrow-right-2-8"
-                                                        href="javascript:doNothing();"></a>
-                                                        <div class="swiper-container" id="timeslot-2-8" style="width:332px;">
-                                                            <div class="swiper-wrapper">
-                                                                <script>
-                                                                    var pp = 0;
-                                                                </script>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index84e6.html?date=2017-06-06&amp;time=15.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    15:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>50</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <script>
-                                                                    var pp = '0';
-                                                                </script>
-                                                                
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/indexc3e9.html?date=2017-06-06&amp;time=19.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    19:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>10</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index6be3.html?date=2017-06-06&amp;time=21.00"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    21:00
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>20</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index9479.html?date=2017-06-06&amp;time=21.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    21:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>30</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- venue details --> 
-            
-         </div>
-          <!-- /.venue box start--> 
-          <!-- /.venue box start-->
-          <div class="col-md-12 vendor-box vendor-box-grid"><!-- venue box start-->
-            <div class="row">
-              <div class="col-md-6 no-right-pd">
-                <div class="  vendor-image"><!-- venue pic --> 
-                  <a href="#"><img src="<?php echo base_url();?>images/vendor-5.jpg" alt="wedding venue" class="img-responsive"></a>
-                  <div class="favourite-bg"><a href="#" class=""><i class="fa fa-heart"></i></a></div>
-                </div>
-              </div>
-              <!-- /.venue pic -->
-              <div class=" col-md-6 vendor-detail"><!-- venue details -->
-                <div class="caption" style="padding: 18px;width: 430px;"><!-- caption -->
-                  <div class="box-detail">
-                                                    <div class="box-detail-name">
-                                                        <a href="restaurant/name/ten-yuu-grand-sathon/indexa672.html?date=2017-06-06&amp;time=15.30&amp;source=eatigo_recommended">
-                                                            <h2 class="font-weight-bold">Ten Yuu Grand @ Sathon Soi 6</h2></a>
-                                                        </div>
-                                                        <div class="restro-title-box-left">
-                                                            <div class="box-detail-cuisine normal-font">
-                                                                japanese
-                                                            </div>
-                                                            <div class="box-detail-cuisine normal-font">
-                                                                sathon
-                                                            </div>
-                                                        </div>
-                                                        <div class="restro-title-box-right">
-                                                            <div class="box-detail-rating-gray">
-                                                                <div class="box-detail-rating-yellow_b"
-                                                                style="width:92%;"></div>
-                                                            </div>
-                                                            <div class="box-price-gray">
-                                                                <div class="box-detail-price-yellow_b"
-                                                                style="width:100%;"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="device">
-                                                        <a class="arrow-left" id="arrow-left-2-8" href="javascript:doNothing();"></a>
-                                                        <a class="arrow-right" id="arrow-right-2-8"
-                                                        href="javascript:doNothing();"></a>
-                                                        <div class="swiper-container" id="timeslot-2-8" style="width:332px;">
-                                                            <div class="swiper-wrapper">
-                                                                <script>
-                                                                    var pp = 0;
-                                                                </script>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index84e6.html?date=2017-06-06&amp;time=15.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    15:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>50</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <script>
-                                                                    var pp = '0';
-                                                                </script>
-                                                                
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/indexc3e9.html?date=2017-06-06&amp;time=19.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    19:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>10</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index6be3.html?date=2017-06-06&amp;time=21.00"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    21:00
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>20</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                <a href="restaurant/name/ten-yuu-grand-sathon/index9479.html?date=2017-06-06&amp;time=21.30"
-                                                                class="swiper-slide red-slide">
-                                                                <div class="home-slot-time normal-font font-weight-bold">
-                                                                    21:30
-                                                                </div>
-                                                                <div class="home-slot-discount">
-                                                                    <h1 class="font-weight-bold">
-                                                                        <span>-</span>30</h1>
-                                                                    </div>
-                                                                    <div class="home-slot-discount-pc">
-                                                                        %
-                                                                    </div>
-                                                                    <div class="home-slot-off">
-                                                                        off
-                                                                    </div>
-                                                                </a>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- venue details --> 
-            
-          </div>
-          <!-- /.venue box start-->
-          
-          <div class="col-md-12 tp-pagination">
-            <ul class="pagination">
-              <li> <a href="#" aria-label="Previous"> <span aria-hidden="true">Previous</span> </a> </li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li> <a href="#" aria-label="Next"> <span aria-hidden="true">NEXT</span> </a> </li>
-            </ul>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>

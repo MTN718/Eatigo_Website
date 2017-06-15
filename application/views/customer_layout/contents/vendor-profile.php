@@ -16,13 +16,17 @@
       <div class="col-md-4  vendor-profile-block">
         <div class="vendor-profile"> 
 
-        <form action="<?php echo base_url();?>index.php/VendorController/update_picture" method="post" enctype="multipart/form-data">
+        <form class="text-center" action="<?php echo base_url();?>index.php/VendorController/update_picture" method="post" enctype="multipart/form-data">
 
           <div class="fileinput fileinput-new text-center" data-provides="fileinput">
-            <div class="fileinput-new thumbnail" style="width: 317px; height: 236px;" data-trigger="fileinput">
-              <img src="<?php echo base_url();?><?php echo $vendor->image; ?>" alt="" width="317">
+            <div class="fileinput-new thumbnail" style="width: 317px; height: 236px; border:none;" data-trigger="fileinput">
+              <?php if(isset($vendor) and $vendor->image != "") { ?>
+              <img src="<?php echo base_url();?><?php echo $vendor->image; ?>" alt="">
+              <?php } else { ?> 
+              <img src="http://placehold.it/300x250" alt="">                           
+              <?php } ?>
             </div>
-            <div class="fileinput-preview fileinput-exists thumbnail" style="width: 317px; height: 236px;"></div>
+            <div class="fileinput-preview fileinput-exists thumbnail" style="height: 236px; border:none;"></div>
             <div>
               <span class="btn tp-btn-default btn-file">
                 <span class="fileinput-new">Change image</span>
@@ -48,31 +52,19 @@
      <p class="location"><i class="fa fa-phone"></i><?php echo $vendor->mobile; ?></p>
      <hr>        
    </div>
-   <div class="col-md-4 venue-data">
+   <div class="col-md-8 venue-data">
     <div class="venue-info"><!-- venue-info-->
       <div class="capacity">
-        <div>No of Restaurant:</div>
+        <div>Restaurants :</div>
         <span class="cap-people"> <?php echo $resto_no ?> </span> </div>
         <div class="pricebox">
           <div>Booking Todays</div>
-          <span class="price">$39.50</span></div>
+          <span class="price">0</span></div>
         </div>
         <hr style="margin-top: 34px;">
       </div>
 
-      <div class="col-md-4">
-        <div class="social-sidebar side-box" style="padding: 23px;">
-          <ul class="listnone follow-icon">
-            <li><a href="#"><i class="fa fa-facebook-square findhover2" style="color: #000;"></i></a></li>
-            <li><a href="#"><i class="fa fa-google-plus-square findhover2" style="color: #000;"></i></a></li>
-            <li><a href="#"><i class="fa fa-instagram findhover2" style="color: #000;"></i></a></li>
-            <li><a href="#"><i class="fa fa-flickr findhover2" style="color: #000;"></i></a></li>
-            <li><a href="#"><i class="fa fa-youtube-square findhover2" style="color: #000;"></i></a></li>
-            <li><a href="#"><i class="fa fa-twitter-square findhover2" style="color: #000;"></i></a></li>
-          </ul>
-        </div>
-        <hr style="margin-top: 35px;">
-      </div>
+     
 
     </div>
     <div class="row">
@@ -88,28 +80,29 @@
         <!-- Tab panes -->
         <div class="tab-content"><!-- tab content start-->
           <div role="tabpanel" class="tab-pane fade <?php if( $active == 1) echo "in active"; ?>" id="Restaurant">
-            <table class="table table-hover table-condensed" id="example3">
+            <table class="table table-hover table-condensed" id="example">
               <thead>
                 <tr>
-                  <th>S. no.</th>
+                  <th>No</th>
                   <th>Name</th>
                   <th style="width:250px;">Start Time / End Time</th>
-                  <th>Today Bookings</th>
+                  <th>Category</th>
                   <th>Level</th>
                   <th>Rating</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody class="timediscount">
-
+              <?php if(isset($restaurantlist) and $restaurantlist != NULL) { ?>
                 <?php $counter = 0;
-                foreach ($restaurantlist as $restaurant) 
-                  { ?>
+                foreach ($restaurantlist as $restaurant) { 
+                  $category = $this->db->get_where('tbl_category', array('no' => $restaurant->category))->row();
+                ?>
                 <tr class="odd gradeX">
                   <td><?php echo ++$counter; ?></td>
-                  <td><a style="color:#e41d27;" href=""><?php echo $restaurant->name;?></a></td>
+                  <td><a style="color:#e41d27;" href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $restaurant->no; ?>"><?php echo $restaurant->name;?></a></td>
                   <td><i class="fa fa-clock-o"></i> <?php echo $restaurant->start_time;?> / <?php echo $restaurant->end_time;?></td>
-                  <td>0</td>
+                  <td><?php echo $category->name;?></td>
                   <td style="width: 120px;">
                     <?php $level = $restaurant->level; 
 
@@ -189,55 +182,31 @@
                           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Active</a></li>
                           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Deactive</a></li>
                           <li role="presentation" class="divider"></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo base_url();?>index.php/VendorController/delete_restaurant/<?php echo $restaurant->no;?>">Delete</a></li>       
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo base_url();?>index.php/VendorController/delete_restaurant/<?php echo $restaurant->no;?>"  onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></li>       
                         </ul>
                       </div>
                     </td>
                   </tr>
                   <?php } ?>
-
+                  <?php } else { } ?>
                 </tbody>
               </table>              
-              <a href="#add_restaurant" title="add_restaurant" aria-controls="add_restaurant" role="tab" data-toggle="tab" class="btn tp-btn-primary btn-lg">Add Restaurant</a>
+              <a href="<?php echo base_url();?>index.php/VendorController/add_restaurant_page" title="Restaurant" class="btn tp-btn-primary btn-lg">Add Restaurant</a>
+                    
             </div>
             <div role="tabpanel" class="tab-pane fade <?php if( $active == 'update_restaurant') echo "in active"; ?>" id="add_restaurant">
+              <div class="row no-padding">
               <?php if(isset($selected_restaurant)) { ?>
-              <form action="<?php echo base_url();?>index.php/VendorController/update_restaurant/<?php echo $selected_restaurant->no;?>" method="post">
+              <form action="<?php echo base_url();?>index.php/VendorController/update_restaurant/<?php echo $selected_restaurant->no;?>" method="post" enctype="multipart/form-data">
                 <?php } else { ?>                            
-                <form action="<?php echo base_url();?>index.php/VendorController/add_restaurant" method="post">
+                <form action="<?php echo base_url();?>index.php/VendorController/add_restaurant" method="post" enctype="multipart/form-data">
                   <?php } ?>
-                  <!-- Rating -->
-                  <div class="form-group col-md-6 no-padding">
-                    <label class=" control-label" for="reviewtitle">Rating<span class="required">*</span></label>
-                    <div class="rating-group">
-                      <div class="radio radio-success radio-inline">
-                        <input type="radio" name="radio1" id="radio1" value="1" <?php if(isset($selected_restaurant)) { if ($selected_restaurant->reviews == 1) echo "checked"; }?>>
-                        <label for="radio1" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i></span> </label>
-                      </div>
-                      <div class="radio radio-success radio-inline">
-                        <input type="radio" name="radio1" id="radio2" value="2" <?php if(isset($selected_restaurant)) { if ($selected_restaurant->reviews == 2) echo "checked"; }?>>
-                        <label for="radio2" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i></span> </label>
-                      </div>
-                      <div class="radio radio-success radio-inline">
-                        <input type="radio" name="radio1" id="radio3" value="3" <?php if(isset($selected_restaurant)) { if ($selected_restaurant->reviews == 3) echo "checked"; }?>>
-                        <label for="radio3" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> </label>
-                      </div>
-                      <div class="radio radio-success radio-inline">
-                        <input type="radio" name="radio1" id="radio4" value="4" <?php if(isset($selected_restaurant)) { if ($selected_restaurant->reviews == 4) echo "checked"; }?>>
-                        <label for="radio4" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> </label>
-                      </div>
-                      <div class="radio radio-success radio-inline">
-                        <input type="radio" name="radio1" id="radio5" value="5" <?php if(isset($selected_restaurant)) { if ($selected_restaurant->reviews == 5) echo "checked"; }?>>
-                        <label for="radio5" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> </label>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- level -->
-                  <div class="form-group col-md-6 no-padding">
+                  <!-- level -->                  
+                  <div class="form-group col-md-12 no-padding">
                     <label class=" control-label" for="reviewtitle">Level<span class="required">*</span></label>
                     <div class="rating-group">
                       <div class="radio radio-success radio-inline">
-                        <input type="radio" name="radio2" id="radio21" value="1" <?php if(isset($selected_restaurant)) { if ($selected_restaurant->level == 1) echo "checked"; }?>>
+                        <input type="radio" name="radio2" id="radio21" value="1" checked <?php if(isset($selected_restaurant)) { if ($selected_restaurant->level == 1) echo "checked"; }?>>
                         <label for="radio21" class="radio-inline"> <span class="rating"><i class="fa fa-usd"></i></span> </label>
                       </div>
                       <div class="radio radio-success radio-inline">
@@ -301,6 +270,25 @@
                     <div class="form-group col-md-6 no-padding">
                       <!-- Text input-->
                       <div class="form-group" style="padding-left: 15px;">
+                        <label class="control-label" for="categ">Category</label>
+                          <select id="categ" name="categ" class="form-control" required="required">                   
+
+                            <?php if(isset($selected_category)) { ?>
+                            <option value="<?php echo $selected_category->category; ?>"><?php echo $selected_category->name; ?></option>
+                            <option value="<?php echo $selected_category->category; ?>">----------------------</option>
+                            <?php } else { ?>                            
+                            <option value="">Select Category</option>
+                            <?php } ?>
+
+                            <?php foreach ($categorytlist as $category) { ?>
+                            <option value="<?php echo $category->no; ?>">
+                              <?php echo $category->name; ?>
+                            </option>                            
+                            <?php }?>
+                          </select>
+                      </div>
+
+                      <div class="form-group" style="padding-left: 15px;">
                         <label class=" control-label" for="reviewtitle">Address<span class="required">*</span></label>
                         <div class="">
                           <?php if(isset($selected_restaurant)) { ?>
@@ -337,9 +325,9 @@
                         <label class=" control-label">Description</label>
                         <div class="">
                           <?php if(isset($selected_restaurant)) { ?>
-                          <textarea class="form-control" name="description" rows="8" placeholder="Description"><?php echo $selected_restaurant->about; ?></textarea>
+                          <textarea class="form-control" name="description" rows="4" placeholder="Description"><?php echo $selected_restaurant->about; ?></textarea>
                           <?php } else { ?>                            
-                          <textarea class="form-control" name="description" rows="8" placeholder="Description"></textarea>
+                          <textarea class="form-control" name="description" rows="4" placeholder="Description"></textarea>
                           <?php } ?>
                         </div>
                       </div>  
@@ -348,31 +336,48 @@
                       <label class=" control-label" for="reviewtitle">Location</label> 
                       <div id="map"></div>
                     </div>
-                  </div> 
-                  <div class="form-group col-md-12 no-padding">
-                    <div class="coupon-info">
-                      <p style="float: right;" >Add Discount coupon? <a href="#"> </a> <a role="button" data-toggle="collapse" href="#applycoupon" aria-expanded="false" aria-controls="applycoupon" class="findhover1" style="color:#8E203E;"> Click here to enter Discount code </a> </p>
-                    </div>
-                    <div class="collapse" id="applycoupon">
-                      <div class="form-group col-md-6 no-padding">
-                        <label for="coupon" class="control-label sr-only">Name</label>
-                        <input type="text" class="form-control" name="coupon" id="coupon" placeholder="Coupon Code">
-                      </div>
-                    </div>
-                  </div>  
-                  <!-- Button -->
-                  <div class="form-group">
-                    <button name="submit" class="btn tp-btn-primary btn-lg">Submit</button>                              
-                    <a href="#Restaurant" title="Restaurant" aria-controls="Restaurant" role="tab" data-toggle="tab" class="btn tp-btn-default btn-lg" style="background:black;">Back</a>
                   </div>
+                  <!-- Button -->
+                  <div class="form-group" style="position: absolute;margin-top: 180px;">
+                    <?php if(isset($selected_restaurant)) { ?>
+                      <button name="submit" class="btn tp-btn-primary btn-lg">Update</button>                              
+                      <a href="<?php echo base_url();?>index.php/VendorController/index/1" title="Restaurant" class="btn tp-btn-default btn-lg" style="background:black;">Back</a>
+                    <?php } else { ?>
+                      <button name="submit" class="btn tp-btn-primary btn-lg">Submit</button>                              
+                      <a href="#Restaurant" title="Restaurant" aria-controls="Restaurant" role="tab" data-toggle="tab" class="btn tp-btn-default btn-lg" style="background:black;">Back</a>
+                    <?php } ?>
+                  </div>
+
                 </form>
 
-              </div>                        
+                <div class="image_upload_div" style="margin-bottom: 50px;">
+                  <form action="<?php echo base_url()?>index.php/VendorController/upload_resto_image/" class="dropzone">
+                    <div class="dz-message">
+                      Drop files here or click to upload.<br>
+                      <span class="note">(Upload Restaurant Image Here.)</span>
+                    </div>
+                  </form>
+                </div>
+
+                <?php if(isset($selected_restaurant)) { 
+                    foreach($selected_image as $img)
+                    { ?>                      
+                        <div style="float: left; margin-top: 30px; margin-right: 30px; ">
+                          <a href="javascript:void(0);" class="file_delete" data-id="<?php echo $img->no ?>"><i class="fa fa-times" aria-hidden="true" style="position: absolute;color: #e51d27;margin-top: 10px;margin-left: 10px;z-index: 999;"></i></a>
+                          <img data-dz-thumbnail=""  src="<?php echo base_url(); ?><?php echo $img->image; ?>" style="border-radius: 20px;width: 120px;height: 120px;border:1px solid;position: relative;display: block;z-index: 10;">
+                        </div>
+                    <?php }
+                  } ?> 
+
+                </div>
+              </div>
+
+
               <div role="tabpanel" class="tab-pane fade <?php if( $active == 2) echo "in active"; ?>" id="Discount">
                 <table class="table table-hover table-condensed" id="example4">
                   <thead>
                     <tr>
-                      <th>S. no.</th>
+                      <th>No</th>
                       <th>Restaurant Name</th>
                       <th>Discount Time / Discount Persent</th>
                       <th>No. of People</th>
@@ -411,7 +416,7 @@
                               <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                                 <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/view_discount/<?php echo $data->no;?>">Update</a></li>
                                 <li role="presentation" class="divider"></li>
-                                <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/delete_discount/<?php echo $data->no;?>">Delete</a></li>    
+                                <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/delete_discount/<?php echo $data->no;?>"  onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></li>       
                               </ul>
                             </div>
                           </td>
@@ -499,8 +504,13 @@
                           </div>   
                           <!-- Button -->
                           <div class="form-group">
-                            <button name="submit" class="btn tp-btn-primary btn-lg">Submit</button>                              
-                            <a href="#Discount" title="Discount" aria-controls="Discount" role="tab" data-toggle="tab" class="btn tp-btn-default btn-lg" style="background:black;">Back</a>
+                            <?php if(isset($selected_discount)) { ?>
+                              <button name="submit" class="btn tp-btn-primary btn-lg">Update</button>                              
+                              <a href="<?php echo base_url();?>index.php/VendorController/index/2" title="Restaurant" class="btn tp-btn-default btn-lg" style="background:black;">Back</a>
+                            <?php } else { ?>
+                              <button name="submit" class="btn tp-btn-primary btn-lg">Submit</button>                              
+                              <a href="#Restaurant" title="Restaurant" aria-controls="Restaurant" role="tab" data-toggle="tab" class="btn tp-btn-default btn-lg" style="background:black;">Back</a>
+                            <?php } ?>
                           </div>
                         </form>
                       </div>
@@ -689,3 +699,23 @@
 
                   </div>
                 </div>
+
+
+<script>
+  $(".file_delete").click(function(){
+    var id=$(this).data("id");
+
+    $.ajax({
+      url : "<?php echo base_url(); ?>index.php/VendorController/delete_image/"+id, 
+      success:function(data)
+      {
+        var response = JSON.parse(data);
+        if(response.status == 'done')
+        {
+          location.reload(true);
+        }
+      }
+    });
+    
+  });
+</script>

@@ -85,10 +85,16 @@ class WebserviceController extends BaseController {
             $sqlIn = $sqlIn . $category->no . ",";
         }
         $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
+<<<<<<< HEAD
         $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.category in (" . $sqlIn . ") order by A.avgrate desc limit 0,50";
         $result = array();
         $reservations = $this->sqllibs->rawSelectSql($this->db, $sqlIn);
         $result['restaurants'] = $reservations;
+=======
+        $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.category in (".$sqlIn.") order by A.avgrate desc limit 0,50";
+        $result = array();
+        $result['restaurants'] = $this->sqllibs->rawSelectSql($this->db,$sqlIn);
+>>>>>>> origin/master
         $result['result'] = 200;
         echo json_encode($result);
     }
@@ -118,7 +124,7 @@ class WebserviceController extends BaseController {
                 "password" => $postVars['password']
             ));
             $result['result'] = 200;
-            echo json_encode($result);
+            echo json_encode( );
             return;
         }
         $result['result'] = 400;
@@ -132,6 +138,7 @@ class WebserviceController extends BaseController {
         $cardInfos = array();
         for ($i = 0; $i < count($cards); $i++) {
             $cardNumber = $cards[$i]->cardnumber;
+<<<<<<< HEAD
             $cardInfo = array();
             if (strlen($cardNumber) > 4) {
                 $cardNumber = substr($cardNumber, 0, 4);
@@ -139,8 +146,14 @@ class WebserviceController extends BaseController {
 
                 $cardInfo['no'] = $cards[$i]->no;
                 $cardInfo['number'] = $cardNumber;
+=======
+            if (strlen($cardNumber) > 4)
+            {
+                $cardNumber = substr($cardNumber,0,4);
+                $cardNumber = $cardNumber." **** **** ****";
+>>>>>>> origin/master
             }
-            $cardInfos[$i] = $cardInfo;
+            $cardInfos[$i] = $cardNumber;
         }
         $result['cards'] = $cardInfos;
         $result['result'] = 200;
@@ -234,6 +247,7 @@ class WebserviceController extends BaseController {
         $result['result'] = 200;
         echo json_encode($result);
     }
+<<<<<<< HEAD
 
     function generateRestaurantArray($restaurants) {
         $rstArray = array();
@@ -248,6 +262,27 @@ class WebserviceController extends BaseController {
             );
 
             $rstExtend = (object) array_merge((array) $rstExtend, array('rs_discounts' => $discounts));
+=======
+    //Incomplete
+    function generateRestaurantArray($restaurants)
+    {
+        $rstArray = array();
+        $index = 0;
+        foreach($restaurants as $rst)
+        {
+            $image = $this->sqllibs->getOneRow($this->db, 'tbl_image_restaurant', array(
+            "rid" => $rst->no
+            ));
+            $rstExtend = (object) array_merge((array)$rst, array('rs_image' =>""));
+            if ($image != null)
+                $rstExtend->rs_image = $image->image;
+            $discounts = $this->sqllibs->selectJoinTables($this->db, array('tbl_map_discount_restaurant','tbl_base_discount')
+                ,array('did','no')
+                ,array('rid'    =>  $rst->no)
+                );
+
+            $rstExtend = (object) array_merge((array)$rstExtend, array('rs_discounts' =>$discounts));
+>>>>>>> origin/master
             $rstArray[$index] = $rstExtend;
             $index++;
         }
@@ -269,6 +304,7 @@ class WebserviceController extends BaseController {
         $result['result'] = 200;
         echo json_encode($result);
     }
+<<<<<<< HEAD
 
     function loadNew10Restaurant() {
         $postVars = $this->utils->inflatePost(array('cid'));
@@ -289,6 +325,12 @@ class WebserviceController extends BaseController {
     function loadRestaurants() {
         $postVars = $this->utils->inflatePost(array('cid', 'page'));
         $categorys = $this->sqllibs->selectAllRows($this->db, 'tbl_category', array("cid" => $postVars['cid']));
+=======
+    function loadRestaurants()
+    {
+        $postVars = $this->utils->inflatePost(array('cid','page'));
+        $categorys = $this->sqllibs->selectAllRows($this->db, 'tbl_category',array( "cid" =>  $postVars['cid']));
+>>>>>>> origin/master
         $sqlIn = "";
         foreach ($categorys as $category) {
             $sqlIn = $sqlIn . $category->no . ",";
@@ -311,6 +353,7 @@ class WebserviceController extends BaseController {
     }
 
     
+<<<<<<< HEAD
 
     function updateProfile() {
         $postVars = $this->utils->inflatePost(array('uid', 'name', 'email', 'phone', 'password'));
@@ -498,4 +541,17 @@ class WebserviceController extends BaseController {
         $this->stripe->testRefund();
     }
 
+=======
+    function loadDetailBook()
+    {
+        
+    }
+    
+    function submitReportReservation()
+    {
+        
+    }
+    
+    
+>>>>>>> origin/master
 }

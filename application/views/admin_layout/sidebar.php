@@ -32,6 +32,7 @@
             <a href="<?php echo base_url() . ADMIN_PAGE_RESTAURANTS; ?>">
                 <i class="fa fa-spoon"></i> <span>Restaurant Management</span>            
             </a>
+<<<<<<< HEAD
             </li> 
             
             <?php
@@ -98,6 +99,9 @@
             </a>
             </li>
             
+=======
+            </li>             
+>>>>>>> origin/master
             <li class='active treeview'>
                 <a href="#">
                     <i class="fa fa-database"></i> <span>Base Data Management</span> <i class="fa fa-angle-right pull-right"></i>

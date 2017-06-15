@@ -13,7 +13,6 @@ class BaseController extends CI_Controller {
         $this->load->library('session');
         $this->load->library('utils');
         $this->load->library('sqllibs');
-        $this->load->library('stripe');
     }
     public function connectDB() {
         $this->database = $this->load->database();

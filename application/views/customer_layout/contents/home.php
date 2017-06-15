@@ -84,19 +84,21 @@
             <div class="portfolio-grid clearfix" id="portfolioList">
                 <?php foreach ($categorylist as $category) { ?>
                     <div class="mix Categories">
+                        <a href="#">
                         <div class="home-group-img location-block"><!-- location block -->
                             <div class="home-group-img lazy vendor-image">
-                                <a href="#"><img src="<?php echo base_url();?><?php echo $category->image; ?>" alt="" class="img-responsive"></a> 
+                                <img src="<?php echo base_url();?><?php echo $category->image; ?>" alt="" class="img-responsive">
                             </div>
                             <div class="group-resto-name">
                                 <div class="name-txt">
                                     <h2 style="color: white;margin: 0px;"><?php echo $category->name; ?></h2>
                                 </div>
                                 <div class="total-txt small-font" style="color: white;">
-                                   <?php echo $category->feature; ?>
+                                    <?php echo $no_restaurant = $this->db->get_where('tbl_restaurant', array('category' => $category->no))->num_rows(); ?> Restaurants
                                 </div>
                             </div>
                         </div>
+                        </a>
                     </div>
                 <?php } ?> 
             </div>
@@ -104,28 +106,36 @@
 
         <div role="tabpanel" class="tab-pane fade" id="featuredproduct">
             <div class="portfolio-grid clearfix" id="portfolioList">
-                <?php foreach ($restaurantlist as $restaurant) { ?>
+
+
+                <?php if (isset($restaurantlist) and $restaurantlist != NULL) {
+                 foreach ($restaurantlist as $restaurant) { 
+                    $resto_image = $this->db->get_where('tbl_image_restaurant', array('rid' => $restaurant->no))->row();
+                    $discount = $this->db->get_where('tbl_map_discount_restaurant', array('rid' => $restaurant->no, 'status' => 1))->result();
+                    $reservations = $this->db->get_where('tbl_reservation', array('rid' => $restaurant->no))->num_rows();
+                ?>
                     <div class="mix Restaurants" title="Client Name">
+                        <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $restaurant->no; ?>">
                         <div class="home-recom-wrap">
                             <div class="vendor-image">
-                                <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails"><img class="recom-box-img lazy" alt="" src="<?php echo base_url();?>images/pica.jpg" /></a>
+                                <?php if(isset($resto_image) and $resto_image->image != NULL) { ?>
+                                    <img  class="recom-box-img lazy" alt="" src="<?php echo base_url();?><?php echo $resto_image->image; ?>" alt="">
+                                <?php } else { ?> 
+                                    <img class="recom-box-img lazy" alt="" src="http://placehold.it/300x250" />                         
+                                <?php } ?>
                                 <div class="favourite-bg" style="background: rgba(0, 0, 0, 0.6);font-size: 13px;bottom: 5px;right: 6px;padding: 5px 12px 5px 12px;">
-                                    <a href="#" class="">310 reservations recently</a>
+                                    <?php echo $reservations; ?> reservations recently
                                 </div>
                             </div>
 
                             <div class="float-left">
                               <div class="box-detail">
                                 <div class="box-detail-name">
-                                  <a href="restaurant/name/ten-yuu-grand-sathon/indexa672.html?date=2017-06-06&amp;time=15.30&amp;source=eatigo_recommended">
-                                    <h2 class="font-weight-bold"><?php echo $restaurant->name; ?></h2></a>
+                                  <h2 class="font-weight-bold"><?php echo $restaurant->name; ?></h2>
                                   </div>
                                   <div class="restro-title-box-left">
-                                    <div class="box-detail-cuisine normal-font">
-                                      japanese
-                                    </div>
-                                    <div class="box-detail-cuisine normal-font">
-                                      sathon
+                                    <div class="box-detail-cuisine">
+                                      <?php echo $restaurant->address; ?>
                                     </div>
                                   </div>
                                   <div class="restro-title-box-right">
@@ -157,16 +167,18 @@
                                     <a class="arrow-left" id="arrow-left-2-8" href="javascript:doNothing();"></a>
                                     <a class="arrow-right" id="arrow-right-2-8"href="javascript:doNothing();"></a>
                                     <div class="swiper-container" id="timeslot-2-8" style="width: 250px;">
-                                        <div class="swiper-wrapper">
-
-                                            <a href="restaurant/name/ten-yuu-grand-sathon/index84e6.html?date=2017-06-06&amp;time=15.30"
-                                            class="swiper-slide red-slide">
+                                        <div class="swiper-wrapper" <?php if( $discount == NULL) echo "style='color:red;margin-top:24px;'" ?> >
+                                        <?php if(isset($discount) and $discount != NULL) {
+                                        foreach ($discount as $disc) {                                             
+                                        $disc_percent = $this->db->get_where('tbl_base_discount', array('no' => $disc->did))->row();
+                                        ?>
+                                            <a href="" class="swiper-slide red-slide">
                                             <div class="home-slot-time normal-font font-weight-bold">
-                                                15:30
+                                                <?php echo $disc->rtime; ?>
                                             </div>
                                             <div class="home-slot-discount">
                                                 <h1 class="font-weight-bold">
-                                                    <span>-</span>50</h1>
+                                                    <span>-</span><?php echo $disc_percent->percent; ?></h1>
                                                 </div>
                                                 <div class="home-slot-discount-pc">
                                                     %
@@ -175,48 +187,17 @@
                                                     off
                                                 </div>
                                             </a>
-
-                                            <a href="restaurant/name/ten-yuu-grand-sathon/index84e6.html?date=2017-06-06&amp;time=15.30"
-                                            class="swiper-slide red-slide">
-                                            <div class="home-slot-time normal-font font-weight-bold">
-                                                15:30
-                                            </div>
-                                            <div class="home-slot-discount">
-                                                <h1 class="font-weight-bold">
-                                                    <span>-</span>50</h1>
-                                                </div>
-                                                <div class="home-slot-discount-pc">
-                                                    %
-                                                </div>
-                                                <div class="home-slot-off">
-                                                    off
-                                                </div>
-                                            </a>
-
-                                            <a href="restaurant/name/ten-yuu-grand-sathon/index84e6.html?date=2017-06-06&amp;time=15.30"
-                                            class="swiper-slide red-slide">
-                                            <div class="home-slot-time normal-font font-weight-bold">
-                                                15:30
-                                            </div>
-                                            <div class="home-slot-discount">
-                                                <h1 class="font-weight-bold">
-                                                    <span>-</span>50</h1>
-                                                </div>
-                                                <div class="home-slot-discount-pc">
-                                                    %
-                                                </div>
-                                                <div class="home-slot-off">
-                                                    off
-                                                </div>
-                                            </a>
-
+                                        <?php } 
+                                        } else { echo "No Discount Offer";}?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        </a>
                     </div>
-                <?php } ?> 
+                <?php } 
+                } ?>
             </div>
         </div>
     </div>
@@ -290,4 +271,3 @@
 </div><!-- /. Testimonial Section -->
 
 <script src="<?php echo base_url();?>js/customer/jquery.min.js"></script>
-

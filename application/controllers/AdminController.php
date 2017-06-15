@@ -143,6 +143,7 @@ class AdminController extends BaseController {
         $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_country');
         $this->load->view('view_admin', $data);
     }
+<<<<<<< HEAD
     
     public function discountPage()
     {
@@ -196,6 +197,8 @@ class AdminController extends BaseController {
         $data['content'] = ($content==null?"":$content->content);
         $this->load->view('view_admin', $data);
     }
+=======
+>>>>>>> origin/master
 
     public function editCountryPage($id) {
         if (!$this->isLogin()) {
@@ -411,19 +414,6 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_CATEGORYS);
     }
-    
-    public function actionDeleteUser($id) {
-        if (!$this->isLogin()) {
-            $this->utils->redirectPage(ADMIN_PAGE_HOME);
-            return;
-        }
-        $this->sqllibs->deleteRow($this->db, 'tbl_user', array(
-            "no" => $id
-        ));
-
-        $this->session->set_flashdata('message', "Delete Successful");
-        redirect(base_url() . ADMIN_PAGE_USERS);
-    }
 
     public function actionUpdateCountry() {
         if (!$this->isLogin()) {
@@ -544,6 +534,7 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_CATEGORYS);
     }
+<<<<<<< HEAD
     public function actionUpdateFaq()
     {
         if (!$this->isLogin()) {
@@ -624,5 +615,7 @@ class AdminController extends BaseController {
         redirect(base_url() . ADMIN_PAGE_RESTAURANTS);
     }
     
+=======
+>>>>>>> origin/master
 
 }

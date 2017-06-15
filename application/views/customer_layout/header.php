@@ -10,7 +10,6 @@
             <div class="col-md-6 top-links">
                 <ul class="listnone">
                     <li><a href="<?php echo base_url();?>index.php/CustomerController/faq"> Help </a></li>
-                    <li><a href="<?php echo base_url();?>index.php/CustomerController/pricingplan">Pricing</a></li>
 
                     <?php if ( $account_type == 'customer' ) { ?>                       
                         <li><a href="<?php echo base_url(); ?>index.php/LoginController/logout">Logout</a></li> 
@@ -35,7 +34,7 @@
 
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                <a class="navbar-brand" href="<?php echo base_url() . '/index' ?>"><img src="<?php echo base_url();?>images/logo.png" alt="" class="img-responsive"></a> </div>
+                <a class="navbar-brand" href="<?php echo base_url() . 'index.php/CustomerController' ?>"><img src="<?php echo base_url();?>images/logo.png" alt="" class="img-responsive"></a> </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -56,6 +55,7 @@
                         </ul>
                     </li>
                     <?php } ?>
+
                     <!-- /.Mega Dropdown -->
                     <li class="hoo"><a href="<?php echo base_url();?>index.php/CustomerController/contactus">Contact Us</a></li>
                 </ul>
