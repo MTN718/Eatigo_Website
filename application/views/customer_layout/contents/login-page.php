@@ -12,9 +12,11 @@
 <div class="main-container">
   <div class="container">
     <div class="row">
+      <a type="button" class="btn" data-toggle="modal" data-target="#myModal" style="background-color: #FAF9F5;border: none;float: right;"></a>
       <div class="col-md-12 tp-title-center"><h1>  Welcome back to your account.</h1>
         <p>We're happy to have you back.</p>
       </div>
+      
     </div>
 
     <div class="col-md-offset-3 col-md-6 st-tabs"> 
@@ -59,9 +61,10 @@
               <a href="forget-password.html" class="pull-right"> <small>Forgot Password ?</small></a> 
             </div>
           </form>
+
         </div>
       </div>
-      <div class="well-box social-login"> <a href="#" class="btn facebook-btn"><i class="fa fa-facebook-square"></i>Facebook</a> <a href="#" class="btn twitter-btn"><i class="fa fa-twitter-square"></i>Twitter</a> <a href="#" class="btn google-btn"><i class="fa fa-google-plus-square"></i>Google+</a> </div>
+      <div class="well-box social-login"> <a href="#" class="btn facebook-btn"><i class="fa fa-facebook-square"></i>Facebook</a> </div>
     </div>
   </div>
 </div>

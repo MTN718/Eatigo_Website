@@ -10,7 +10,7 @@ class VendorController extends BaseController {
         parent::__construct();                
     }    
 
-    public function index($active="1") {
+    public function index($active = "1") {
 
         $this->load->model('Vendor_Modal');
 
@@ -22,10 +22,10 @@ class VendorController extends BaseController {
         
         $data = $this->getViewParameters('VENDORPROFILE','Customer');
         $data['restaurantlist']  = $this->Vendor_Modal->restaurent_list();
-
         $data['vendor']  = $this->Vendor_Modal->vendore_details();
         $data['resto_no']  = $this->Vendor_Modal->total_restaurant();
         $data['discountlist']  = $this->Vendor_Modal->discount_list();
+        $data['categorytlist']  = $this->Vendor_Modal->category_list();
         $data['discountdatalist']  = $this->Vendor_Modal->discountdata_list();
         $data['active'] = $active;
         $this->load->view('view_customer', $data);               
@@ -76,8 +76,11 @@ class VendorController extends BaseController {
         $data['vendor']  = $this->Vendor_Modal->vendore_details();
         $data['resto_no']  = $this->Vendor_Modal->total_restaurant();
         $data['discountlist']  = $this->Vendor_Modal->discount_list();
+        $data['categorytlist']  = $this->Vendor_Modal->category_list();
         $data['discountdatalist']  = $this->Vendor_Modal->discountdata_list();
         $data['selected_restaurant'] =  $this->Vendor_Modal->selected_restaurant($id);
+        $data['selected_category'] =  $this->Vendor_Modal->selected_category($id);
+        $data['selected_image'] =  $this->Vendor_Modal->selected_image($id);
         $data['active'] = 'update_restaurant';
         $this->load->view('view_customer', $data);  
     }
@@ -127,6 +130,20 @@ class VendorController extends BaseController {
         redirect('VendorController/index/2'); 
     }
 
+    public function delete_image($id = "") {
+
+        $this->load->model('Vendor_Modal');
+
+        if ($this->session->userdata('vendor_login') != 1)
+        {
+            $this->session->set_userdata('last_page' , current_url());
+            redirect(base_url(), 'refresh');
+        } 
+            
+        $resto_id = $this->Vendor_Modal->delete_image($id); 
+        echo json_encode(array("status"=>"done"));
+    }
+
     public function view_discount($id = "") {
 
         $this->load->model('Vendor_Modal');
@@ -138,11 +155,11 @@ class VendorController extends BaseController {
         }
         
         $data = $this->getViewParameters('VENDORPROFILE','Customer');
-
         $data['restaurantlist']  = $this->Vendor_Modal->restaurent_list();
         $data['vendor']  = $this->Vendor_Modal->vendore_details();
         $data['resto_no']  = $this->Vendor_Modal->total_restaurant();
         $data['discountlist']  = $this->Vendor_Modal->discount_list();
+        $data['categorytlist']  = $this->Vendor_Modal->category_list();
         $data['discountdatalist']  = $this->Vendor_Modal->discountdata_list();
         $data['selected_discount'] =  $this->Vendor_Modal->selected_discount($id);
         $data['active'] = 'update_discount';
@@ -192,6 +209,34 @@ class VendorController extends BaseController {
         $this->Vendor_Modal->update_picture();
         $this->session->set_flashdata('message' , 'Profile Picture Updated successfully');
         redirect('VendorController'); 
+    }
+
+    public function upload_resto_image() {
+
+        $this->load->model('Vendor_Modal');
+        $this->Vendor_Modal->upload_resto_image();
+    }
+
+    public function add_restaurant_page() {  
+
+        $this->load->model('Vendor_Modal'); 
+        unset($_SESSION['file_name']);
+
+        if ($this->session->userdata('vendor_login') != 1)
+        {
+            $this->session->set_userdata('last_page' , current_url());
+            redirect(base_url(), 'refresh');
+        }
+        
+        $data = $this->getViewParameters('VENDORPROFILE','Customer');
+        $data['restaurantlist']  = $this->Vendor_Modal->restaurent_list();
+        $data['vendor']  = $this->Vendor_Modal->vendore_details();
+        $data['resto_no']  = $this->Vendor_Modal->total_restaurant();
+        $data['discountlist']  = $this->Vendor_Modal->discount_list();
+        $data['categorytlist']  = $this->Vendor_Modal->category_list();
+        $data['discountdatalist']  = $this->Vendor_Modal->discountdata_list();
+        $data['active'] = 'update_restaurant';
+        $this->load->view('view_customer', $data);  
     }
     
 }
