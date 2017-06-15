@@ -26,6 +26,15 @@
         case "Categorys":
             include ("contents/categorys.php");
             break;
+        case "Faq":
+            include ("contents/faq.php");
+            break;
+        case "Terms":
+            include ("contents/terms.php");
+            break;
+        case "Contactus":
+            include ("contents/contactus.php");
+            break;
         case "EditCountry":
             include ("contents/edit_country.php");
             break;

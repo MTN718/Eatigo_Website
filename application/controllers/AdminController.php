@@ -133,6 +133,43 @@ class AdminController extends BaseController {
         $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_country');
         $this->load->view('view_admin', $data);
     }
+    
+    public function faqPage() {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $data = $this->getViewParameters("Faq", "Admin");
+        $data = $this->setMessages($data);
+        $faq = $this->sqllibs->getOneRow($this->db, 'tbl_faq',null);
+        $data['faq'] = ($faq==null?"":$faq->content);
+        $this->load->view('view_admin', $data);
+    }
+    
+    public function termPage() {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $data = $this->getViewParameters("Terms", "Admin");
+        $data = $this->setMessages($data);
+        $term = $this->sqllibs->getOneRow($this->db, 'tbl_terms',null);
+        $data['term'] = ($term==null?"":$term->content);
+        $this->load->view('view_admin', $data);
+    }
+    
+    public function contactusPage()
+    {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $data = $this->getViewParameters("Contactus", "Admin");
+        $data = $this->setMessages($data);
+        $content = $this->sqllibs->getOneRow($this->db, 'tbl_contactus',null);
+        $data['content'] = ($content==null?"":$content->content);
+        $this->load->view('view_admin', $data);
+    }
 
     public function editCountryPage($id) {
         if (!$this->isLogin()) {
@@ -348,6 +385,19 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_CATEGORYS);
     }
+    
+    public function actionDeleteUser($id) {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $this->sqllibs->deleteRow($this->db, 'tbl_user', array(
+            "no" => $id
+        ));
+
+        $this->session->set_flashdata('message', "Delete Successful");
+        redirect(base_url() . ADMIN_PAGE_USERS);
+    }
 
     public function actionUpdateCountry() {
         if (!$this->isLogin()) {
@@ -468,5 +518,52 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_CATEGORYS);
     }
+    public function actionUpdateFaq()
+    {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $postVars = $this->utils->inflatePost(array('faq'));        
+        $this->sqllibs->updateRow($this->db, 'tbl_faq'
+                , array(
+            "content" => $postVars['faq']
+                )
+        );
+        $this->session->set_flashdata('message', "Update Successful");
+        redirect(base_url() . ADMIN_PAGE_FAQ);
+    }
+    public function actionUpdateTerms()
+    {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $postVars = $this->utils->inflatePost(array('term'));        
+        $this->sqllibs->updateRow($this->db, 'tbl_terms'
+                , array(
+            "content" => $postVars['term']
+                )
+        );
+        $this->session->set_flashdata('message', "Update Successful");
+        redirect(base_url() . ADMIN_PAGE_TERMS);
+    }
+    
+    public function actionUpdateContact()
+    {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $postVars = $this->utils->inflatePost(array('content'));        
+        $this->sqllibs->updateRow($this->db, 'tbl_contactus'
+                , array(
+            "content" => $postVars['content']
+                )
+        );
+        $this->session->set_flashdata('message', "Update Successful");
+        redirect(base_url() . ADMIN_PAGE_CONTACTUS);
+    }
+    
 
 }

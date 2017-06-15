@@ -97,6 +97,12 @@ define('ADMIN_PAGE_FACILITYS','index.php/admin/facilityPage');
 define('ADMIN_PAGE_LANGUAGES','index.php/admin/languagePage');
 define('ADMIN_PAGE_ATMOSPHERES','index.php/admin/atmospherePage');
 define('ADMIN_PAGE_CATEGORYS','index.php/admin/categoryPage');
+define('ADMIN_PAGE_FAQ','index.php/admin/faqPage');
+define('ADMIN_PAGE_TERMS','index.php/admin/termPage');
+define('ADMIN_PAGE_CONTACTUS','index.php/admin/contactusPage');
+
+
+
 
 define('ADMIN_PAGE_EDITCOUNTRY','index.php/AdminController/editCountryPage');
 define('ADMIN_PAGE_EDITFACILITY','index.php/AdminController/editFacilityPage');
@@ -122,4 +128,9 @@ define('ADMIN_ACTION_UPDATEATOM','index.php/AdminController/actionUpdateAtom');
 define('ADMIN_ACTION_ADDCATEGORY','index.php/AdminController/actionAddCategory');
 define('ADMIN_ACTION_DELETECATEGORY','index.php/AdminController/actionDeleteCategory');
 define('ADMIN_ACTION_UPDATECATEGORY','index.php/AdminController/actionUpdateCategory');
+define('ADMIN_ACTION_UPDATEFAQ','index.php/AdminController/actionUpdateFaq');
+define('ADMIN_ACTION_UPDATETERM','index.php/AdminController/actionUpdateTerms');
+define('ADMIN_ACTION_UPDATECONTACT','index.php/AdminController/actionUpdateContact');
+define('ADMIN_ACTION_DELETEUSER','index.php/AdminController/actionDeleteUser');
+
 

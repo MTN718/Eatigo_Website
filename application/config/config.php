@@ -39,7 +39,7 @@ $config['dbcollat'] = "utf8_general_ci";
 
 
 
-$config['base_url'] = 'http://192.168.1.114:88/Eatigo_Website/';
+$config['base_url'] = 'http://192.168.1.105:88/Eatigo_Website/';
 
 
 /*

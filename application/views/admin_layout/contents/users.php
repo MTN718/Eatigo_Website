@@ -33,7 +33,7 @@
                             ?>
                         </td>
                         <td>
-                            <a href='index.php?c=main&m=deleteUser&id=<?php echo $user->no; ?>'>Delete</a>&nbsp;&nbsp;&nbsp;
+                            <a href='<?php echo base_url() . ADMIN_ACTION_DELETEUSER . "/" . $user->no; ?>'>Delete</a>&nbsp;&nbsp;&nbsp;
                         </td>
                     </tr>
                     <?php

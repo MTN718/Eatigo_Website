@@ -59,7 +59,7 @@
             ?>
         </div>
         <script src="<?php echo base_url(); ?>plugins/jQuery/jQuery-2.2.0.min.js"></script>
-        
+
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
         <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
         <script>
@@ -109,6 +109,9 @@
     <script src="<?php echo base_url(); ?>dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="<?php echo base_url(); ?>dist/js/demo.js"></script>
+
+    
+
     <!-- page script -->
     <script>
             $(function() {
@@ -124,27 +127,26 @@
                     "autoWidth": false
                 });
             });
-    </script>
-
+    </script>    
     <script>
-    <?php
-    if (isset($message)) {
-        ?>
-                if ('<?php echo $message; ?>' != '')
-                {
-                    swal('<?php echo $message; ?>');
-                }
-        <?php
-    }
-    if (isset($error)) {
-        ?>
-                if ('<?php echo $error; ?>' != '')
-                {
-                    swal('<?php echo $error; ?>', '', "error");
-                }
-        <?php
-    }
+<?php
+if (isset($message)) {
     ?>
+            if ('<?php echo $message; ?>' != '')
+            {
+                swal('<?php echo $message; ?>');
+            }
+    <?php
+}
+if (isset($error)) {
+    ?>
+            if ('<?php echo $error; ?>' != '')
+            {
+                swal('<?php echo $error; ?>', '', "error");
+            }
+    <?php
+}
+?>
     </script>
 
 

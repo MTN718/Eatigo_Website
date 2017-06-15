@@ -33,6 +33,60 @@
                 <i class="fa fa-spoon"></i> <span>Restaurant Management</span>            
             </a>
             </li> 
+            
+            <?php
+            if ($pageName == "Transactions")
+                echo "<li class='active'>";
+            else
+                echo "<li>";
+            ?>            
+            <a href="<?php echo base_url() . ADMIN_PAGE_RESTAURANTS; ?>">
+                <i class="fa fa-credit-card"></i> <span>Transaction Management</span>            
+            </a>
+            </li>
+            
+            <?php
+            if ($pageName == "Contacts")
+                echo "<li class='active'>";
+            else
+                echo "<li>";
+            ?>            
+            <a href="<?php echo base_url() . ADMIN_PAGE_RESTAURANTS; ?>">
+                <i class="fa fa-inbox"></i> <span>Request Inbox</span>            
+            </a>
+            
+            <?php
+            if ($pageName == "Contactus")
+                echo "<li class='active'>";
+            else
+                echo "<li>";
+            ?>            
+            <a href="<?php echo base_url() . ADMIN_PAGE_CONTACTUS; ?>">
+                <i class="fa fa-phone-square"></i> <span>Contact Us</span>            
+            </a>
+            </li>
+            <?php
+            if ($pageName == "Terms")
+                echo "<li class='active'>";
+            else
+                echo "<li>";
+            ?>            
+            <a href="<?php echo base_url() . ADMIN_PAGE_TERMS; ?>">
+                <i class="fa fa-book"></i> <span>Terms and Condition</span>            
+            </a>
+            </li>
+            
+            <?php
+            if ($pageName == "Faq")
+                echo "<li class='active'>";
+            else
+                echo "<li>";
+            ?>            
+            <a href="<?php echo base_url() . ADMIN_PAGE_FAQ; ?>">
+                <i class="fa fa-question-circle"></i> <span>Faq</span>            
+            </a>
+            </li>
+            
             <li class='active treeview'>
                 <a href="#">
                     <i class="fa fa-database"></i> <span>Base Data Management</span> <i class="fa fa-angle-right pull-right"></i>
