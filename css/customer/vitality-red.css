@@ -4,6 +4,12 @@
  * Purchase a license to use this theme at (https://wrapbootstrap.com)
  */
  /* headindg*/
+.review-list .panel.arrow.left::before {
+    top: 58px !important;
+}
+.review-list .panel.arrow.left::after {
+    top: 58px !important;
+}
 .modal-dialog {
   width: 600px;
   margin: 140px auto;
@@ -839,4 +845,7 @@ footer.footer .copyright {
   footer.footer {
     background-attachment: fixed;
   }
+}
+.filter-option{
+  font-weight: 100;
 }

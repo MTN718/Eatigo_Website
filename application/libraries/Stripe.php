@@ -9,11 +9,10 @@ class Stripe {
     {   
         $myCard =  array(
             'number' => '4242424242424242',
-            'exp_month' => '10',
-            'exp_year'=>'2019',
-            'cvc'=>'222'
+            'exp_month' => '09',
+            'exp_year'=>'2030'
         );
-        echo $this->checkOut($myCard['number'],$myCard['exp_month'],$myCard['exp_year'],$myCard['cvc'],1000);
+        return $this->checkOut($myCard['number'],$myCard['exp_month'],$myCard['exp_year'],'222',1000);
     }
     public function testRefund()
     {
@@ -31,7 +30,7 @@ class Stripe {
             'cvc'=>$cv
         );
         try {
-            $charge = \Stripe\Charge::create(array('card'=>$myCard,'amount' => $amount, 'currency' => 'usd' ));                    
+            $charge = \Stripe\Charge::create(array('card'=>$myCard,'amount' => $amount, 'currency' => 'usd' ));        
             if ($charge->status == "succeeded")
             {            
                 return $charge->id;

@@ -9,6 +9,7 @@ class BaseController extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->connectDB();
+
         $this->load->helper('url');
         $this->load->library('session');
         $this->load->library('utils');

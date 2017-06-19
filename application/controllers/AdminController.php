@@ -41,17 +41,6 @@ class AdminController extends BaseController {
         }
         $data = $this->getViewParameters("Dashboard", "Admin");
         $data = $this->setMessages($data);
-        
-        $cats = $this->sqllibs->selectAllRows($this->db, 'tbl_category');
-        $rests = $this->sqllibs->selectAllRows($this->db, 'tbl_restaurant');
-        $reserves = $this->sqllibs->selectAllRows($this->db, 'tbl_reservation');
-        $users = $this->sqllibs->selectAllRows($this->db, 'tbl_user');
-        
-        $data['countCat'] = count($cats);
-        $data['countRest'] = count($rests);
-        $data['countReserve'] = count($reserves);
-        $data['countUser'] = count($users);
-        $data['restaurants'] = $this->sqllibs->rawSelectSql($this->db, "select A.*,B.name as cname from tbl_restaurant as A left join tbl_category as B on A.category=B.no order by A.avgrate limit 0,5");
         $this->load->view('view_admin', $data);
     }
 
@@ -160,21 +149,11 @@ class AdminController extends BaseController {
         }
         $data = $this->getViewParameters("Discounts", "Admin");
         $data = $this->setMessages($data);
-        $discounts = $this->sqllibs->selectJoinTables($this->db, array('tbl_map_discount_restaurant', 'tbl_restaurant')
+        $data['discounts'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_map_discount_restaurant', 'tbl_restaurant')
                 , array('rid', 'no')
                 , null
                 , array(null, array('name as restaurant'))
         );
-        $dist = array();
-        $i = 0;
-        foreach($discounts as $discount)
-        {
-            $dInfo = $this->sqllibs->getOneRow($this->db, 'tbl_base_discount', array('no' => $discount->did));            
-            $discount = (object) array_merge((array) $discount, array('percent' => $dInfo->percent));
-            $dist[$i] = $discount;
-            $i++;
-        }
-        $data['discounts'] = $dist;
         $this->load->view('view_admin', $data);
     }
 
@@ -211,67 +190,6 @@ class AdminController extends BaseController {
         $data = $this->setMessages($data);
         $content = $this->sqllibs->getOneRow($this->db, 'tbl_contactus', null);
         $data['content'] = ($content == null ? "" : $content->content);
-        $this->load->view('view_admin', $data);
-    }
-    
-    public function transactionPage()
-    {
-        if (!$this->isLogin()) {
-            $this->utils->redirectPage(ADMIN_PAGE_HOME);
-            return;
-        }
-        $data = $this->getViewParameters("Transactions", "Admin");
-        $data = $this->setMessages($data);
-        $transactions = $this->sqllibs->selectAllRows($this->db, 'tbl_transaction');
-        $tranArray = array();
-        $i = 0;
-        foreach($transactions as $trans)
-        {
-            $restInfo = $this->sqllibs->getOneRow($this->db, 'tbl_restaurant', array('no' => $trans->rid));            
-            $userInfo = $this->sqllibs->getOneRow($this->db, 'tbl_user', array('no' => $trans->uid));            
-            $userName = "";
-            $restName = "";
-            if ($restInfo != null)
-                $restName = $restInfo->name;
-            if ($userInfo != null)
-                $userName = $userInfo->name;
-            $trans = (object) array_merge((array) $trans, 
-                    array(
-                        'restaurant' => $restName,
-                        'user'=> $userName
-                    ));
-            $tranArray[$i] = $trans;
-            $i++;
-        }        
-        $data['transactions'] = $tranArray;
-        $this->load->view('view_admin', $data);
-    }
-    
-    public function reportPage()
-    {
-        if (!$this->isLogin()) {
-            $this->utils->redirectPage(ADMIN_PAGE_HOME);
-            return;
-        }
-        $data = $this->getViewParameters("Requests", "Admin");
-        $data = $this->setMessages($data);
-        $reports = $this->sqllibs->selectAllRows($this->db, 'tbl_report');
-        $repArray = array();
-        $i = 0;
-        foreach($reports as $report)
-        {            
-            $userInfo = $this->sqllibs->getOneRow($this->db, 'tbl_user', array('no' => $report->uid));            
-            $userName = "";
-            if ($userInfo != null)
-                $userName = $userInfo->name;
-            $report = (object) array_merge((array) $report, 
-                    array(                        
-                        'user'=> $userName
-                    ));
-            $repArray[$i] = $report;
-            $i++;
-        }        
-        $data['reports'] = $repArray;
         $this->load->view('view_admin', $data);
     }
 
@@ -495,42 +413,7 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_USERS);
     }
-    public function actionDeleteDiscount($id)
-    {
-        if (!$this->isLogin()) {
-            $this->utils->redirectPage(ADMIN_PAGE_HOME);
-            return;
-        }
-        $this->sqllibs->deleteRow($this->db, 'tbl_map_discount_restaurant', array(
-            "no" => $id
-        ));
-        $this->session->set_flashdata('message', "Delete Successful");
-        redirect(base_url() . ADMIN_PAGE_DISCOUNTS);
-    }
-    public function actionDeleteTransaction($id)
-    {
-        if (!$this->isLogin()) {
-            $this->utils->redirectPage(ADMIN_PAGE_HOME);
-            return;
-        }
-        $this->sqllibs->deleteRow($this->db, 'tbl_transaction', array(
-            "no" => $id
-        ));
-        $this->session->set_flashdata('message', "Delete Successful");
-        redirect(base_url() . ADMIN_PAGE_TRANSACTION);
-    }
-    public function actionDeleteReport($id)
-    {
-        if (!$this->isLogin()) {
-            $this->utils->redirectPage(ADMIN_PAGE_HOME);
-            return;
-        }
-        $this->sqllibs->deleteRow($this->db, 'tbl_report', array(
-            "no" => $id
-        ));
-        $this->session->set_flashdata('message', "Delete Successful");
-        redirect(base_url() . ADMIN_PAGE_REPORT);
-    }
+
     public function actionUpdateCountry() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
@@ -721,25 +604,6 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_RESTAURANTS);
     }
-    
-    public function actionChangePrice()
-    {
-        if (!$this->isLogin()) {
-            $this->utils->redirectPage(ADMIN_PAGE_HOME);
-            return;
-        }
-        $postVars = $this->utils->inflatePost(array('did', 'priceValue'));                
-        
-        $this->sqllibs->updateRow($this->db, 'tbl_map_discount_restaurant'
-                , array(
-            "price" => $postVars['priceValue']
-                )
-                , array(
-            "no" => $postVars['did']
-        ));
-        
-        $this->session->set_flashdata('message', "Price Changed");
-        redirect(base_url() . ADMIN_PAGE_DISCOUNTS);
-    }
 
 }
+

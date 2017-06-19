@@ -18,33 +18,6 @@
           </div>
           <form>
             <div class="col-md-12 form-group">
-              <label class="control-label" for="venuetype">Venue Type</label>
-              <select id="venuetype" name="venuetype" class="form-control">
-                <option value="">Select Venue</option>
-                <option value="Barn">Barn</option>
-                <option value="Boutique">Boutique</option>
-                <option value="Castle">Castle</option>
-                <option value="Country House">Country House</option>
-                <option value="Exclusive use">Exclusive use</option>
-                <option value="Garden weddings">Garden weddings</option>
-                <option value="Gay friendly">Gay friendly</option>
-                <option value="Gothic">Gothic</option>
-                <option value="Hotel">Hotel</option>
-                <option value="Intimate">Intimate</option>
-                <option value="Manor House">Manor House</option>
-                <option value="Marquee">Marquee</option>
-                <option value="Minimalist">Minimalist</option>
-                <option value="Modern">Modern</option>
-                <option value="Outside Weddings">Outside Weddings</option>
-                <option value="Palace">Palace</option>
-                <option value="Private School">Private School</option>
-                <option value="Romantic">Romantic</option>
-                <option value="Small">Small</option>
-                <option value="Waterside">Waterside</option>
-                <option value="Weekend">Weekend</option>
-              </select>
-            </div>
-            <div class="col-md-12 form-group">
               <label class="control-label" for="capacity">Discount</label>
               <select id="capacity" name="capacity" class="form-control">
                 <option value="">Select Discount</option>
@@ -138,7 +111,7 @@
 
 
             <div class="col-md-12 vendor-box vendor-box-grid"><!-- venue box start-->
-
+            <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $restaurant->no; ?>">
               <div class="row">
                 <div class="col-md-6 no-right-pd">
                   <div class="vendor-image"><!-- venue pic --> 
@@ -155,7 +128,7 @@
                   <div class="caption" style="padding: 18px;width: 430px;"><!-- caption -->
                     <div class="box-detail">
                       <div class="box-detail-name">
-                        <a href="restaurant/name/ten-yuu-grand-sathon/indexa672.html?date=2017-06-06&amp;time=15.30&amp;source=eatigo_recommended">
+                        <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $restaurant->no; ?>">
                           <h2 class="font-weight-bold"><?php echo $restaurant->name; ?></h2></a>
                         </div>
                         <div class="restro-title-box-left">
@@ -167,6 +140,7 @@
                           <div class="box-detail-rating-gray">
                             <div class="box-detail-rating-yellow_b" style="width:
                             <?php $review = $restaurant->reviews; 
+                            if ($review == 0) echo "0%";
                             if ($review == 1) echo "20%";
                             if ($review == 2) echo "40%";
                             if ($review == 3) echo "60%";
@@ -178,6 +152,7 @@
                         <div class="box-price-gray">
                           <div class="box-detail-price-yellow_b" style="width:
                           <?php $level = $restaurant->level; 
+                          if ($level == 0) echo "0%"; 
                           if ($level == 1) echo "20%";
                           if ($level == 2) echo "40%";
                           if ($level == 3) echo "60%";
@@ -198,8 +173,6 @@
                             foreach ($discount as $disc) {                                             
                               $disc_percent = $this->db->get_where('tbl_base_discount', array('no' => $disc->did))->row();
                               ?>
-                              
-
                               <a href="restaurant/name/ten-yuu-grand-sathon/index84e6.html?date=2017-06-06&amp;time=15.30"
                               class="swiper-slide red-slide">
                               <div class="home-slot-time normal-font font-weight-bold">
@@ -226,13 +199,15 @@
                     </div>
                   </div>
                 </div><!-- venue details --> 
-                
+                </a>
               </div>
               <?php } 
-            } ?>
+                } else {
+                  echo "No Restaurants";
+              }?>  
             
 
-            <div class="col-md-12 tp-pagination">
+            <!-- <div class="col-md-12 tp-pagination">
               <ul class="pagination">
                 <li> <a href="#" aria-label="Previous"> <span aria-hidden="true">Previous</span> </a> </li>
                 <li class="active"><a href="#">1</a></li>
@@ -242,7 +217,7 @@
                 <li><a href="#">5</a></li>
                 <li> <a href="#" aria-label="Next"> <span aria-hidden="true">NEXT</span> </a> </li>
               </ul>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

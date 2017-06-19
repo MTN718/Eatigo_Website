@@ -11,14 +11,17 @@ switch ($pageName) {
         include ("contents/signup-couple.php");
         break;
     case "PROFILE":
-        include ("contents/restaurant-profile.php");
+        include ("contents/customer-profile.php");
         break;
     case "CONTACTUS":
         include ("contents/contact-us.php");
         break;           
     case "RESTAURANTS":
         include ("contents/restaurant.php");
-        break;            
+        break;
+    case 'SEARCHRESTAURANTS':
+        include ("contents/restaurant.php");
+        break;                
     case "ABOUT":
         include ("contents/about-us.php");
         break;
@@ -43,6 +46,8 @@ switch ($pageName) {
     case "VENDORPROFILE":
         include ("contents/vendor-profile.php");
         break;   
-
+    case "CONFIRMPAYMENTPAGE":
+        include ("contents/payment.php");
+        break;    
 }
 ?>

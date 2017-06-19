@@ -11,15 +11,18 @@
                 <ul class="listnone">
                     <li><a href="<?php echo base_url();?>index.php/CustomerController/faq"> Help </a></li>
 
-                    <?php if ( $account_type == 'customer' ) { ?>                       
+                   <?php if ( $account_type == 'customer' ) { ?>                       
                         <li><a href="<?php echo base_url(); ?>index.php/LoginController/logout">Logout</a></li> 
                     <?php } else if ( $account_type == 'vendor' ) { ?>
                         <li><a href="<?php echo base_url(); ?>index.php/LoginController/logout">Logout</a></li>
-                    <?php } else {?>
+                    <?php } else if($this->session->fb_login == 1) { ?>
+                        <li><a href="<?php echo base_url(); ?>index.php/CustomerController/fb_logout">Logout</a></li>
+                     <?php    } else { ?>
                         <li><a href="<?php echo base_url();?>index.php/CustomerController/signupvendor" class=" ">Are you Vendor ?</a></li>
                         <li><a href="<?php echo base_url();?>index.php/CustomerController/login" class=" ">Login</a></li>
                         <li><a href="<?php echo base_url();?>index.php/CustomerController/register" class=" ">Sign Up</a></li>
-                    <?php } ?>   
+                    <?php } ?>
+                 
 
                 </ul>
             </div>

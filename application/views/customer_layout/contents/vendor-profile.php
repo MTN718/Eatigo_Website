@@ -11,16 +11,15 @@
   </div>
 </div>
 <div class="main-container">
+
   <div class="container tabbed-page st-tabs">
-    <div class="row tab-page-header">
+    <div class="row tab-page-header" style="<?php if ($this->session->flashdata('img_error') != "") echo "margin-bottom:-30px;";?>">
       <div class="col-md-4  vendor-profile-block">
         <div class="vendor-profile"> 
-
         <form class="text-center" action="<?php echo base_url();?>index.php/VendorController/update_picture" method="post" enctype="multipart/form-data">
-
           <div class="fileinput fileinput-new text-center" data-provides="fileinput">
             <div class="fileinput-new thumbnail" style="width: 317px; height: 236px; border:none;" data-trigger="fileinput">
-              <?php if(isset($vendor) and $vendor->image != "") { ?>
+              <?php if(isset($vendor) and $vendor->image != NULL) { ?>
               <img src="<?php echo base_url();?><?php echo $vendor->image; ?>" alt="">
               <?php } else { ?> 
               <img src="http://placehold.it/300x250" alt="">                           
@@ -63,17 +62,23 @@
         </div>
         <hr style="margin-top: 34px;">
       </div>
+      </div>
 
-     
+      <?php if ($this->session->flashdata('img_error') != ""){ ?>
+        <div class="alert alert-warning alert-dismissable" style="color:red;">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Warnig!</strong> <?php echo $this->session->flashdata('img_error');?>
+          </div>
+      <?php  } ?>
 
-    </div>
+    
     <div class="row">
       <div class="col-md-12"> 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="<?php if( $active == 1 || $active == 'update_restaurant') echo "active"; ?>"><a href="#Restaurant" title="Restaurant" aria-controls="Restaurant" role="tab" data-toggle="tab"> <i class="fa fa-home"></i> <span class="tab-title">Restaurant</span></a></li>
           <li role="presentation" class="<?php if( $active == 2 || $active == 'update_discount') echo "active"; ?>"><a href="#Discount" title="Discount" aria-controls="Discount" role="tab" data-toggle="tab"> <i class="fa fa-percent"></i> <span class="tab-title">Discount</span></a></li>
-          <li role="presentation" class="<?php if( $active == 3) echo "active"; ?>"><a href="#Reservation" title="Reservation" aria-controls="Reservation" role="tab" data-toggle="tab"> <i class="fa fa-bookmark"></i> <span class="tab-title">Reservation</span></a></li>
+          <li role="presentation" class="<?php if( $active == 3 || $active == 'view_reservation') echo "active"; ?>"><a href="#Reservation" title="Reservation" aria-controls="Reservation" role="tab" data-toggle="tab"> <i class="fa fa-bookmark"></i> <span class="tab-title">Reservation</span></a></li>
           <li role="presentation" class="<?php if( $active == 4) echo "active"; ?>"><a href="#reviews" title="Review" aria-controls="reviews" role="tab" data-toggle="tab"> <i class="fa fa-commenting"></i> <span class="tab-title">Reviews</span></a></li>
         </ul>
 
@@ -83,8 +88,7 @@
             <table class="table table-hover table-condensed" id="example">
               <thead>
                 <tr>
-                  <th>No</th>
-                  <th>Name</th>
+                  <th>Restaurant Name</th>
                   <th style="width:250px;">Start Time / End Time</th>
                   <th>Category</th>
                   <th>Level</th>
@@ -94,12 +98,10 @@
               </thead>
               <tbody class="timediscount">
               <?php if(isset($restaurantlist) and $restaurantlist != NULL) { ?>
-                <?php $counter = 0;
-                foreach ($restaurantlist as $restaurant) { 
+                <?php foreach ($restaurantlist as $restaurant) { 
                   $category = $this->db->get_where('tbl_category', array('no' => $restaurant->category))->row();
                 ?>
                 <tr class="odd gradeX">
-                  <td><?php echo ++$counter; ?></td>
                   <td><a style="color:#e41d27;" href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $restaurant->no; ?>"><?php echo $restaurant->name;?></a></td>
                   <td><i class="fa fa-clock-o"></i> <?php echo $restaurant->start_time;?> / <?php echo $restaurant->end_time;?></td>
                   <td><?php echo $category->name;?></td>
@@ -179,8 +181,8 @@
                         <span class="caret"></span></button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                           <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/view_restaurant/<?php echo $restaurant->no;?>">Update</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Active</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Deactive</a></li>
+                          <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Active</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Deactive</a></li> -->
                           <li role="presentation" class="divider"></li>
                           <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo base_url();?>index.php/VendorController/delete_restaurant/<?php echo $restaurant->no;?>"  onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></li>       
                         </ul>
@@ -201,8 +203,9 @@
                 <?php } else { ?>                            
                 <form action="<?php echo base_url();?>index.php/VendorController/add_restaurant" method="post" enctype="multipart/form-data">
                   <?php } ?>
-                  <!-- level -->                  
-                  <div class="form-group col-md-12 no-padding">
+                  <!-- level -->  
+
+                  <div class="form-group col-md-6 no-padding" style="margin-bottom: 13px;">
                     <label class=" control-label" for="reviewtitle">Level<span class="required">*</span></label>
                     <div class="rating-group">
                       <div class="radio radio-success radio-inline">
@@ -227,6 +230,34 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="form-group col-md-6 no-padding">
+                    <label class=" control-label" for="reviewtitle">Languages</label>
+                    <div class="rating-group">
+
+                        <?php foreach ($languagelist as $languagelist) { ?>                   
+                        <label class="checkbox-inline">
+                          <input type="checkbox" name="langu[]" value="<?php echo $languagelist->no; ?>"
+                          
+
+
+                          <?php if(isset($selected_language) and $selected_language != NULL) {
+                            foreach ($selected_language as $language) {
+                             if($languagelist->no == $language->lid) echo "checked";
+                          } } ?> 
+
+
+
+
+
+                          >
+                          <?php echo $languagelist->name; ?>
+                        </label>
+                        <?php  } ?>    
+
+                    </div>
+                  </div>
+
                   <!-- Text input-->
                   <div class="form-group col-md-6 no-padding">
                     <label class=" control-label" for="name">Name<span class="required">*</span></label>
@@ -269,7 +300,7 @@
                   <div class="row">
                     <div class="form-group col-md-6 no-padding">
                       <!-- Text input-->
-                      <div class="form-group" style="padding-left: 15px;">
+                      <div class="form-group col-md-12 no-padding" style="padding-left: 15px;">
                         <label class="control-label" for="categ">Category</label>
                           <select id="categ" name="categ" class="form-control" required="required">                   
 
@@ -288,7 +319,7 @@
                           </select>
                       </div>
 
-                      <div class="form-group" style="padding-left: 15px;">
+                      <div class="form-group col-md-12 no-padding" style="padding-left: 15px;">
                         <label class=" control-label" for="reviewtitle">Address<span class="required">*</span></label>
                         <div class="">
                           <?php if(isset($selected_restaurant)) { ?>
@@ -354,7 +385,7 @@
                   <form action="<?php echo base_url()?>index.php/VendorController/upload_resto_image/" class="dropzone">
                     <div class="dz-message">
                       Drop files here or click to upload.<br>
-                      <span class="note">(Upload Restaurant Image Here.)</span>
+                      <span class="note" style="color:red;"><small>( Please Choose Atleast one image of Restaurant* )</small></span>
                     </div>
                   </form>
                 </div>
@@ -362,7 +393,7 @@
                 <?php if(isset($selected_restaurant)) { 
                     foreach($selected_image as $img)
                     { ?>                      
-                        <div style="float: left; margin-top: 30px; margin-right: 30px; ">
+                        <div id="image_block<?php echo $img->no ?>" style="float: left; margin-top: 30px; margin-right: 30px; ">
                           <a href="javascript:void(0);" class="file_delete" data-id="<?php echo $img->no ?>"><i class="fa fa-times" aria-hidden="true" style="position: absolute;color: #e51d27;margin-top: 10px;margin-left: 10px;z-index: 999;"></i></a>
                           <img data-dz-thumbnail=""  src="<?php echo base_url(); ?><?php echo $img->image; ?>" style="border-radius: 20px;width: 120px;height: 120px;border:1px solid;position: relative;display: block;z-index: 10;">
                         </div>
@@ -377,7 +408,6 @@
                 <table class="table table-hover table-condensed" id="example4">
                   <thead>
                     <tr>
-                      <th>No</th>
                       <th>Restaurant Name</th>
                       <th>Discount Time / Discount Persent</th>
                       <th>No. of People</th>
@@ -387,12 +417,10 @@
                   </thead>
                   <tbody class="timediscount">
 
-                    <?php $counter = 0;
-                    foreach ($discountdatalist as $data) { 
+                    <?php foreach ($discountdatalist as $data) { 
                       $discount_data = $this->db->get_where('tbl_base_discount', array('no' => $data->did))->row()->percent;
                       ?>
                       <tr class="odd gradeX">
-                        <td><?php echo ++$counter; ?></td>
                         <td><?php echo  $data->name; ?></td>
                         <td>
                           <div class="row">
@@ -509,7 +537,7 @@
                               <a href="<?php echo base_url();?>index.php/VendorController/index/2" title="Restaurant" class="btn tp-btn-default btn-lg" style="background:black;">Back</a>
                             <?php } else { ?>
                               <button name="submit" class="btn tp-btn-primary btn-lg">Submit</button>                              
-                              <a href="#Restaurant" title="Restaurant" aria-controls="Restaurant" role="tab" data-toggle="tab" class="btn tp-btn-default btn-lg" style="background:black;">Back</a>
+                              <a href="#Discount" title="Restaurant" aria-controls="Restaurant" role="tab" data-toggle="tab" class="btn tp-btn-default btn-lg" style="background:black;">Back</a>
                             <?php } ?>
                           </div>
                         </form>
@@ -520,127 +548,260 @@
                           <div class="row">
                             <div class="col-md-12">
                               <div class="review-list"> 
-                                <!-- First Comment -->
-                                <div class="row">
-                                  <div class="col-md-2 col-sm-2 hidden-xs">
-                                    <div class="user-pic"> <img class="img-responsive img-circle" src="<?php echo base_url(); ?>images/userpic.jpg" alt=""> </div>
+
+                        <?php foreach ($restaurantlist as $resto_data) { 
+                          $restaurantreviews = $this->db->get_where('tbl_review_restaurant', array('rid' => $resto_data->no))->result();
+
+                          if (isset($restaurantreviews) and $restaurantreviews != NULL) { 
+                          foreach ($restaurantreviews as $restaurantreview) {
+                          $user = $this->db->get_where('tbl_user', array('no' => $restaurantreview->uid))->row();
+                        ?>
+                        <div class="row">
+                          <div class="col-md-2 col-sm-2 hidden-xs">
+                            <div class="user-pic"> 
+                              <?php if(isset($user) and $user->image != NULL) { ?>
+                              <img  class="img-responsive img-circle" src="<?php echo base_url();?><?php echo $user->image; ?>" alt="">
+                              <?php } else { ?> 
+                              <img src="http://placehold.it/50x50" alt="">                           
+                              <?php } ?>
+                            </div>
+                          </div>
+                          <div class="col-md-10 col-sm-10">
+                            <div class="panel panel-default arrow left">
+                              <div class="panel-body">
+                                <div class="text-left">
+                                  <h3><?php echo $restaurantreview->title; ?></h3>
+                                  <?php $reviews = $restaurantreview->rating; 
+                                  $dont_show_button1 = "";
+                                  $dont_show_button2 = "";
+                                  $dont_show_button3 = "";
+                                  $dont_show_button4 = "";
+                                  $dont_show_button5 = "";
+
+                                  if($reviews == 1){
+                                    $dont_show_button1 = 'show';
+                                  } 
+                                  else if($reviews == 2){
+                                    $dont_show_button2 = "show";
+                                  }
+                                  else if($reviews == 3){
+                                    $dont_show_button3 ="show";
+                                  }
+                                  else if($reviews == 4){
+                                    $dont_show_button4 = "show";
+                                  }
+                                  else if($reviews == 5){
+                                    $dont_show_button5 = "show";
+                                  }
+                                  ?>
+                                  <div class="rating dont_show <?php echo $dont_show_button1 ?>"><i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
+                                  <div class="rating dont_show <?php echo $dont_show_button2 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
+                                  <div class="rating dont_show <?php echo $dont_show_button3 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
+                                  <div class="rating dont_show <?php echo $dont_show_button4 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i></div>
+                                  <div class="rating dont_show <?php echo $dont_show_button5 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></div>                               </div>
+                                  <div class="review-post">
+                                    <p> <?php echo $restaurantreview->content; ?></p>
                                   </div>
-                                  <div class="col-md-10 col-sm-10">
-                                    <div class="panel panel-default arrow left">
-                                      <div class="panel-body">
-                                        <div class="text-left">
-                                          <h3>The whole experience was Excellent</h3>
-                                          <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                                        </div>
-                                        <div class="review-post">
-                                          <p> From initially being shown round through booking to breakfast the next morning. Nam eu enim mollis urna egestas interdum eget quis nisl. Ut sem velit, scelerisque nec commodo consequat, imperdiet non diam. </p>
-                                        </div>
-                                        <div class="review-user">By <a href="#">Jaisy and Kartin</a>, on <span class="review-date"></span>04 Apr 2015</div>
-                                      </div>
-                                    </div>
+                                  <div class="review-user">
+                                    By <span style="color:#8E203E; font-weight: 600;"><?php echo $user->name; ?></span>, 
+                                    on <span class="review-date"><i class="fa fa-calendar-check-o"></i></span>
+                                    <strong><?php echo $date = date('M',strtotime($restaurantreview->createdate)); ?></strong>
+                                    <span style="color:#8E203E; font-weight: 600;"> <?php echo $date = date('d,',strtotime($restaurantreview->createdate)); ?></span>
+                                    <?php echo $date = date('Y',strtotime($restaurantreview->createdate)); ?>
                                   </div>
                                 </div>
-                                <!-- Second Comment -->
-                                <div class="row">
-                                  <div class="col-md-2 col-sm-2 hidden-xs">
-                                    <div class="user-pic"> <img class="img-responsive img-circle" src="<?php echo base_url(); ?>images/userpic.jpg" alt=""> </div>
-                                  </div>
-                                  <div class="col-md-10 col-sm-10">
-                                    <div class="panel panel-default arrow left">
-                                      <div class="panel-body">
-                                        <div class="text-left">
-                                          <h3>The Facilities were Fantastic!</h3>
-                                          <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                                        </div>
-                                        <div class="review-post">
-                                          <p> Curabitur mattis congue consectetur. Nulla facilisis dictum velit, ultrices imperdiet diam luctus quis. Vestibulum in volutpat purus, quis accumsan diam. The pastry heart on the pie was such a lovely touch that you could easily not have done. </p>
-                                        </div>
-                                        <div class="review-user">By <a href="#">Jaisy and Kartin</a>, on <span class="review-date"></span>04 Apr 2015</div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <!-- Third Comment -->
-                                <div class="row">
-                                  <div class="col-md-2 col-sm-2 hidden-xs">
-                                    <div class="user-pic"> <img class="img-responsive img-circle" src="<?php echo base_url(); ?>images/userpic.jpg" alt=""> </div>
-                                  </div>
-                                  <div class="col-md-10 col-sm-10">
-                                    <div class="panel panel-default arrow left">
-                                      <div class="panel-body">
-                                        <div class="text-left">
-                                          <h3> Aenean elementum dictum estsit amet ullamcorper</h3>
-                                          <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                                        </div>
-                                        <div class="review-post">
-                                          <p> Vivamus condimentum orci non tellus tincidunt volutpat. Suspendisse gravida gravida arcu a pellentesque. Duis aliquet ut justo et accumsan. </p>
-                                        </div>
-                                        <div class="review-user">By <a href="#">Jaisy and Kartin</a>, on <span class="review-date"></span>04 Apr 2015</div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <?php }
+                        } else { echo "No reviews Now";}
+                        } ?>
+                                
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div role="tabpanel" class="tab-pane fade <?php if( $active == 3) echo "in active"; ?>" id="Reservation"> 
-                        <table class="table table-hover table-condensed" id="example">
+                        <table class="table table-hover table-condensed" id="example3">
                           <thead>
                             <tr>
-                              <th>User Name</th>
-                              <th>Menu Item</th>
-                              <th>Date</th>
-                              <th>Time</th>
-                              <th>Discount</th>
+                              <th>Restaurant</th>
+                              <th>User</th>
+                              <th>Booking Date</th>
+                              <th>Time / Discount</th>
                               <th>Price</th>
-                              <th>Action</th>
+                              <th>Status</th>
+                              <th style="width:100px;">Action</th>
                             </tr>
                           </thead>
                           <tbody class="timediscount">
-                            <tr class="odd gradeX">
-                              <td>aaaaa</td>
-                              <td>aaaaa</td>
-                              <td>12/03/2017</td>
-                              <td>12 : 30 PM</td>
-                              <td>20 %</td>
-                              <td>$ 25</td>
-                              <td>
-                                <div class="dropdown">
-                                  <button class="btn btn-default dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Option
+                            <?php foreach ($restaurantlist as $resto_data) { 
+                              $reservationlist = $this->db->get_where('tbl_reservation', array('rid' => $resto_data->no))->result();
+
+                                foreach ($reservationlist as $reservation) { 
+
+                                  $user = $this->db->get_where('tbl_user', array('no' => $reservation->uid))->row();
+                                  $rastaurant = $this->db->get_where('tbl_restaurant', array('no' => $reservation->rid))->row();
+                                  $discount = $this->db->get_where('tbl_map_discount_restaurant', array('no' => $reservation->did))->row();
+                                  $discount_data = $this->db->get_where('tbl_base_discount', array('no' => $discount->did))->row();
+
+                              ?>
+                              <tr class="odd gradeX">
+                                <td><?php echo  $rastaurant->name; ?></td>
+                                <td><?php echo  $user->name; ?></td>
+                                <td><?php echo  $reservation->date; ?></td>
+                                <td><i class="fa fa-clock-o"></i> <?php echo  $discount->rtime; ?> / <?php echo  $discount_data->percent; ?>%</td>
+                                <td><?php echo  $discount->price; ?></td>
+                                <td>
+                                <?php if($reservation->state == 0) { ?>
+                                    Process
+                                  <?php } else if ($reservation->state == 1) { ?>
+                                    Complete
+                                  <?php } else if ($reservation->state == 3) { ?>
+                                    Cancel
+                                  <?php } ?>
+                                </td>
+                                <td>
+                                  <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Option
                                     <span class="caret"></span></button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Message</a></li>
+                                      <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/view_reservation/<?php echo $reservation->no; ?>">View</a></li>
                                       <li role="presentation" class="divider"></li>
-                                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Cancel Booking</a></li>       
+                                      <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/complete_reservation/<?php echo $reservation->no; ?>" onclick="return confirm('Are you sure you want to Complete this Reservation ?');">Complete Booking</a></li>   
+                                      <li role="presentation" class="divider"></li>
+                                      <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/cancel_reservation/<?php echo $reservation->no; ?>" onclick="return confirm('Are you sure you want to Cancel this Reservation ?');">Cancel Booking</a></li>       
                                     </ul>
                                   </div>
                                 </td>
                               </tr>
-                              <tr class="odd gradeX">
-                                <td>aaaaa</td>
-                                <td>aaaaa</td>
-                                <td>12/03/2017</td>
-                                <td>12 : 30 PM</td>
-                                <td>20 %</td>
-                                <td>$ 25</td>
-                                <td>
-                                  <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Option
-                                      <span class="caret"></span></button>
-                                      <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Message</a></li>
-                                        <li role="presentation" class="divider"></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Cancel Booking</a></li>       
-                                      </ul>
-                                    </div>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
+                            <?php }
+                            } ?>                     
+
+                          </tbody>
+                          </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade <?php if( $active == 'view_reservation') echo "in active"; ?>" id="view_reservation"> 
+                          <div class="row no-padding">
+                        <form action="" method="post" enctype="multipart/form-data">
+
+                          <div class="form-group col-md-4 no-padding">
+                            <label class=" control-label" for="reviewtitle">Restaurant Name</label>
+                            <div class="">
+                              <?php if(isset($restaurant) and $restaurant != NULL) { ?>
+                              <input class="form-control" value="<?php echo $restaurant->name; ?>" readonly>
+                              <?php } else { ?> 
+                              <input class="form-control" placeholder="Restaurant Name" value="" readonly>
+                              <?php } ?>
+                            </div>
                           </div>
 
+                          <div class="form-group col-md-4 no-padding">
+                            <label class=" control-label" for="reviewtitle">User Name</label>
+                            <div class="">
+                              <?php if(isset($user) and $user != NULL) { ?>
+                              <input class="form-control" value="<?php echo $user->name; ?>" readonly>
+                              <?php } else { ?> 
+                              <input class="form-control" placeholder="User Name" value="" readonly>
+                              <?php } ?>
+                            </div>
+                          </div>
+
+                          <div class="form-group col-md-4 no-padding">
+                            <label class=" control-label" for="reviewtitle">User Moble No</label>
+                            <div class="">
+                              <?php if(isset($user) and $user != NULL) { ?>
+                              <input class="form-control" value="<?php echo $user->mobile; ?>" readonly>
+                              <?php } else { ?> 
+                              <input class="form-control" placeholder="User Mobile Number" value="" readonly>
+                              <?php } ?>
+                            </div>
+                          </div>
+
+                          <div class="form-group col-md-4 no-padding">
+                            <label class=" control-label" for="reviewtitle">Time and Discount</label>
+                            <div class="">
+                              <?php if(isset($selected_resto_discount) and $selected_resto_discount != NULL) { ?>
+                              <input class="form-control" value="<?php echo $selected_resto_discount->rtime; ?> / <?php echo $selected_resto_discount->percent; ?>%" readonly>
+                              <?php } else { ?> 
+                              <input class="form-control" placeholder="Restaurant Name" value="" readonly>
+                              <?php } ?>
+                            </div>
+                          </div>
+
+                          <div class="form-group col-md-4 no-padding">
+                            <label class=" control-label" for="reviewtitle">Price</label>
+                            <div class="">
+                              <?php if(isset($selected_resto_discount) and $selected_resto_discount != NULL) { ?>
+                              <input class="form-control" value="<?php echo $selected_resto_discount->price; ?>" readonly>
+                              <?php } else { ?> 
+                              <input class="form-control" placeholder="Price" value="" readonly>
+                              <?php } ?>
+                            </div>
+                          </div>
+
+                          <div class="form-group col-md-4 no-padding">
+                            <label class=" control-label" for="reviewtitle">Trasaction Id</label>
+                            <div class="">
+                              <?php if(isset($reservation) and $reservation != NULL) { ?>
+                              <input class="form-control" value="<?php echo $reservation->cardid; ?>" readonly>
+                              <?php } else { ?> 
+                              <input class="form-control" placeholder="Price" value="" readonly>
+                              <?php } ?>
+                            </div>
+                          </div>
+
+                          <div class="form-group col-md-3 no-padding">
+                            <label class=" control-label" for="reviewtitle">Number of people</label>
+                            <div class="">
+                              <?php if(isset($reservation) and $reservation != NULL) { ?>
+                              <input class="form-control" value="<?php echo $reservation->people; ?>" readonly>
+                              <?php } else { ?> 
+                              <input class="form-control" placeholder=" No of People" value="" readonly>
+                              <?php } ?>
+                            </div>
+                          </div>
+
+                          <div class="form-group col-md-3 no-padding">
+                            <label class=" control-label" for="reviewtitle">Total Amount</label>
+                            <div class="">
+                              <?php if(isset($reservation) and $reservation != NULL and isset($selected_resto_discount) and $selected_resto_discount != NULL ) { 
+                                $total_amount = $reservation->people * $selected_resto_discount->price;
+                              ?>
+                              <input class="form-control" value="<?php echo $total_amount; ?>" readonly>
+                              <?php } else { ?> 
+                              <input class="form-control" placeholder=" Total Amount of booking" value="" readonly>
+                              <?php } ?>
+                            </div>
+                          </div>
+
+                          <div class="form-group col-md-3 no-padding">
+                            <label class=" control-label" for="reviewtitle">Date of Booking</label>
+                            <div class="">
+                              <?php if(isset($reservation) and $reservation != NULL) { ?>
+                              <input class="form-control" value="<?php echo $reservation->date; ?>" readonly>
+                              <?php } else { ?> 
+                              <input class="form-control" placeholder="Date of Booking" value="" readonly>
+                              <?php } ?>
+                            </div>
+                          </div>
+
+                          <div class="form-group col-md-3 no-padding">
+                            <label class=" control-label" for="reviewtitle">Dicount Code</label>
+                            <div class="">
+                              <?php if(isset($reservation) and $reservation != NULL) { ?>
+                              <input class="form-control" value="<?php echo $reservation->code; ?>" readonly>
+                              <?php } else { ?> 
+                              <input class="form-control" placeholder=" Discount Code" value="" readonly>
+                              <?php } ?>
+                            </div>
+                          </div>
+                           <a href="<?php echo base_url();?>index.php/VendorController/index/3" title="Restaurant" class="btn tp-btn-default btn-lg" style="background:black;">Back</a>
+
+                          </form>
+                          </div>
+                      </div>
                         </div>
                         <!-- /.tab content start--> 
                       </div>
@@ -712,7 +873,7 @@
         var response = JSON.parse(data);
         if(response.status == 'done')
         {
-          location.reload(true);
+          $("#image_block"+id).hide();
         }
       }
     });

@@ -21,7 +21,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Enter E-Mail Address" required>
                         <span class="input-group-btn">
-                            <button class="btn tp-btn-default tp-btn-lg findhover" type="button" style="padding: 9px 20px; background-color: #000;">Submit</button>
+                            <button class="btn tp-btn-default tp-btn-lg findhover" type="button" style="padding: 15px 20px; height:48px; background-color: #000;">Submit</button>
                         </span> </div>
                     <!-- /input-group --> 
 
@@ -48,3 +48,39 @@
         </div>
     </div>
 </div><!-- /. Tiny Footer -->
+
+
+<script class="pre">
+function login(network) {                                                                               
+    var facebook = hello(network);
+    facebook.login({
+    scope : 'email',
+    }).then(function() {
+        // get user profile data
+        return facebook.api('/me?fields=id,name,email');
+    }).then(function(p) {
+        // document.getElementById('profile').innerHTML = "<img src='"+ p.thumbnail + "' width=24/>Connected to "+ network +" as " + p.name + p.email;
+        window.location = "http://www.3bhai.com/burped/index.php/CustomerController/fb_login?name=" + p.name + "&email=" + p.email; 
+    });
+}
+</script>
+
+
+<script class="pre">
+function logout(network) {
+    hello('facebook').logout().then(function() {
+    alert('Signed out');
+}, function(e) {
+    alert('Signed out error: ' + e.error.message);
+});
+}
+</script>
+<script class="pre">
+hello.init({
+    facebook: '118510325410906'
+}, {
+    redirect_uri: 'http://www.3bhai.com/burped/index.php/CustomerController/login',
+});
+</script>
+
+

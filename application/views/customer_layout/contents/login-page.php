@@ -14,7 +14,7 @@
     <div class="row">
       <a type="button" class="btn" data-toggle="modal" data-target="#myModal" style="background-color: #FAF9F5;border: none;float: right;"></a>
       <div class="col-md-12 tp-title-center"><h1>  Welcome back to your account.</h1>
-        <p>We're happy to have you back.</p>
+        <p>We are happy to have you back.</p>
       </div>
       
     </div>
@@ -46,26 +46,30 @@
             <!-- Text input-->
             <div class="form-group">
               <label class="control-label" for="email">E-mail<span class="required">*</span></label>
-              <input id="email" name="email" type="email" placeholder="E-Mail" class="form-control input-md" required>
+              <input id="email" name="email" type="email" placeholder="E-Mail" class="form-control input-md" autocomplete="off" required>
             </div>
 
             <!-- Text input-->
             <div class="form-group">
               <label class="control-label" for="password">Password<span class="required">*</span></label>
-              <input id="password" name="password" type="password" placeholder="Password" class="form-control input-md" required>
+              <input id="password" name="password" type="password" placeholder="Password" class="form-control input-md" autocomplete="off" required>
             </div>
 
             <!-- Button -->
             <div class="form-group">
               <button id="submit" name="submit" class="btn tp-btn-primary tp-btn-lg findhover" style="background-color:#8E203E;">Login</button>
-              <a href="forget-password.html" class="pull-right"> <small>Forgot Password ?</small></a> 
+         <!--     <a href="forget-password.html" class="pull-right"> <small>Forgot Password ?</small></a> -->
             </div>
           </form>
+                        <button id='profile' class="btn btn-primary" onclick="login('facebook');" style="background-color:#337AB7;float:right;padding-top:11px;padding-bottom:10px;margin-top: -54px;margin-right: -15px;" >Login with facebook</button>
 
         </div>
       </div>
-      <div class="well-box social-login"> <a href="#" class="btn facebook-btn"><i class="fa fa-facebook-square"></i>Facebook</a> </div>
+
     </div>
   </div>
 </div>
+
+
+	
 

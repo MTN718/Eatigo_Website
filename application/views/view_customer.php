@@ -12,7 +12,15 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>Burped</title>
         <!-- Bootstrap -->
-      
+      	
+     
+	
+	<script src="<?php echo base_url();?>assets/client_ids.js"></script>
+	<script src="<?php echo base_url();?>assets/src/hello.polyfill.js"></script>
+	<script src="<?php echo base_url();?>assets/src/hello.js"></script>
+	
+	<script src="<?php echo base_url();?>assets/modules/facebook.js"></script>
+
         <link href="<?php echo base_url();?>css/select2.css" rel="stylesheet" type="text/css" media="screen" />
         <link href="<?php echo base_url();?>css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
 
@@ -36,7 +44,7 @@
         <!-- Time  Picker -->
         <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/customer/bootstrap-clockpicker.min.css">
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!-- WARNING: Respond.js does not work if you view the page via file:// -->
         <!--[if lt IE 9]>
               <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
               <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -63,7 +71,7 @@
         <script src="<?php echo base_url();?>map/ajax/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="<?php echo base_url();?>map/ajax/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
         <script src="<?php echo base_url();?>map/map1/addresspicker/src/jquery.ui.addresspicker.js"></script>
-        <script>
+      <script>
         $(function() {
           var addresspicker = $( "#addresspicker" ).addresspicker({
             componentsFilter: 'country:FR'
@@ -111,8 +119,9 @@
 
         });
         </script>
-
+        
     <script type="text/javascript" src="<?php echo base_url();?>js/dropzone.js"></script>
+    </head>
    <!-- forogt light-box Section End --> 
       <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -135,6 +144,7 @@
       </div>
       </head>
     <body>
+    
         <?php
         include('customer_layout/header.php');
         include('customer_layout/content.php');
@@ -146,11 +156,12 @@
         <script src="<?php echo base_url();?>js/customer/nav.js"></script> 
         <script src="<?php echo base_url();?>js/customer/bootstrap-select.js"></script> 
         <script src="<?php echo base_url();?>js/customer/owl.carousel.min.js"></script> 
+        <script src="<?php echo base_url();?>js/customer/thumbnail-slider.js"></script> 
         <script src="<?php echo base_url();?>js/customer/slider.js"></script> 
         <script src="<?php echo base_url();?>js/customer/testimonial.js"></script> 
         <script src="<?php echo base_url();?>js/customer/jquery.sticky.js"></script> 
         <script src="<?php echo base_url();?>js/customer/header-sticky.js"></script>
-        <script src="<?php echo base_url();?>js/toastr.js"></script>
+
         <!-- datatables -->
         <script src="<?php echo base_url();?>js/select2.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>js/jquery.dataTables.min.js" type="text/javascript"></script>
@@ -163,13 +174,18 @@
         <script src="<?php echo base_url();?>js/fileinput.js"></script>
 
         <script>
+
+          <?php if(isset($restaurantdetails) and $restaurantdetails != NULL) { ?>
+          var myCenter=new google.maps.LatLng( <?php echo $restaurantdetails->lat; ?>, <?php echo $restaurantdetails->lng; ?>);
+          <?php } else { ?>
           var myCenter=new google.maps.LatLng(23.0203458,72.5797426);
+          <?php } ?>
 
           function initialize()
           {
             var mapProp = {
               center:myCenter,
-              zoom:9,
+              zoom:12,
               scrollwheel: false,
               mapTypeId:google.maps.MapTypeId.ROADMAP
             };
@@ -179,7 +195,7 @@
             var marker=new google.maps.Marker({
               position:myCenter,
 
-              icon:'images/pinkball.png'
+              icon:'<?php echo base_url();?>images/mapmarker.png'
             });
 
             marker.setMap(map);
@@ -199,7 +215,11 @@
         var map = new google.maps.Map(document.getElementById('googleMap'), {
           zoom: 12,
 
-          center: {lat: 23.0204883, lng: 72.5097025}
+          <?php if(isset($restaurantdetails) and $restaurantdetails != NULL) { ?>
+            center: {lat: <?php echo $restaurantdetails->lat; ?>, lng: <?php echo $restaurantdetails->lng; ?>}
+          <?php } else { ?>
+            center: {lat: 23.0204883, lng: 72.5097025}
+          <?php } ?>
         });
 
         setMarkers(map);
@@ -241,7 +261,7 @@
         for (var i = 0; i < beaches.length; i++) {
           var beach = beaches[i];
           var image = {
-          url: 'images/'+beach[4],
+          url: '<?php echo base_url();?>images/'+beach[4],
 
           // This marker is 20 pixels wide by 32 pixels high.
           size: new google.maps.Size(32, 49),
@@ -329,32 +349,6 @@ if (/mobile/i.test(navigator.userAgent)) {
 }
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                 
+               
     </body>
 </html>

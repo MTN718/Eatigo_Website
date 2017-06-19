@@ -13,29 +13,32 @@
                         <h1 style="margin-bottom:20px;">Find your perfect Restaurant</h1>
                     </div>
                     <div class="finderform">
-                        <form>
+                        <form action="<?php echo base_url();?>index.php/CustomerController/getrestaurantsbysearch" method="POST" type="multipart/form-data">
                             <div class="col-md-2 no-padding">
-                                <select class="form-control selectpicker">
-                                    <option class="active" value="">Select Date</option>
-                                    <option value="Venue">06/08</option>
-                                </select>
+                                <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text" value="" />
                             </div>
+
                             <div class="col-md-2 no-padding">
-                                <select class="form-control selectpicker">
+                                <select class="form-control selectpicker" name="search_time">
                                     <option class="active" value="">Select Time</option>
-                                    <option value="Venue">13:00</option>
+                                    <?php foreach ($times as $time) { ?>
+                                        <option value="<?php echo $time->rtime;?>"><?php echo $time->rtime;?></option>
+                                    <?php }  ?>
                                 </select>
                             </div>
                             <div class="col-md-2 no-padding">
-                                <select class="form-control selectpicker">
-                                    <option class="active" value="">No. of People</option>
-                                    <option value="Venue">2</option>
+                                <select class="form-control selectpicker" name="noofperson">
+                                        <option class="active">1 person</option>
+                                    <?php for($i=2;$i<=20;$i++) { ?>
+                                        <option value="<?php echo $i;?>"><?php echo $i;?> people</option>
+                                    <?php } ?>
+                                    
                                 </select>
                             </div>
                             <div class="form-group col-md-4 no-padding" style="width: 274px;">
-                                <input type="text" class="form-control" placeholder="Enter Restaurant Name">
+                                <input type="text" name="restaurantname" class="form-control" placeholder="Enter Restaurant Name">
                             </div>
-                            <button type="submit" class="h btn tp-btn-default tp-btn-lg findhover">Find Restaurants</button>
+                            <button type="submit" class="h btn tp-btn-default tp-btn-lg findhover" style="height: 48px;">Find Restaurants</button>
                         </form>
                     </div>
                 </div>
@@ -84,7 +87,7 @@
             <div class="portfolio-grid clearfix" id="portfolioList">
                 <?php foreach ($categorylist as $category) { ?>
                     <div class="mix Categories">
-                        <a href="#">
+                        <a href="<?php echo base_url();?>index.php/CustomerController/restaurants/<?php echo $category->no;?>">
                         <div class="home-group-img location-block"><!-- location block -->
                             <div class="home-group-img lazy vendor-image">
                                 <img src="<?php echo base_url();?><?php echo $category->image; ?>" alt="" class="img-responsive">
@@ -172,7 +175,7 @@
                                         foreach ($discount as $disc) {                                             
                                         $disc_percent = $this->db->get_where('tbl_base_discount', array('no' => $disc->did))->row();
                                         ?>
-                                            <a href="" class="swiper-slide red-slide">
+                                            <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $restaurant->no; ?>" class="swiper-slide red-slide">
                                             <div class="home-slot-time normal-font font-weight-bold">
                                                 <?php echo $disc->rtime; ?>
                                             </div>
@@ -214,56 +217,47 @@
         <div class="row">
             <div class="col-md-12 tp-testimonial">
                 <div id="testimonial" class="owl-carousel owl-theme">
-                    <div class="item testimonial-block">
-                        <div class="couple-pic"><img src="<?php echo base_url();?>images/couple-4.jpg" alt="" class="img-circle"></div>
+                <?php if(isset($reviews)) { 
+                    foreach ($reviews as $review) { 
+                        ?>
+                        <div class="item testimonial-block">
+                        <div class="couple-pic">
+                            <?php 
+                                $this->db->select('*');
+                                $this->db->from('tbl_user');
+                                $this->db->where('no', $review->uid);
+                                $query = $this->db->get();
+                                if ( $query->num_rows() > 0 )
+                                {
+                                  $row = $query->row_array();
+                            ?>      
+                                <img src="<?php echo base_url();?><?php echo $row['image'];?>" alt="" class="img-circle" width="200" height="200">
+                            <?php 
+                                }
+                            ?>
+                        
+                        </div>
                         <div class="col-md-12 rating-box">
-                            <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
+                            <div class="rating">
+                                <?php  for($i=0;$i<$review->rating;$i++) { ?>
+                                  <i class="fa fa-star"></i> 
+                                <?php } ?> 
+                                <?php for($j=0;$j< 5-$review->rating;$j++) { ?>
+                                  <i class="fa fa-star-o"></i>  
+                                <?php } ?>   
+                            </div>
                         </div>
                         <div class="feedback-caption">
-
-                            <p>"check out this week’s new restaurants on eatigo here! reserve now and get up to 50% off for every restaurant everyday"
-                            </p>
+                            <p><?php echo $review->content;?></p>
                         </div>
                         <div class="couple-info">
-                            <div class="date">Thu, 21st June, 2017</div>
+                                <strong><?php echo $date = date('M',strtotime($review->createdate)); ?></strong>
+                                <span style="color:red; font-weight: 600;"> <?php echo $date = date('d,',strtotime($review->createdate)); ?></span>
+                                <?php echo $date = date('Y',strtotime($review->createdate)); ?>
+                            </div>
                         </div>
-                    </div>
-                    <div class="item testimonial-block">
-                        <div class="couple-pic"><img src="<?php echo base_url();?>images/couple-4.jpg" alt="" class="img-circle"></div>
-                        <div class="col-md-12 rating-box">
-                            <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                        </div>
-                        <div class="feedback-caption">
-                            <p>"check out this week’s new restaurants on eatigo here! reserve now and get up to 50% off for every restaurant everyday"</p>
-                        </div>
-                        <div class="couple-info">
-                            <div class="date">Thu, 13th July, 2017</div>
-                        </div>
-                    </div>
-                    <div class="item testimonial-block">
-                        <div class="couple-pic"><img src="<?php echo base_url();?>images/couple-4.jpg" alt="" class="img-circle"></div>
-                        <div class="col-md-12 rating-box">
-                            <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                        </div>
-                        <div class="feedback-caption">
-                            <p>"check out this week’s new restaurants on eatigo here! reserve now and get up to 50% off for every restaurant everyday"</p>
-                        </div>
-                        <div class="couple-info">
-                            <div class="date">Thu, 13th July, 2017</div>
-                        </div>
-                    </div>
-                    <div class="item testimonial-block">
-                        <div class="couple-pic"><img src="<?php echo base_url();?>images/couple-4.jpg" alt="" class="img-circle"></div>
-                        <div class="col-md-12 rating-box">
-                            <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                        </div>
-                        <div class="feedback-caption">
-                            <p>"Etiam ut metus nisi. Sed non laoreet nisi tinciin interdum risus felis enjoyable day were Notting was a problem from "</p>
-                        </div>
-                        <div class="couple-info">
-                            <div class="date">Thu, 12th Sept, 2017</div>
-                        </div>
-                    </div>
+                    <?php  } 
+                } ?>
                 </div>
             </div>
         </div>
@@ -271,3 +265,17 @@
 </div><!-- /. Testimonial Section -->
 
 <script src="<?php echo base_url();?>js/customer/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+<script>
+$(document).ready(function(){
+  var date_input=$('input[name="date"]'); //our date input has the name "date"
+  var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+  date_input.datepicker({
+    format: 'dd/mm/yyyy',
+    container: container,
+    todayHighlight: true,
+    autoclose: true,
+  })
+})
+</script>

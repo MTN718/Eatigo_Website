@@ -18,33 +18,6 @@ class Sqllibs {
         $result = $db->query($sql)->result();
         return $result;
     }
-    
-    public function selectFields($db,$tableName,$selectFields=null,$whereFields = null)
-    {
-        $sql = "select ";
-        if ($selectFields == null)
-            $sql = "select * from ";
-        else
-        {
-            foreach (array_keys($selectFields) as $key) {
-                $sql = $sql . $key . ",";
-            }
-            $sql = substr($where, 0, strlen($where) - 1);
-            $sql = $sql." from ";
-        }                
-        $sql = $sql . $tableName;
-        $where = "";
-        if ($whereFields != null) {
-            $where = " where ";
-            foreach (array_keys($whereFields) as $key) {
-                $where = $where . $key . "=" . "'" . $whereFields[$key] . "'" . ' and ';
-            }
-            $where = substr($where, 0, strlen($where) - 4);
-        }
-        $sql = $sql . $where;
-        $result = $db->query($sql)->result();
-        return $result;
-    }
 
     public function getOneRow($db, $tableName, $whereFields) {
         $result = $this->selectAllRows($db, $tableName, $whereFields);

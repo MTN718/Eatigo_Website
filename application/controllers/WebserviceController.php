@@ -170,41 +170,11 @@ class WebserviceController extends BaseController {
                 , array(null, array('name as rs_name', 'about as rs_about'))
         );
         $rsArray = array();
-        
         for ($i = 0; $i < count($reservations); $i++) {
-            
-            $rtInfo = $this->sqllibs->getOneRow($this->db, 'tbl_restaurant', array(
-                "no" => $reservations[$i]->rid
-            ));
-            $lat = "0";
-            $lon = "0";
-            $address = "";
-            if ($rtInfo != null)
-            {
-                $lat = $rtInfo->lat;
-                $lon = $rtInfo->lng;
-                $address = $rtInfo->address;
-            }
-            
-            $discountInfo = $this->sqllibs->getOneRow($this->db, 'tbl_map_discount_restaurant', array(
-                "no" => $reservations[$i]->did
-            ));
-            
-            $baseDiscount = $this->sqllibs->getOneRow($this->db, 'tbl_base_discount', array(
-                "no" => $discountInfo->did
-            ));            
-            
             $image = $this->sqllibs->getOneRow($this->db, 'tbl_image_restaurant', array(
                 "rid" => $reservations[$i]->rid
             ));
-            $extended = (object) array_merge((array) $reservations[$i], 
-                    array(
-                        'rs_image' => $image->image,
-                        'lat'=>$lat,
-                        'lon'=>$lon,
-                        'address' => $address,
-                        'dt_time'=>$discountInfo->rtime,
-                        'dt_percent' =>$baseDiscount->percent));
+            $extended = (object) array_merge((array) $reservations[$i], array('rs_image' => $image->image));
             $rsArray[$i] = $extended;
         }
         $result['reservations'] = $rsArray;
@@ -267,14 +237,12 @@ class WebserviceController extends BaseController {
         $index = 0;
         foreach ($restaurants as $rst) {
             $images = $this->sqllibs->selectAllRows($this->db, 'tbl_image_restaurant', array("rid" => $rst->no));
-            $sql = "select A.*,B.name as lang_name from tbl_map_language_restaurant as A left join tbl_base_language as B on A.lid=B.no";
-            $langs = $this->sqllibs->rawSelectSql($this->db, $sql);
             $rstExtend = (object) array_merge((array) $rst, array('rs_image' => $images));
             $discounts = $this->sqllibs->selectJoinTables($this->db, array('tbl_map_discount_restaurant', 'tbl_base_discount')
                     , array('did', 'no')
                     , array('rid' => $rst->no)
             );
-            $rstExtend = (object) array_merge((array) $rstExtend, array('rs_discounts' => $discounts,'langs'=>$langs));
+            $rstExtend = (object) array_merge((array) $rstExtend, array('rs_discounts' => $discounts));
             $rstArray[$index] = $rstExtend;
             $index++;
         }
@@ -315,11 +283,11 @@ class WebserviceController extends BaseController {
 
     function loadRestaurants() {
         $postVars = $this->utils->inflatePost(array('cid', 'page'));
-        $category = $this->sqllibs->getOneRow($this->db, 'tbl_category', array(
-            "no" => $postVars['cid']
-        ));
+        $categorys = $this->sqllibs->selectAllRows($this->db, 'tbl_category', array("cid" => $postVars['cid']));
         $sqlIn = "";
-        $sqlIn = $sqlIn . $category->no . ",";
+        foreach ($categorys as $category) {
+            $sqlIn = $sqlIn . $category->no . ",";
+        }
         $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
         $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.category in (" . $sqlIn . ") order by A.avgrate desc limit " . ($postVars['page'] * 30) . "," . (($postVars['page'] + 1) * 30);
         $restaurants = $this->sqllibs->rawSelectSql($this->db, $sqlIn);
@@ -330,9 +298,7 @@ class WebserviceController extends BaseController {
 
     function loadDetailRestaurant() {
         $postVars = $this->utils->inflatePost(array('rid'));
-        //$restaurants = $this->sqllibs->selectAllRows($this->db, 'tbl_restaurant', array("no" => $postVars['rid']));
-        $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.no='" . $postVars['rid'] . "'";
-        $restaurants = $this->sqllibs->rawSelectSql($this->db, $sqlIn);
+        $restaurants = $this->sqllibs->selectAllRows($this->db, 'tbl_restaurant', array("no" => $postVars['rid']));
         $rsts = $this->generateRestaurantArray($restaurants);
         $result['restaurant'] = $rsts[0];
         $result['result'] = 200;
@@ -429,11 +395,10 @@ class WebserviceController extends BaseController {
     }
 
     function submitReservation() {
-        $postVars = $this->utils->inflatePost(array('uid', 'rid', 'did', 'people', 'cardid', 'date'));
+        $postVars = $this->utils->inflatePost(array('uid', 'rid', 'did', 'people', 'cardid', 'date', 'time'));
         $discountInfo = $this->sqllibs->getOneRow($this->db, 'tbl_map_discount_restaurant', array(
             "no" => $postVars['did']
         ));
-        $result = array();
         if ($discountInfo->amount > $postVars['people']) {
             //Generate Code
             $code = $this->utils->generateRandomString();
@@ -449,9 +414,9 @@ class WebserviceController extends BaseController {
                 "no" => $postVars['cardid']
             ));
             //Checkout
-            $transactionId = $this->stripe->checkOut($cardInfo->cardnumber, $cardInfo->expmonth, $cardInfo->expyear, $cardInfo->security, $discountInfo->price * 100);
+            $transactionId = $this->strip->checkOut($cardInfo->cardnumber, $cardInfo->expmonth, $cardInfo->expyear, $cardInfo->security, $discountInfo->price);
             if ($transactionId != false) {
-                $tid = $this->sqllibs->insertRow($this->db, 'tbl_transaction'
+                $this->sqllibs->insertRow($this->db, 'tbl_transaction'
                         , array(
                     "transaction" => $transactionId,
                     "status" => 0,
@@ -469,205 +434,45 @@ class WebserviceController extends BaseController {
                     "code" => $code,
                     "people" => $postVars['people'],
                     "date" => $postVars['date'],
-                    "transaction" => $tid,
-                    "cardid" => $postVars['cardid']
+                    "cardid" => $postVars['cardid'],
+                    "time" => $postVars['time']
                 ));
 
+                $result = array();
                 $result['code'] = $code;
                 $result['result'] = 200;
                 echo json_encode($result);
                 return;
-            } else {
-                $result['message'] = "Checkout Fail";
             }
-        } else
-            $result['message'] = "Full Reservations";
+        }
+        $result = array();
+        $result['code'] = $code;
         $result['result'] = 400;
         echo json_encode($result);
         return;
-    }
-
-    function loadDetailReservation() {
-        $postVars = $this->utils->inflatePost(array('rid'));
-        $reserveInfo = $this->sqllibs->getOneRow($this->db, 'tbl_reservation', array(
-            "no" => $postVars['rid']
-        ));
-        $restaurantInfo = $this->sqllibs->getOneRow($this->db, 'tbl_restaurant', array(
-            "no" => $reserveInfo->rid
-        ));
-
-        $discountInfo = $this->sqllibs->getOneRow($this->db, 'tbl_map_discount_restaurant', array(
-            "no" => $reserveInfo->did
-        ));
-        $disDetail = $this->sqllibs->getOneRow($this->db, 'tbl_base_discount', array(
-            "no" => $discountInfo->did
-        ));
-
-        $result = array();
-        $info = array();
-        $info['no'] = $reserveInfo->no;
-        $info['code'] = $reserveInfo->code;
-        $info['people'] = $reserveInfo->people;
-        $info['date'] = $reserveInfo->date;
-        $info['status'] = $reserveInfo->state;
-        $info['rt_id'] = $restaurantInfo->no;
-        $info['rt_name'] = $restaurantInfo->name;
-        $info['dt_percent'] = $disDetail->percent;
-        $info['dt_price'] = $discountInfo->price;
-
-        $result['info'] = $info;
-        $result['result'] = 200;
-        echo json_encode($result);
-    }
-
-    function submitReportReservation() {
-        $postVars = $this->utils->inflatePost(array('rid', 'uid', 'email', 'title', 'phone', 'content'));
-        $this->sqllibs->insertRow($this->db, 'tbl_report'
-                , array(
-            "rid" => $postVars['rid'],
-            "uid" => $postVars['uid'],
-            "title" => $postVars['title'],
-            "content" => $postVars['content'],
-            "email" => $postVars['email'],
-            "phone" => $postVars['phone'],
-        ));
-        $result = array();
-        $result['result'] = 200;
-        echo json_encode($result);
-    }
-
-    function submitReview() {
-        $postVars = $this->utils->inflatePost(array('rid', 'uid', 'title', 'content', 'rating'));
-        
-        $reserveInfo = $this->sqllibs->getOneRow($this->db, 'tbl_reservation', array(
-            "no" => $postVars['rid']
-        ));
-        
-        $this->sqllibs->insertRow($this->db, 'tbl_review_restaurant'
-                , array(
-            "rid" => $postVars['rid'],
-            "rtid" => $reserveInfo->rid,        
-            "uid" => $postVars['uid'],
-            "title" => $postVars['title'],
-            "content" => $postVars['content'],
-            "rating" => $postVars['rating']
-        ));
-
-        $restDetail = $this->sqllibs->getOneRow($this->db, 'tbl_restaurant', array(
-            "no" => $reserveInfo->rid
-        ));
-        $avgStars = (($restDetail->avgrate * $restDetail->reviews) + $postVars['rating']) / ($restDetail->reviews + 1);
-
-        $this->sqllibs->updateRow($this->db, 'tbl_restaurant'
-                , array(
-            "avgrate" => $avgStars,
-            "reviews" => ($restDetail->reviews + 1)
-                )
-                , array(
-            "no" => $postVars['rid']
-        ));
-        
-        $this->sqllibs->updateRow($this->db, 'tbl_reservation'
-                , array(
-            "state" => 2
-                )
-                , array(
-            "no" => $postVars['rid']
-        ));
-
-
-        $result = array();
-        $result['result'] = 200;
-        echo json_encode($result);
-    }
-
-    function cancelReservation() {
-        $postVars = $this->utils->inflatePost(array('rid'));
-        $reserveInfo = $this->sqllibs->getOneRow($this->db, 'tbl_reservation', array(
-            "no" => $postVars['rid']
-        ));
-        $discountInfo = $this->sqllibs->getOneRow($this->db, 'tbl_map_discount_restaurant', array(
-            "no" => $reserveInfo->did
-        ));
-
-        $transInfo = $this->sqllibs->getOneRow($this->db, 'tbl_transaction', array(
-            "no" => $reserveInfo->transaction
-        ));
-        //Refund Money
-        $result = $this->stripe->refund($id);
-
-        if ($result != false) {
-
-            $tid = $this->sqllibs->insertRow($this->db, 'tbl_transaction'
-                    , array(
-                "transaction" => $result,
-                "status" => 1,
-                "price" => $transInfo->price,
-                "uid" => $transInfo->uid,
-                "rid" => $transInfo->rid,
-                "did" => $transInfo->did
-            ));
-
-            $this->sqllibs->updateRow($this->db, 'tbl_reservation'
-                    , array(
-                "transaction" => $tid,
-                "status" => 3
-                    )
-                    , array(
-                "no" => $postVars['rid']
-            ));
-
-            $result = array();
-            $result['result'] = 200;
-            echo json_encode($result);
-            return;
-        }
-        $result = array();
-        $result['result'] = 400;
-        echo json_encode($result);
-        return;
-    }
-    
-    function searchRestaurant()
-    {
-        $postVars = $this->utils->inflatePost(array('keyword','discount','price_min','price_max'));        
-        $sql = "select B.rid from tbl_base_discount as A left join tbl_map_discount_restaurant as B on A.no = B.did where A.percent >='".$postVars['discount']."' group by B.rid";        
-        $rids = $this->sqllibs->rawSelectSql($this->db, $sql);        
-        $sql = "select no as rid from tbl_restaurant where level>='".$postVars['price_min']."' and level<='".$postVars['price_max']."' and name like '%".$postVars['keyword']."%'";
-        $rids2 = $this->sqllibs->rawSelectSql($this->db, $sql);        
-        $array1 = array();
-        $array2 = array();
-        foreach ($rids as $rid) 
-            $array[] = $rid->rid;        
-        foreach ($rids2 as $rid) 
-            $array2[] = $rid->rid;        
-        $ridArray = array_intersect($array, $array2);
-        
-        if (count($ridArray) == 0)
-        {
-            $result = array();
-            $result['restaurants'] = array();
-            $result['result'] = 200;
-            echo json_encode($result);
-            return;
-        }
-        $sqlIn = "";
-        foreach ($ridArray as $rid) {
-            $sqlIn = $sqlIn . $rid . ",";
-        }
-        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
-        
-        
-        $sql = "select *,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.no in (".$sqlIn.")";
-        $restaurants = $this->sqllibs->rawSelectSql($this->db, $sql);             
-        
-        $result = array();
-        $result['restaurants'] = $this->generateRestaurantArray($restaurants);
-        $result['result'] = 200;
-        echo json_encode($result);
     }
 
     //Incomplete
+    function loadDetailBook() {
+        $postVars = $this->utils->inflatePost(array('rid'));
+    }
+
+    function submitReportReservation() {
+        $postVars = $this->utils->inflatePost(array('email,title,phone,content'));
+        $this->sqllibs->insertRow($this->db, 'tbl_card'
+                , array(
+            "uid" => $postVars['uid'],
+            "name" => $postVars['name'],
+            "cardnumber" => $postVars['cardnumber'],
+            "expire" => $postVars['expire'],
+            "security" => $postVars['security']
+        ));
+        $result = array();
+        $result['restaurant'] = $rsts[0];
+        $result['result'] = 200;
+        echo json_encode($result);
+    }
+
     function testPayment() {
         $this->stripe->testCheckout();
     }

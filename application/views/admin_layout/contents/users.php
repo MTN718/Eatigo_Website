@@ -10,7 +10,6 @@
                     <th>No</th>
                     <th>UserName</th>
                     <th>Email</th>
-                    <th>Role</th>
                     <th>Type</th>
                     <th>Details</th>
                 </tr>
@@ -31,14 +30,6 @@
                                 echo "Customer";
                             else if ($user->role == "1")
                                 echo "Vendor";
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                            if ($user->type == "0")
-                                echo "Email";
-                            else if ($user->role == "1")
-                                echo "Facebook";
                             ?>
                         </td>
                         <td>

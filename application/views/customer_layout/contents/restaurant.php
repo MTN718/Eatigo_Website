@@ -5,7 +5,7 @@
           <div class="col-md-8 tp-title">
           </div>
           <div class="col-md-4 text-right" style="padding-right: 23px;">
-            <div class="btn-group"> <a href="<?php echo base_url();?>index.php/CustomerController/restaurantlist" id="list" class="btn list-btn btn-sm" style="color:#706a68"><span class="fa fa-th-list"> </span> </a> <a href="#" id="grid" class="btn  grid-btn active  btn-sm"><span class="fa fa-th"></span> </a> </div>
+            <div class="btn-group"> <a href="<?php echo base_url();?>index.php/CustomerController/restaurantlist/<?php echo $category_id; ?>" id="list" class="btn list-btn btn-sm" style="color:#706a68"><span class="fa fa-th-list"> </span> </a> <a href="#" id="grid" class="btn  grid-btn active  btn-sm"><span class="fa fa-th"></span> </a> </div>
           </div>
         </div>
         <div class="row">
@@ -14,105 +14,78 @@
               <div class="col-md-12 form-title">
                 <h2>Refine Your Search</h2>
               </div>
-              <form>
-                <div class="col-md-12 form-group">
-                  <label class="control-label" for="venuetype">Venue Type</label>
-                  <select id="venuetype" name="venuetype" class="form-control">
-                    <option value="">Select Venue</option>
-                    <option value="Barn">Barn</option>
-                    <option value="Boutique">Boutique</option>
-                    <option value="Castle">Castle</option>
-                    <option value="Country House">Country House</option>
-                    <option value="Exclusive use">Exclusive use</option>
-                    <option value="Garden weddings">Garden weddings</option>
-                    <option value="Gay friendly">Gay friendly</option>
-                    <option value="Gothic">Gothic</option>
-                    <option value="Hotel">Hotel</option>
-                    <option value="Intimate">Intimate</option>
-                    <option value="Manor House">Manor House</option>
-                    <option value="Marquee">Marquee</option>
-                    <option value="Minimalist">Minimalist</option>
-                    <option value="Modern">Modern</option>
-                    <option value="Outside Weddings">Outside Weddings</option>
-                    <option value="Palace">Palace</option>
-                    <option value="Private School">Private School</option>
-                    <option value="Romantic">Romantic</option>
-                    <option value="Small">Small</option>
-                    <option value="Waterside">Waterside</option>
-                    <option value="Weekend">Weekend</option>
-                  </select>
-                </div>
+              <!-- <?php echo base_url();?>index.php/CustomerController/refine_restaurants/<?php if(isset($category_id) and $category_id != NULL) echo $category_id; ?> -->
+              <form action="" method="post">
                 <div class="col-md-12 form-group">
                   <label class="control-label" for="capacity">Discount</label>
-                  <select id="capacity" name="capacity" class="form-control">
+                  <select id="discount" name="discount" class="form-control">
                     <option value="">Select Discount</option>
-                    <option value="0 - 99">10%</option>
-                    <option value="0 - 99">20%</option>
-                    <option value="0 - 99">30%</option>
-                    <option value="0 - 99">40%</option>
-                    <option value="0 - 99">50%</option>
+                    <?php if (isset($discount) and $discount != NULL) { 
+                      foreach ($discount as $dis) { ?>
+                      <option value="<?php echo $dis->no; ?>"><?php echo $dis->percent; ?>%</option>
+                    <?php } } else { echo "No Photos Now";} ?>
                   </select>
                 </div>
-                <div class="col-md-12 form-group">
-                  <label class="control-label" for="price">Price</label>
-                  <select id="price" name="price" class="form-control">
-                    <option value=""> Select Price</option>
-                    <option value="$35 - $50">$35 - $50</option>
-                    <option value="$50 - $60">$50 - $60</option>
-                    <option value="$60 - $70">$60 - $70</option>
-                    <option value="$70 - $80">$70 - $80</option>
-                    <option value="$80 - $90">$80 - $90</option>
-                  </select>
+                <div class="col-md-12 form-group rating">
+                  <label class="control-label">Select Price Level </label>
+                  <div class="checkbox checkbox-success">
+                    <input type="checkbox" name="level[]" id="checkbox-0" value="1" class="styled">
+                    <label for="checkbox-0" class="control-label"> <i class="fa fa-usd"></i> </label>
+                  </div>
+                  <div class="checkbox checkbox-success">
+                    <input type="checkbox" name="level[]" id="checkbox-1" value="2" class="styled">
+                    <label for="checkbox-1" class="control-label"> <i class="fa fa-usd"></i> <i class="fa fa-usd"></i> </label>
+                  </div>
+                  <div class="checkbox checkbox-success">
+                    <input type="checkbox" name="level[]" id="checkbox-2" value="3" class="styled">
+                    <label for="checkbox-2" class="control-label"> <i class="fa fa-usd"></i> <i class="fa fa-usd"></i><i class="fa fa-usd"></i> </label>
+                  </div>
+                  <div class="checkbox checkbox-success">
+                    <input type="checkbox" name="level[]" id="checkbox-3" value="4" class="styled">
+                    <label for="checkbox-3" class="control-label"> <i class="fa fa-usd"></i><i class="fa fa-usd"></i><i class="fa fa-usd"></i><i class="fa fa-usd"></i> </label>
+                  </div>
+                  <div class="checkbox checkbox-success">
+                    <input type="checkbox" name="level[]" id="checkbox-4" value="5" class="styled">
+                    <label for="checkbox-4" class="control-label"> <i class="fa fa-usd"></i><i class="fa fa-usd"></i><i class="fa fa-usd"></i><i class="fa fa-usd"></i><i class="fa fa-usd"></i> </label>
+                  </div>
                 </div>
                 <div class="col-md-12 form-group rating">
                   <label class="control-label">Select Rating </label>
                   <div class="checkbox checkbox-success">
-                    <input type="checkbox" name="checkbox" id="checkbox-0" value="1" class="styled">
-                    <label for="checkbox-0" class="control-label"> <i class="fa fa-star"></i> </label>
+                    <input type="checkbox" name="rate[]" id="checkbox-01" value="1" class="styled">
+                    <label for="checkbox-01" class="control-label"> <i class="fa fa-star"></i> </label>
                   </div>
                   <div class="checkbox checkbox-success">
-                    <input type="checkbox" name="checkbox" id="checkbox-1" value="2" class="styled">
-                    <label for="checkbox-1" class="control-label"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </label>
+                    <input type="checkbox" name="rate[]" id="checkbox-11" value="2" class="styled">
+                    <label for="checkbox-11" class="control-label"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </label>
                   </div>
                   <div class="checkbox checkbox-success">
-                    <input type="checkbox" name="checkbox" id="checkbox-2" value="3" class="styled">
-                    <label for="checkbox-2" class="control-label"> <i class="fa fa-star"></i> <i class="fa fa-star"></i><i class="fa fa-star"></i> </label>
+                    <input type="checkbox" name="rate[]" id="checkbox-21" value="3" class="styled">
+                    <label for="checkbox-21" class="control-label"> <i class="fa fa-star"></i> <i class="fa fa-star"></i><i class="fa fa-star"></i> </label>
                   </div>
                   <div class="checkbox checkbox-success">
-                    <input type="checkbox" name="checkbox" id="checkbox-3" value="4" class="styled">
-                    <label for="checkbox-3" class="control-label"> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> </label>
+                    <input type="checkbox" name="rate[]" id="checkbox-31" value="4" class="styled">
+                    <label for="checkbox-31" class="control-label"> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> </label>
                   </div>
                   <div class="checkbox checkbox-success">
-                    <input type="checkbox" name="checkbox" id="checkbox-4" value="5" class="styled">
-                    <label for="checkbox-4" class="control-label"> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> </label>
+                    <input type="checkbox" name="rate[]" id="checkbox-41" value="5" class="styled">
+                    <label for="checkbox-41" class="control-label"> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> </label>
                   </div>
                 </div>
                 <div class="col-md-12 form-group">
                   <label class="control-label">Categories</label>
-                  <div class="checkbox checkbox-success">
-                    <input type="checkbox" name="checkbox" id="weddinghall" value="Wedding Hall" class="styled">
-                    <label for="weddinghall" class="control-label"> Wedding Hall </label>
-                  </div>
-                  <div class="checkbox checkbox-success">
-                    <input type="checkbox" name="checkbox" id="dining" value="Dining" class="styled">
-                    <label for="dining" class="control-label"> Dining </label>
-                  </div>
-                  <div class="checkbox checkbox-success">
-                    <input type="checkbox" name="checkbox" id="insurance" value="Liability Insurance" class="styled">
-                    <label for="insurance" class="control-label"> Liability Insurance </label>
-                  </div>
-                  <div class="checkbox checkbox-success">
-                    <input type="checkbox" name="checkbox" id="catering" value="In House Catering" class="styled">
-                    <label for="catering" class="control-label"> In House Catering </label>
-                  </div>
-                  <div class="checkbox checkbox-success">
-                    <input type="checkbox" name="checkbox" id="djfacilities" value="5" class="styled">
-                    <label for="djfacilities" class="control-label"> DJ Facilities </label>
-                  </div>
-                  <div class="checkbox checkbox-success">
-                    <input type="checkbox" name="checkbox" id="dancefloor" value="Dance Foor" class="styled">
-                    <label for="dancefloor" class="control-label"> Dance Foor </label>
-                  </div>
+
+                  <?php if (isset($categories) and $categories != NULL) { 
+                  foreach ($categories as $category) { ?>
+                  
+                    <div class="checkbox checkbox-success">
+                      <input type="checkbox" name="category[]" value="<?php echo $category->no; ?>" class="styled">
+                      <label class="control-label"><?php echo $category->name; ?></label>
+                    </div>
+
+                  <?php }
+                  } else { echo "No Category Now";} ?>
+
                 </div>
                 <div class="col-md-12 form-group">
                   <button type="submit" class="btn tp-btn-primary tp-btn-lg btn-block findhover" style="background-color:#8E203E">Refine Your Search</button>
@@ -124,7 +97,7 @@
             <div class="row">
 
 
-<?php if (isset($restaurantlist) and $restaurantlist != NULL) {
+          <?php if (isset($restaurantlist) and $restaurantlist != NULL) {
                  foreach ($restaurantlist as $restaurant) { 
                     $resto_image = $this->db->get_where('tbl_image_restaurant', array('rid' => $restaurant->no))->row();
                     $discount = $this->db->get_where('tbl_map_discount_restaurant', array('rid' => $restaurant->no, 'status' => 1))->result();
@@ -160,6 +133,7 @@
                                     <div class="box-detail-rating-gray">
                                       <div class="box-detail-rating-yellow_b" style="width:
                                         <?php $review = $restaurant->reviews; 
+                                            if ($review == 0) echo "0%"; 
                                             if ($review == 1) echo "20%";
                                             if ($review == 2) echo "40%";
                                             if ($review == 3) echo "60%";
@@ -171,6 +145,7 @@
                                     <div class="box-price-gray">
                                       <div class="box-detail-price-yellow_b" style="width:
                                         <?php $level = $restaurant->level; 
+                                            if ($level == 0) echo "0%"; 
                                             if ($level == 1) echo "20%";
                                             if ($level == 2) echo "40%";
                                             if ($level == 3) echo "60%";
@@ -216,7 +191,9 @@
                     </div>
                      </div>
                 <?php } 
-                } ?>           
+                } else {
+                  echo "No Restaurants";
+              }?>   
 
               <!-- venue details --> 
             </div>

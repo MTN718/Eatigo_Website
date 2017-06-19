@@ -10,6 +10,16 @@ class Vendor_Modal extends CI_Model{
 
 	public function create_restaurant() { 
 
+
+        if(isset($_SESSION['file_name'])) {
+
+        $name = $_SESSION['file_name'];
+        $arraysize = sizeof($name);
+
+        if($arraysize < 1) {
+            return false;
+        }
+
     	$user_id   			= $this->session->userdata('login_user_id');
 
         $data['level']              = $this->input->post('radio2');
@@ -26,9 +36,11 @@ class Vendor_Modal extends CI_Model{
         $this->db->insert('tbl_restaurant',$data);
         $resto_id = $this->db->insert_id();     
 
-        if(isset($resto_id)) {
+        if(isset($resto_id) and isset($_SESSION['file_name'])) {
 
             if(count($_SESSION['file_name'])>0) {
+
+                
 
                 foreach($_SESSION['file_name'] as $image)
                 {
@@ -37,6 +49,73 @@ class Vendor_Modal extends CI_Model{
             }
             unset($_SESSION['file_name']);
         }
+
+        $langu                = $this->input->post('langu[]');
+
+        if(isset($langu) and $langu != NULL) {
+            foreach ($langu as $bhasa) { 
+
+                $data1['lid'] = $bhasa;
+                $data1['rid'] = $resto_id;
+                $this->db->insert('tbl_map_language_restaurant',$data1);
+            }
+        }   
+    }  else {
+        return "false";
+    }        
+    } 
+
+    public function update_restaurant($id = "") { 
+
+        if(isset($id) and isset($_SESSION['file_name'])) {
+
+            if(count($_SESSION['file_name'])>0) {
+
+                foreach($_SESSION['file_name'] as $image)
+                {
+                    $this->db->insert("tbl_image_restaurant",array("image"=>'upload/restaurant/'.$image,"rid"=>$id));
+                }
+            }
+            unset($_SESSION['file_name']);
+        }
+
+        $images = $this->db->get_where('tbl_image_restaurant', array('rid' => $id))->num_rows();
+        if($images < 1) 
+        {
+             return $id;
+        }
+
+
+        $user_id            = $this->session->userdata('login_user_id');
+
+        $data['level']              = $this->input->post('radio2');
+        $data['name']               = $this->input->post('name'); 
+        $data['start_time']         = $this->input->post('start_time');
+        $data['end_time']           = $this->input->post('end_time');
+        $data['address']            = $this->input->post('address');
+        $data['category']           = $this->input->post('categ');
+        $data['lat']                = $this->input->post('lat');
+        $data['lng']                = $this->input->post('lng');
+        $data['about']              = $this->input->post('description');
+        $data['uid']                = $user_id;
+
+        $this->db->where('no',$id);
+        $this->db->update('tbl_restaurant',$data);          
+
+        $this->db->where('rid', $id);
+        $this->db->delete('tbl_map_language_restaurant');
+
+        $langu  = $this->input->post('langu[]');
+
+        if(isset($langu) and $langu != NULL) {
+            foreach ($langu as $bhasa) { 
+
+                $data1['lid'] = $bhasa;
+                $data1['rid'] = $id;
+                $this->db->insert('tbl_map_language_restaurant',$data1);
+            }
+        }
+      
     }
 
     public function delete_restaurant($id = "") { 
@@ -46,6 +125,15 @@ class Vendor_Modal extends CI_Model{
 
         $this->db->where('rid', $id);
         $this->db->delete('tbl_image_restaurant');
+
+        $this->db->where('rid', $id);
+        $this->db->delete('tbl_review_restaurant');
+
+        $this->db->where('rid', $id);
+        $this->db->delete('tbl_reservation');
+
+        $this->db->where('rid', $id);
+        $this->db->delete('tbl_map_discount_restaurant');
     }
 
     public function vendore_details() {  
@@ -76,6 +164,34 @@ class Vendor_Modal extends CI_Model{
         return $row;     
     }
 
+    public function customer($id = "") {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_user');
+        $this->db->where('no', $id);
+        $row = $this->db->get()->row();
+        return $row;     
+    }
+
+    public function reservation($rid = "") {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_reservation');
+        $this->db->where('no', $rid);
+        $row = $this->db->get()->row();
+        return $row;     
+    }
+
+    public function selected_resto_discount($rid = "") {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_base_discount');
+        $this->db->join('tbl_map_discount_restaurant', 'tbl_map_discount_restaurant.did = tbl_base_discount.no');
+        $this->db->where('tbl_map_discount_restaurant.no', $rid);
+        $row = $this->db->get()->row();
+        return $row;    
+    }
+
     public function selected_image($id = "") {  
 
         $this->db->select('*');
@@ -93,6 +209,16 @@ class Vendor_Modal extends CI_Model{
         $this->db->where('tbl_restaurant.no', $id);
         $row = $this->db->get()->row();
         return $row;      
+    }
+
+    public function selected_language($id = "") {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_base_language');
+        $this->db->join('tbl_map_language_restaurant', 'tbl_map_language_restaurant.lid = tbl_base_language.no');
+        $this->db->where('tbl_map_language_restaurant.rid', $id);
+        $rows = $this->db->get()->result();
+        return $rows;     
     }
 
     public function restaurent_list() {  
@@ -127,6 +253,14 @@ class Vendor_Modal extends CI_Model{
 
         $this->db->select('*');
         $this->db->from('tbl_category');
+        $rows = $this->db->get()->result();
+        return $rows;      
+    }
+
+    public function language_list() {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_base_language');
         $rows = $this->db->get()->result();
         return $rows;      
     }
@@ -168,38 +302,6 @@ class Vendor_Modal extends CI_Model{
         $this->db->update('tbl_map_discount_restaurant',$data);      
     }
 
-    public function update_restaurant($id = "") { 
-
-        $user_id            = $this->session->userdata('login_user_id');
-
-        $data['level']              = $this->input->post('radio2');
-        $data['name']               = $this->input->post('name'); 
-        $data['start_time']         = $this->input->post('start_time');
-        $data['end_time']           = $this->input->post('end_time');
-        $data['address']            = $this->input->post('address');
-        $data['category']           = $this->input->post('categ');
-        $data['lat']                = $this->input->post('lat');
-        $data['lng']                = $this->input->post('lng');
-        $data['about']              = $this->input->post('description');
-        $data['uid']                = $user_id;
-
-        $this->db->where('no',$id);
-        $this->db->update('tbl_restaurant',$data);    
-
-        if(isset($id)) {
-
-            if(count($_SESSION['file_name'])>0) {
-
-                foreach($_SESSION['file_name'] as $image)
-                {
-                    $this->db->insert("tbl_image_restaurant",array("image"=>'upload/restaurant/'.$image,"rid"=>$id));
-                }
-            }
-            unset($_SESSION['file_name']);
-        }
-      
-    }
-
     public function total_restaurant() {  
 
         $uid = $this->session->userdata('login_user_id');       
@@ -231,14 +333,16 @@ class Vendor_Modal extends CI_Model{
 
         $user_id                = $this->session->userdata('login_user_id');
 
+        $user = $this->db->get_where('tbl_user', array('no' => $user_id))->row();
+
         if (isset($_FILES['image'])) {
             $imageFile = $this->utils->uploadImage($_FILES['image'], 0, 300, 300);
-            if ($imageFile == "")       $data['image'] = 
-                $imageFile = $data->image;
+            if ($imageFile == "") 
+                $imageFile = $user->image;
         }
         $data['image'] = $imageFile;
         $this->db->where('no',$user_id);
-        $this->db->update('tbl_user',$data);      
+        $this->db->update('tbl_user',$data);     
     }
 
     public function upload_resto_image() { 
@@ -268,5 +372,22 @@ class Vendor_Modal extends CI_Model{
         $this->db->delete('tbl_image_restaurant'); 
 
         return $resto_id;
-    }   
+    } 
+
+    public function complete_reservation($id = "") { 
+
+        $data['state']            = 1; 
+
+        $this->db->where('no',$id);
+        $this->db->update('tbl_reservation',$data);      
+    }  
+
+    public function cancel_reservation($id = "") { 
+
+        $data['state']            = 3; 
+        $data['by_owner']            = 1; 
+        $this->db->where('no',$id);
+        $this->db->update('tbl_reservation',$data);   
+
+    } 
 }

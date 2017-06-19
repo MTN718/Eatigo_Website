@@ -22,8 +22,8 @@ class Customer_Modal extends CI_Model{
         $data['name']               = $this->input->post('name');
         $data['email']              = $email;
         $data['password']           = $this->input->post('password');
+        $data['address']            = $this->input->post('address');    
         $data['mobile']             = $this->input->post('phone');
-        $data['address']            = $this->input->post('address');
         $data['role']               = '1';
         $this->db->insert('tbl_user',$data);  
         return true;    
@@ -49,10 +49,48 @@ class Customer_Modal extends CI_Model{
         return true;     
     }
 
-    public function category_list() {  
+    public function getcarddetails($cardid) {
+        $this->db->select('*');
+        $this->db->from('tbl_card');
+        $this->db->where('no',$cardid);
+        $rows = $this->db->get()->row();
+        return $rows;
+    }
+
+    public function get_time() {
+        $this->db->select('rtime');
+        $this->db->from('tbl_map_discount_restaurant');
+        $rows = $this->db->get()->result();
+        return $rows;
+    }
+
+    public function create_fb_user($model_data) {
+        $name = $model_data['name'];
+        $email = $model_data['email'];
+        
+        $type = '1';
+        $role = '0';
 
         $this->db->select('*');
+        $this->db->from('tbl_user');
+        $this->db->where('email',$email);
+        $query = $this->db->get();
+        $rowcount = $query->num_rows();
+
+        if($rowcount > 0) {
+            return true;
+        }
+        
+        $sql = "INSERT INTO tbl_user(name,email,type,role) VALUES('$name','$email','$type','$role') ";
+        $result = $this->db->query($sql);
+        return true;
+    }
+
+    public function category_list() {  
+        $this->db->select('*');
         $this->db->from('tbl_category');
+        $this->db->order_by("no", "desc");
+        $this->db->limit(50);
         $rows = $this->db->get()->result();
         return $rows;      
     }
@@ -61,8 +99,48 @@ class Customer_Modal extends CI_Model{
 
         $this->db->select('*');
         $this->db->from('tbl_restaurant');
+        $this->db->order_by("no", "desc");
+        $this->db->limit(50);
         $rows = $this->db->get()->result();
         return $rows;      
+    }
+
+    public function category_restaurant_list($categoryid) {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_restaurant');        
+        $this->db->where('category', $categoryid);
+        $rows = $this->db->get()->result();
+        return $rows;      
+    }
+
+    public function refine_category_restaurant_list($categoryid) {  
+
+        $levels              = $this->input->post('level[]');
+        $rating             = $this->input->post('rate[]');
+        $category           = $this->input->post('category[]');    
+        $discount           = $this->input->post('discount');
+
+        $this->db->select('*');
+        $this->db->from('tbl_restaurant');
+        $this->db->join('tbl_map_discount_restaurant', 'tbl_map_discount_restaurant.rid = tbl_restaurant.no');
+        
+        if(isset($discount) and $discount != NULL) {
+            $this->db->where('tbl_map_discount_restaurant.did', $discount);
+        }
+        if(isset($rating) and $rating != NULL) {
+            foreach ($rating as $rate) { $this->db->or_where('reviews', $rate); }
+        }
+        if(isset($category) and $category != NULL) {
+            foreach ($category as $cate) { $this->db->where('category', $cate); }
+        }
+        if(isset($levels) and $levels != NULL) {
+            foreach ($levels as $level) { $this->db->or_where('level', $level); }
+        }  
+        
+        
+        $rows = $this->db->get()->result();
+   
     }
 
     public function customer_details() {  
@@ -126,10 +204,12 @@ class Customer_Modal extends CI_Model{
 
         $user_id                = $this->session->userdata('login_user_id');
 
+        $user = $this->db->get_where('tbl_user', array('no' => $user_id))->row();
+
         if (isset($_FILES['image'])) {
             $imageFile = $this->utils->uploadImage($_FILES['image'], 0, 300, 300);
-            if ($imageFile == "")       $data['image'] = 
-                $imageFile = $data->image;
+            if ($imageFile == "") 
+                $imageFile = $user->image;
         }
         $data['image'] = $imageFile;
         $this->db->where('no',$user_id);
@@ -144,6 +224,7 @@ class Customer_Modal extends CI_Model{
         $this->db->update('tbl_reservation',$data);      
     }
 
+
     public function add_location() {
 
         $data = $this->input->post('backup');
@@ -153,6 +234,7 @@ class Customer_Modal extends CI_Model{
         }
     }
 
+
     public function restaurant_details($rid="") {        
 
         $sql = $this->db->get_where('tbl_restaurant', array('no' => $rid));
@@ -160,9 +242,32 @@ class Customer_Modal extends CI_Model{
         return $result;      
     }
 
+    public function base_discount() {        
+
+        $this->db->select('*');
+        $this->db->from('tbl_base_discount');
+        $rows = $this->db->get()->result();
+        return $rows;      
+    }
+
+    public function restaurant_discount($rid="") {   
+
+        $sql = $this->db->get_where('tbl_map_discount_restaurant', array('rid' => $rid));
+        $result = $sql->result();
+        return $result;     
+    }
+
+
     public function restaurant_reviews($rid="") {        
 
         $sql = $this->db->get_where('tbl_review_restaurant', array('rid' => $rid));
+        $result = $sql->result();
+        return $result;      
+    }
+
+    public function restaurant_images($rid="") {        
+
+        $sql = $this->db->get_where('tbl_image_restaurant', array('rid' => $rid));
         $result = $sql->result();
         return $result;      
     }
@@ -181,4 +286,159 @@ class Customer_Modal extends CI_Model{
         return $rid;   
     }
 
+
+    public function get_reviews() {
+        $this->db->select('*');
+        $this->db->from('tbl_review_restaurant');
+        $this->db->order_by("createdate", "desc");
+        $this->db->limit(4);
+        $rows = $this->db->get()->result();
+        return $rows;
+    }
+
+    public function get_restaurants_by_search($model_data) {
+        $date = $model_data['date'];
+        $search_time = $model_data['search_time'];
+        $noofperson = $model_data['noofperson'];
+
+        $sql = "SELECT r.* FROM tbl_restaurant r,tbl_map_discount_restaurant tm WHERE r.no = tm.rid AND tm.rtime = '$search_time'";
+        $rows = $this->db->query($sql)->result();
+        return $rows;
+    }
+
+    public function get_restaurants_by_search_name($model_data) {
+        $restaurantname = $model_data['restaurantname'];
+        $sql = "SELECT * FROM tbl_restaurant WHERE name = '$restaurantname'";
+        $rows = $this->db->query($sql)->result();
+        return $rows;
+    }
+
+    public function booking($rid = "") {
+
+        $booked_amount = 0;
+        $booked_did = $this->input->post('discount');
+        $total_amount = $this->db->get_where('tbl_map_discount_restaurant', array('no' => $booked_did))->row()->amount;
+        $reservation_no = $this->db->get_where('tbl_reservation', array('rid' => $rid))->result();
+
+        foreach ($reservation_no as $reserve) { 
+            $booked_amount += $reserve->people;
+        }
+
+        $people = $this->input->post('people');
+
+        if($total_amount - $booked_amount >= $people) {
+            $user_id               = $this->session->userdata('login_user_id');
+            $data['uid']           = $user_id;
+            $data['rid']           = $rid;    
+            $data['did']           = $booked_did;
+            $data['people']        = $people;
+            $data['date']          = $this->input->post('date');
+            $data['cardid']        = $this->input->post('savedcard');
+            $data['state']         = '2';
+            $this->db->insert('tbl_reservation',$data); 
+            $reservation_id = $this->db->insert_id(); 
+            return $reservation_id;    
+        } else {
+            return false;
+        }
+    }
+
+    public function card_delete($rid) {        
+
+        $this->db->where('no', $rid);
+        $this->db->delete('tbl_reservation'); 
+    }
+
+    public function reservation_details($rid) {        
+
+        $sql = $this->db->get_where('tbl_reservation', array('no' => $rid));
+        $result = $sql->row();
+        return $result;      
+    }
+
+    public function delete_order($oid) {        
+
+        $restro_id = $this->db->get_where('tbl_reservation', array('no' => $oid))->row()->rid;
+        $this->db->where('no', $oid);
+        $this->db->delete('tbl_reservation');
+        return $restro_id;      
+    }
+
+    // Method for changing status of reservation to 0: progress when payment is done 
+    public function payment_complete($trasactionid, $reservationid) {
+       $sql = "UPDATE tbl_reservation SET state='0', cardid='$trasactionid' WHERE no='$reservationid'";
+       $this->db->query($sql);
+       return true;
+    }
+
+    public function confirm_order($oid) {        
+
+        $data['state']           = 0;
+
+        $this->db->where('no',$oid);
+        $this->db->update('tbl_reservation',$data);       
+    }
+
+    public function delete_recent_row($rid) {        
+
+        $this->db->where('no', $rid);
+        $this->db->delete('tbl_reservation'); 
+    }
+
+    public function check_seat($rid = "") {
+
+        $booked_amount = 0;
+        $booked_did = $_POST['did'];
+        $total_amount = $this->db->get_where('tbl_map_discount_restaurant', array('no' => $booked_did))->row()->amount;
+        $reservation_no = $this->db->get_where('tbl_reservation', array('rid' => $rid))->result();
+
+        foreach ($reservation_no as $reserve) { 
+            $booked_amount += $reserve->people;
+        }
+
+        $people = $_POST['people'];
+
+        if($total_amount - $booked_amount >= $people) { 
+            return true;    
+        } else {
+            return false;
+        }
+    }
+
+    public function add_card() {
+
+        $user_id = $this->session->userdata('login_user_id');
+        $card_no = $this->input->post('cnumber');
+
+        $this->db->select('*');
+        $this->db->where('cardnumber',$card_no);
+        $query = $this->db->get('tbl_card');
+        $num = $query->num_rows();
+        if($num > 0) {
+            return false;   
+        }
+        $data['cardnumber']        = $this->input->post('cnumber');
+        $data['expirymonth']       = $this->input->post('emonth');
+        $data['expiryyear']        = $this->input->post('eyear');
+        $data['security']          = $this->input->post('cvv'); 
+        $data['uid']          = $user_id;
+        $this->db->insert('tbl_card',$data);  
+        return true;    
+    }
+
+    public function card_list() {  
+
+        $user_id = $this->session->userdata('login_user_id');
+
+        $this->db->select('*');
+        $this->db->from('tbl_card');
+        $this->db->where('uid', $user_id);
+        $rows = $this->db->get()->result();
+        return $rows;      
+    }
+
+    public function cardno_delete($cid) {        
+        $this->db->where('no', $cid);
+        $this->db->delete('tbl_card'); 
+    }
 }

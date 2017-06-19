@@ -5,132 +5,82 @@
       <div class="col-md-12">
         <div class="well-box">
           <div class="coupon-info">
-            <p>Have a coupon? <a href="#"> </a> <a role="button" data-toggle="collapse" href="#applycoupon" aria-expanded="false" aria-controls="applycoupon" class="findhover1" style="color:#8E203E;"> Click here to enter your code </a> </p>
-          </div>
-          <div class="collapse" id="applycoupon">
-            <div class="coupon-form">
-              <form class="form-inline">
-                <div class="form-group">
-                  <label for="coupon" class="control-label sr-only">Name</label>
-                  <input type="text" class="form-control" name="coupon" id="coupon" placeholder="Coupon Code">
-                </div>
-                <button type="submit" class="btn tp-btn-default">Apply Coupon</button>
-              </form>
-            </div>
+            <p style="color:red;">Do not go back or Referesh your page.</p>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="well-box">
-          <div class="billing-details">
-            <h2>Billing Details</h2>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label class="control-label" for="country">Country</label>
-                  <select id="country" name="country" class="form-control">
-                    <option value="1">USA</option>
-                    <option value="2">Option two</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="control-label" for="fname">First Name<span class="required">*</span> </label>
-                  <input type="text" class="form-control" id="fname" placeholder="First Name">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="control-label" for="lname">Last Name<span class="required">*</span></label>
-                  <input type="text" class="form-control" id="lname" placeholder="Last Name">
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label class="control-label" for="companyname">Company Name<span class="required">*</span></label>
-                  <input type="text" class="form-control" id="companyname" placeholder="Company Name">
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label class="control-label" for="address">Address<span class="required">*</span></label>
-                  <input type="text" class="form-control" id="address" placeholder="Street Address">
-                  <input type="text" class="form-control" id="address" placeholder="Apartment, suite, unit etc. (optional)">
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label class="control-label" for="town">Town/City<span class="required">*</span><span class="required">*</span></label>
-                  <input type="text" class="form-control" id="town" placeholder="Town/city">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="control-label" for="county">State / County<span class="required">*</span></label>
-                  <input type="text" class="form-control" id="county" placeholder="State / County">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="control-label" for="postcode">Postcode<span class="required">*</span></label>
-                  <input type="postcode" class="form-control" id="postcode" placeholder="Postcode">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="control-label" for="emailaddress">Email Address<span class="required">*</span></label>
-                  <input type="email" class="form-control" id="emailaddress" placeholder="Email Address">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="control-label" for="phone">Phone<span class="required">*</span></label>
-                  <input type="text" class="form-control" id="phone" placeholder="Phone Number">
-                </div>
-              </div>
-              <!-- Multiple Checkboxes -->
-              
-            </div>
-          </div>
-        </div>
-       
-      </div>
-      <div class="col-md-6">
+      <div class="col-md-12">
         <div class="well-box">
           <div class="order_review">
             <h2>Your order</h2>
             <table class="shop_table">
               <thead>
                 <tr>
-                  <th class="product-name">Product</th>
-                  <th class="product-total">Total</th>
+                  <th class="product-name">Booking</th>
+                  <th class="product-total">Details</th>
                 </tr>
               </thead>
               <tfoot>
-                <tr class="cart-subtotal">
-                  <th>Cart Subtotal</th>
-                  <td><span class="amount">$190.00</span></td>
+                <tr class="shipping">
+                  <th>No of People</th>
+                  <td><?php if(isset($reservation) and $reservation != NULL) echo $reservation->people; ?></td>
                 </tr>
                 <tr class="shipping">
-                  <th>Taxes</th>
-                  <td> None
-                    <input type="hidden" name="shipping_method[0]" data-index="0" id="shipping_method_0" value="free_shipping" class="shipping_method"></td>
+                  <th>Card Number</th>
+                  <td>
+                    <?php if(isset($reservation) and $reservation != NULL) {
+                      $this->db->select('*');
+                      $this->db->from('tbl_card');
+                      $this->db->where('no', $reservation->cardid);
+                      $query = $this->db->get();
+                      if ( $query->num_rows() > 0 )
+                      {
+                        $row = $query->row_array();
+                        echo $row['cardnumber'];
+                      }
+                    }
+                    ?>
+                  </td>
                 </tr>
-                <tr class="order-total">
-                  <th>Order Total</th>
-                  <td><strong><span class="amount">$190.00</span></strong></td>
+                <tr class="shipping">
+                  <th>Restaurant Name</th>
+                  <td>
+                  <?php if(isset($reservation) and $reservation != NULL) {
+                    $restaurant = $this->db->get_where('tbl_restaurant', array('no' => $reservation->rid))->row(); 
+                    echo $restaurant->name;
+                  } ?>
+                  </td>
+                </tr>
+                <tr class="shipping">
+                  <th>Time and Discount</th>
+                  <td>
+                  <?php if(isset($reservation) and $reservation != NULL) {
+                    $discount = $this->db->get_where('tbl_map_discount_restaurant', array('no' => $reservation->did))->row();
+                    $discount_percent = $this->db->get_where('tbl_base_discount', array('no' => $discount->did))->row(); 
+                    echo $discount->rtime;
+                    echo " / ";
+                    echo $discount_percent->percent."%";
+                  } ?>
+                  </td>
+                </tr>
+                <tr class="cart-subtotal">
+                  <th class="product-name">Order Total</th>
+                  <?php if(isset($discount) and $discount != NULL)
+                    $total = $discount->price * $reservation->people;
+                  ?>
+                  <td class="product-total"><?php if(isset($total) and $total != NULL) echo $total; ?></td>
                 </tr>
               </tfoot>
               <tbody>
                 <tr class="cart_item">
-                  <td class="product-name"> No. of people<strong class="product-quantity">× 2</strong></td>
-                  <td class="product-total"><span class="amount">$190.00</span></td>
+                  <td>Booking Date</td>
+                  <td><?php if(isset($reservation) and $reservation != NULL) echo $reservation->date; ?></td>
                 </tr>
               </tbody>
             </table>
             <form action="<?php echo base_url();?>index.php/CustomerController/profile">
-                <button type="submit" onclick="" class="btn tp-btn-default" style="margin-top:15px;  width:100px;">Pay Now</button>
+                <a href="<?php echo base_url();?>index.php/CustomerController/confirm_payment/<?php echo $reservation->no; ?>/<?php echo $total; ?>/<?php echo $reservation->cardid;?>" class="btn tp-btn-primary" style="margin-top:15px;  width:100px;">Pay Now</a>
+                <a href="<?php echo base_url();?>index.php/CustomerController/delete_order/<?php echo $reservation->no; ?>" onclick="return confirm('Are you sure you want to Cancel this order?');" class="btn tp-btn-default" style="margin-top:15px; background-color:black; width:100px;">cancel</a>
             </form>    
             <div class="payment-option"> 
               <!-- Multiple Radios -->
