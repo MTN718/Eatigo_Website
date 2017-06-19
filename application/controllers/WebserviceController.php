@@ -178,10 +178,12 @@ class WebserviceController extends BaseController {
             ));
             $lat = "0";
             $lon = "0";
+            $address = "";
             if ($rtInfo != null)
             {
                 $lat = $rtInfo->lat;
                 $lon = $rtInfo->lng;
+                $address = $rtInfo->address;
             }
             
             $discountInfo = $this->sqllibs->getOneRow($this->db, 'tbl_map_discount_restaurant', array(
@@ -200,6 +202,7 @@ class WebserviceController extends BaseController {
                         'rs_image' => $image->image,
                         'lat'=>$lat,
                         'lon'=>$lon,
+                        'address' => $address,
                         'dt_time'=>$discountInfo->rtime,
                         'dt_percent' =>$baseDiscount->percent));
             $rsArray[$i] = $extended;
@@ -566,7 +569,7 @@ class WebserviceController extends BaseController {
         
         $this->sqllibs->updateRow($this->db, 'tbl_reservation'
                 , array(
-            "state" => 3
+            "state" => 2
                 )
                 , array(
             "no" => $postVars['rid']
