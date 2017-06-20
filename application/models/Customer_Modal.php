@@ -308,9 +308,20 @@ class Customer_Modal extends CI_Model{
 
     public function get_restaurants_by_search_name($model_data) {
         $restaurantname = $model_data['restaurantname'];
-        $sql = "SELECT * FROM tbl_restaurant WHERE name = '$restaurantname'";
+        $sql = "SELECT * FROM tbl_restaurant WHERE name like '%".$restaurantname."%'";
         $rows = $this->db->query($sql)->result();
-        return $rows;
+        
+        $returnValues = array();
+        foreach($rows as $restaurant)
+        {
+            $sql = "select * from tbl_map_discount_restaurant where rid='".$restaurant->no."' and amount > '".$model_data['persons']."'";
+            $rs = $this->db->query($sql)->result();
+            if (count($rs) > 0)
+            {
+                $returnValues[] = $restaurant;
+            }
+        }
+        return $returnValues;
     }
 
     public function booking($rid = "") {

@@ -25,6 +25,12 @@ switch ($pageName) {
     case "ABOUT":
         include ("contents/about-us.php");
         break;
+    case "ABOUTUS":
+        include ("contents/aboutus.php");
+        break;
+    case "TERMS":
+        include ("contents/terms.php");
+        break;
     case "RESTAURANTLIST":
         include ("contents/restaurant-list.php");
         break;   

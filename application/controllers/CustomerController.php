@@ -16,7 +16,7 @@ class CustomerController extends BaseController {
         }
         $this->load->model('Customer_Modal');
         
-        $data = $this->getViewParameters('Home','Customer');
+        $data = $this->getViewParameters('Home', 'Customer');
         $data['categorylist']  = $this->Customer_Modal->category_list();
         $data['restaurantlist']  = $this->Customer_Modal->restaurant_list();
         $data['reviews']  = $this->Customer_Modal->get_reviews();
@@ -317,28 +317,16 @@ class CustomerController extends BaseController {
     }
 
     public function getrestaurantsbysearch($categoryid = "") {
-        $this->load->model('Customer_Modal');
+        $this->load->model('Customer_Modal');        
         $model_data = array(
-            'date' => $this->input->post('date'),
-            'search_time' => $this->input->post('search_time'),
-            'noofperson' => $this->input->post('noofperson'),
-        );
-        $model_data1 = array(
             'restaurantname' => $this->input->post('restaurantname'), 
+            'persons'        => $this->input->post('noofperson')
         );
 
-        if($model_data1['restaurantname'] != '') {
-            $data['restaurantlist'] = $this->Customer_Modal->get_restaurants_by_search_name($model_data1);
-            $data['pageName'] = "SEARCHRESTAURANTS";
-            $data['category_id'] = $categoryid;
-            $this->load->view('view_customer', $data); 
-        }
-        else {
-            $data['restaurantlist'] = $this->Customer_Modal->get_restaurants_by_search($model_data);
-            $data['pageName'] = "SEARCHRESTAURANTS";
-            $data['category_id'] = $categoryid;
-            $this->load->view('view_customer', $data); 
-        }
+        $data['restaurantlist'] = $this->Customer_Modal->get_restaurants_by_search_name($model_data);
+        $data['pageName'] = "SEARCHRESTAURANTS";
+        $data['category_id'] = $categoryid;
+        $this->load->view('view_customer', $data); 
     }
     public function booking($rid = "") {
 
@@ -463,6 +451,30 @@ class CustomerController extends BaseController {
         $rid = $this->Customer_Modal->cardno_delete($cid);
         redirect('CustomerController/profile/4');
     }
-
     
+    
+    public function aboutusPage()
+    {
+        $data = $this->getViewParameters('ABOUTUS', 'Customer');                        
+        $content = $this->sqllibs->getOneRow($this->db, 'tbl_contactus', null);        
+        $data['content'] = $content;
+        $this->load->view('view_customer', $data); 
+    }
+    
+    public function termPage()
+    {
+        $data = $this->getViewParameters('TERMS', 'Customer');                        
+        $content = $this->sqllibs->getOneRow($this->db, 'tbl_terms', null);        
+        $data['content'] = $content;
+        $this->load->view('view_customer', $data); 
+    }
+    
+    public function faqPage()
+    {
+        $data = $this->getViewParameters('FAQ', 'Customer');                        
+        $content = $this->sqllibs->getOneRow($this->db, 'tbl_faq', null);        
+        $data['content'] = $content;
+        $this->load->view('view_customer', $data);         
+    }
+
 }
