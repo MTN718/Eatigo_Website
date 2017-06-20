@@ -3,16 +3,14 @@
         <div class="row">
             <div class="col-md-5 ft-aboutus">
                 <h2>Burped</h2>
-                <p style="color:#B9657C;">At Wedding Vendor our purpose is tod wedding couples who use those suppliers. <a href="#">Start Find Restaurant!</a></p>
+                <p style="color:#B9657C;">At Wedding Vendor our purpose is tod wedding couples who use those suppliers. <a href="<?php echo base_url()?>index.php/CustomerController/restaurants?>">Start Find Restaurant!</a></p>
             </div>
             <div class="col-md-3 ft-link">
                 <h2>Useful links</h2>
                 <ul>
                     <li><a href="<?php echo base_url();?>index.php/CustomerController/about" style="color:#B9657C;">About Us</a></li>
-                    <li><a href="#" style="color:#B9657C;">News</a></li>
-                    <li><a href="#" style="color:#B9657C;">Career</a></li>
-                    <li><a href="#" style="color:#B9657C;">Privacy Policy</a></li>
-                    <li><a href="#" style="color:#B9657C;">Terms of Use</a></li>
+                    <li><a href="<?php echo base_url();?>index.php/CustomerController/terms" style="color:#B9657C;">Privacy Policy</a></li>
+                    <li><a href="<?php echo base_url();?>index.php/CustomerController/terms" style="color:#B9657C;">Terms of Use</a></li>
                 </ul>
             </div>
             <div class="col-md-4 newsletter">

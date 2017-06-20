@@ -33,33 +33,12 @@
       </div>
       <div class="col-md-8 help-page">
         <ul class="list-group">
+
+        <?php foreach ($faqs as $faq) { ?>
           <li class="list-group-item">
-            <h2> <span class="question-sign">Q</span> Are there any rules? </h2>
-            <p>When you are trying to select a venue for your wedding, Following are the key questions to ask before you decide to book your wedding venues.</p>
-            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking ates its layout. The point of using lorem Ipsum is that it has a normal distribution of letters point of using lorem ipsu Ipsum to using content here content here making it look like readable english page editors now.</p>
-          </li>
-          <li class="list-group-item">
-            <h2> <span class="question-sign">Q</span>Is ceremony rehersal Included? </h2>
-            
-            <p>Duis eleifend efficitur nisleu facilisis In pellentesque suscipit finibusras luctus blanditest sitmet males uadasis its edeoelit laoreet mollis hendrerit a finibus utnunc suscipit sitametras cursus rutrum euismod ipsum.</p>
-            <p>When you are trying to select a venue for your wedding, Following are the key questions to ask before you decide to book your wedding venues.</p>
-          </li>
-          <li class="list-group-item">
-            <h2> <span class="question-sign">Q</span>How many people can this location accommodate?</h2>
-            <p>Cras mauris leo, sollicitudin et feugiat et, ultricies non eros. Curabitur et massa iaculis, commodo metus a, egestas magna. Nunc gravida rutrum felis placerat interdum. Mauris vel risus pharetra diam posuere fermentum. </p>
-          </li>
-          <li class="list-group-item">
-            <h2> <span class="question-sign">Q</span>How long do have the space? </h2>
-            <p>Aliquam egestas mauris mi, vitae rhoncus ex placerat ac. Praesent vitae est mauris. Fusce semper neque nunc, non sollicitudin orci dictum ac. Nunc ante nulla, tristique id congue at, consectetur at risus.</p>
-          </li>
-          <li class="list-group-item">
-            <h2> <span class="question-sign">Q</span>Is ceremony rehersal Included? </h2>
-            <p>When you are trying to select a venue for your wedding, Following are the key questions to ask before you decide to book your wedding venues.</p>
-          </li>
-          <li class="list-group-item">
-            <h2><span class="question-sign">Q</span>How many people can this location accommodate? </h2>
-            <p>When you are trying to select a venue for your wedding, Following are the key questions to ask before you decide to book your wedding venues.</p>
-          </li>
+            <?php echo $faq->content; ?>
+        <?php } ?>
+
         </ul>
       </div>
       <div class="col-md-4">

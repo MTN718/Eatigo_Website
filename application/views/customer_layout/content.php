@@ -34,6 +34,9 @@ switch ($pageName) {
     case "FAQ":
         include ("contents/faq.php");
         break;
+    case "TERMS":
+        include ("contents/termsandcondition.php");
+        break;
     case "PRICINGPLAN":
         include ("contents/pricing-plan.php");
         break;

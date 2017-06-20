@@ -105,10 +105,9 @@
       <div class="col-md-6">
         <div class="well-box">
           <h2>Need Help ?</h2>
-          <p>Are you an advertiser enquiring about advertising in You &amp; Your Wedding or on weddingvendor? Please <a href="#">click here </a>to contact the advertising team.</p>
+          <p>Are you an advertiser enquiring about advertising in You &amp; Your Wedding or on weddingvendor? Please <a href="#" style="color:#3c3634;">click here </a>to contact the advertising team.</p>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="map" id="googleMap"></div>
+</div>s

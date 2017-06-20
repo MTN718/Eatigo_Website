@@ -23,46 +23,14 @@
         <p class="location"><i class="fa fa-map-marker"></i><?php echo $restaurantdetails->address; ?></p>
       </div>
       <div class="col-md-8 rating-box">
-
-        <?php $reviews = $restaurantdetails->reviews; 
-
-        $dont_show_button1 = "";
-        $dont_show_button2 = "";
-        $dont_show_button3 = "";
-        $dont_show_button4 = "";
-        $dont_show_button5 = "";
-
-        if($reviews == 1){
-          $dont_show_button1 = 'show';
-        } 
-        else if($reviews == 2){
-          $dont_show_button2 = "show";
-        }
-        else if($reviews == 3){
-          $dont_show_button3 ="show";
-        }
-        else if($reviews == 4){
-          $dont_show_button4 = "show";
-        }
-        else if($reviews == 5){
-          $dont_show_button5 = "show";
-        }
-        else if($reviews == 0){
-          $dont_show_button6 = "show";
-        }
-        ?>
-        <div class="rating dont_show <?php echo $dont_show_button6 ?>"><i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
-
-        <div class="rating dont_show <?php echo $dont_show_button1 ?>"><i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
-
-        <div class="rating dont_show <?php echo $dont_show_button2 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
-
-        <div class="rating dont_show <?php echo $dont_show_button3 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
-
-        <div class="rating dont_show <?php echo $dont_show_button4 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i></div>
-
-        <div class="rating dont_show <?php echo $dont_show_button5 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></div>
-
+          <div class="rating">
+              <?php  for($i=0;$i<$mainrating;$i++) { ?>
+                <i class="fa fa-star"></i> 
+              <?php } ?> 
+              <?php for($j=0;$j< 5-$mainrating;$j++) { ?>
+                <i class="fa fa-star-o"></i>  
+              <?php } ?>   
+          </div>
       </div>
       <div class="col-md-4 venue-action"> <a href="#googleMap" class="btn tp-btn-primary findhover"  style="background-color: #8E203E">VIEW MAP</a> <a href="#inquiry" class="btn tp-btn-default findhover"  style="background-color: #8E203E">Book Restaurant</a> </div>
     </div>
@@ -126,59 +94,59 @@
 
             <div role="tabpanel" class="tab-pane fade <?php if( $active == 4) echo "in active"; ?>" id="photo" style="padding: 16px 0 8px 0;">              
               <div class="panel panel-default">
-                          <div class="panel-body">
-                            <h1>Write Your Review</h1>
-                            <form action="<?php echo base_url();?>index.php/CustomerController/add_review" method="post" enctype="multipart/form-data">                              
-                              <input type="hidden" name="restaurant" value="<?php echo $restaurantdetails->no; ?>">                            
+                <div class="panel-body">
+                  <h1>Write Your Review</h1>
+                  <form action="<?php echo base_url();?>index.php/CustomerController/add_review" method="post" enctype="multipart/form-data">                              
+                    <input type="hidden" name="restaurant" value="<?php echo $restaurantdetails->no; ?>">                            
 
-                              <div class="form-group col-md-12 no-padding">
-                                <label class=" control-label" for="reviewtitle">Rating<span class="required">*</span></label>
-                                <div class="rating-group">
-                                  <div class="radio radio-success radio-inline">
-                                    <input type="radio" name="radio1" id="radio1" value="1" checked="">
-                                    <label for="radio1" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i></span> </label>
-                                  </div>
-                                  <div class="radio radio-success radio-inline">
-                                    <input type="radio" name="radio1" id="radio2" value="2">
-                                    <label for="radio2" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i></span> </label>
-                                  </div>
-                                  <div class="radio radio-success radio-inline">
-                                    <input type="radio" name="radio1" id="radio3" value="3">
-                                    <label for="radio3" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> </label>
-                                  </div>
-                                  <div class="radio radio-success radio-inline">
-                                    <input type="radio" name="radio1" id="radio4" value="4">
-                                    <label for="radio4" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> </label>
-                                  </div>
-                                  <div class="radio radio-success radio-inline">
-                                    <input type="radio" name="radio1" id="radio5" value="5">
-                                    <label for="radio5" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> </label>
-                                  </div>
-                                </div>
-                              </div> 
-
-                              <!-- Text input-->
-                              <div class="form-group">
-                                <label class=" control-label" for="reviewtitle">Review Title</label>
-                                <div class=" ">
-                                  <input id="reviewtitle" name="title" type="text" placeholder="Review Title" class="form-control input-md" required>
-                                </div>
-                              </div>
-
-                              <!-- Textarea -->
-                              <div class="form-group">
-                                <label class=" control-label">Write Review</label>
-                                <div class="">
-                                  <textarea class="form-control" name="review" rows="8">Write Review</textarea>
-                                </div>
-                              </div>
-                              <!-- Button -->
-                              <div class="form-group">
-                                <button name="submit" class="btn tp-btn-default tp-btn-lg">Submit Review</button>
-                              </div>
-                            </form>
-                          </div>
+                    <div class="form-group col-md-12 no-padding">
+                      <label class=" control-label" for="reviewtitle">Rating<span class="required">*</span></label>
+                      <div class="rating-group">
+                        <div class="radio radio-success radio-inline">
+                          <input type="radio" name="radio1" id="radio1" value="1" checked="">
+                          <label for="radio1" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i></span> </label>
                         </div>
+                        <div class="radio radio-success radio-inline">
+                          <input type="radio" name="radio1" id="radio2" value="2">
+                          <label for="radio2" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i></span> </label>
+                        </div>
+                        <div class="radio radio-success radio-inline">
+                          <input type="radio" name="radio1" id="radio3" value="3">
+                          <label for="radio3" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> </label>
+                        </div>
+                        <div class="radio radio-success radio-inline">
+                          <input type="radio" name="radio1" id="radio4" value="4">
+                          <label for="radio4" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> </label>
+                        </div>
+                        <div class="radio radio-success radio-inline">
+                          <input type="radio" name="radio1" id="radio5" value="5">
+                          <label for="radio5" class="radio-inline"> <span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> </label>
+                        </div>
+                      </div>
+                    </div> 
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                      <label class=" control-label" for="reviewtitle">Review Title</label>
+                      <div class=" ">
+                        <input id="reviewtitle" name="title" type="text" placeholder="Review Title" class="form-control input-md" required>
+                      </div>
+                    </div>
+
+                    <!-- Textarea -->
+                    <div class="form-group">
+                      <label class=" control-label">Write Review</label>
+                      <div class="">
+                        <textarea class="form-control" name="review" rows="8">Write Review</textarea>
+                      </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="form-group">
+                      <button name="submit" class="btn tp-btn-default tp-btn-lg">Submit Review</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
 
             <div role="tabpanel" class="tab-pane fade <?php if( $active == 2) echo "in active"; ?>" id="toprated">
@@ -250,9 +218,7 @@
                           <?php }
                         } else { echo "No reviews Now";}
                         ?>
-                      </div>
-
-                      
+                      </div> 
                     </div>
                   </div>
                 </div>
