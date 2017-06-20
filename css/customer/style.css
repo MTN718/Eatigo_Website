@@ -48,7 +48,7 @@ h5 {font-size: 12px;}
 h6 {font-size: 10px;}
 p{ margin-bottom: 10px;}
 ul{padding: 0px;}
-a { color: #fff; text-decoration: none; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; transition: all 0.3s; font-family: 'Montserrat', sans-serif;}
+a {text-decoration: none; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; transition: all 0.3s; font-family: 'Montserrat', sans-serif;}
 a:focus, a:hover { color: #f9a630; text-decoration: none;}
 hr { margin-top: 20px; margin-bottom: 20px; border: 0;border-top: 1px solid #e9e6e0;}
 /*--------------------
@@ -1829,4 +1829,8 @@ ul.scheduleRow li p {
 }
 tbody .col-md-1, tbody .col-md-5, tbody .col-md-6  {
     padding-right: 0px !important;
+}
+
+.color__blackfont {
+	color: #3c3634;
 }

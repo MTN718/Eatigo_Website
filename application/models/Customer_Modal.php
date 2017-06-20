@@ -30,8 +30,7 @@ class Customer_Modal extends CI_Model{
     }
 
     public function create_customer() { 
-
-        $email                      = $this->input->post('email');
+        $email = $this->input->post('email');
         $this->db->select('*');
         $this->db->where('email',$email);
         $query = $this->db->get('tbl_user');
@@ -49,6 +48,26 @@ class Customer_Modal extends CI_Model{
         return true;     
     }
 
+    public function getFaqs() {
+        $this->db->select('*');
+        $this->db->from('tbl_faq');
+        $rows = $this->db->get()->result();
+        return $rows;      
+    }
+
+    public function complete_order($id) {
+        $sql =  "UPDATE tbl_reservation SET state=1 WHERE no='$id'";
+        $this->db->query($sql);
+        return true;
+    }
+
+    public function getTerms() {
+        $this->db->select('*');
+        $this->db->from('tbl_terms');
+        $rows = $this->db->get()->result();
+        return $rows;         
+    }
+
     public function getcarddetails($cardid) {
         $this->db->select('*');
         $this->db->from('tbl_card');
@@ -60,6 +79,7 @@ class Customer_Modal extends CI_Model{
     public function get_time() {
         $this->db->select('rtime');
         $this->db->from('tbl_map_discount_restaurant');
+        $this->db->order_by('rtime','asc');
         $rows = $this->db->get()->result();
         return $rows;
     }
@@ -153,13 +173,12 @@ class Customer_Modal extends CI_Model{
     }
 
     public function previous_order_list() {  
-
         $uid = $this->session->userdata('login_user_id');       
-
         $this->db->select('*');
         $this->db->from('tbl_reservation');
         $this->db->where('uid', $uid);
-        $this->db->where('state', 1);
+        $where = '(state = 1 or state = 3 or state = 2)';
+        $this->db->where($where);
         $rows = $this->db->get()->result();
         return $rows;      
     }
@@ -451,5 +470,11 @@ class Customer_Modal extends CI_Model{
     public function cardno_delete($cid) {        
         $this->db->where('no', $cid);
         $this->db->delete('tbl_card'); 
+    }
+
+    public function restaurantrating($restaurantid) {
+        $sql = "SELECT COUNT(rid) AS noofrids, SUM(rating) as totalrating from tbl_review_restaurant WHERE rid='$restaurantid'";
+        $result = $this->db->query($sql)->row_array();
+        return $result;
     }
 }

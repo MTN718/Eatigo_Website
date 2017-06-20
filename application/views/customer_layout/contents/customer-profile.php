@@ -59,9 +59,8 @@
                   <div class="row st-tabs woo-product-tabs"> 
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                      <li role="presentation" class="<?php if( $active == 1) echo "active"; ?>"><a href="#previous" aria-controls="recentproducts" role="tab" data-toggle="tab">History</a></li>
                       <li role="presentation" class="<?php if( $active == 2) echo "active"; ?>"><a href="#current" aria-controls="featuredproduct" role="tab" data-toggle="tab">Upcoming Reservation</a></li>
-                      <li role="presentation" class="<?php if( $active == 3) echo "active"; ?>"><a href="#cancel" aria-controls="toprated" role="tab" data-toggle="tab">Reservation</a></li>
+                      <li role="presentation" class="<?php if( $active == 1) echo "active"; ?>"><a href="#previous" aria-controls="recentproducts" role="tab" data-toggle="tab">History</a></li>
                       <li role="presentation" class="<?php if( $active == 4 || $active == 5) echo "active"; ?>"><a href="#credit" aria-controls="toprated" role="tab" data-toggle="tab" style="width: 177px;">Credit card</a></li>
                     </ul>
                     <!-- Tab panes -->
@@ -82,7 +81,7 @@
                                 <div id="bookinglist">
                                   <div class="display_booking" style="display:block;width: 715px;">
                                     <div class="history-Left vendor-image">
-                                      <a href="">
+                                      <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $previous->rid;?>">
                                         <?php if(isset($resto_image) and $resto_image->image != "") { ?>
                                         <img class="colforheight" src="<?php echo base_url();?><?php echo $resto_image->image; ?>">
                                         <?php } else { ?> 
@@ -131,10 +130,12 @@
                                     </li>
                                   </ul>
                                   <div class="resto-detail-h">
-                                    <h3><?php echo $restaurant->name; ?></h3>
+                                    <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $previous->rid;?>"><h3 class="color__blackfont"><?php echo $restaurant->name; ?></h3></a>
                                     <p><?php echo $restaurant->address; ?></p>
                                   </div>
-                                  <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $restaurant->no; ?>/4" style="margin-left: 309px;margin-top: -110px;background-color: #8E203E;border: #8E203E;" class="btn btn-primary findhover">Review</a>
+                                  <?php if($previous->state == 1) { ?>
+                                   <a href="<?php echo base_url();?>index.php/CustomerController/add_review/<?php echo $previous->no;?>" style="margin-left: 309px;margin-top: -110px;background-color: #8E203E;border: #8E203E;" class="btn btn-primary findhover">Review</a>
+                                   <?php  }  ?>  
                                   <div class="schedule">
                                     <ul class="scheduleRow">
                                       <li class="date">
@@ -182,8 +183,8 @@
                               ?>
                               <div id="bookinglist">
                                 <div class="display_booking" style="display:block;width: 715px;">
-                                  <div class="history-Left vendor-image">
-                                    <a href="">
+                                  <div class="history-Left vendor-image"> 
+                                    <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $current->rid;?>">
                                       <?php if(isset($resto_image) and $resto_image->image != "") { ?>
                                       <img class="colforheight" src="<?php echo base_url();?><?php echo $resto_image->image; ?>">
                                       <?php } else { ?> 
@@ -232,9 +233,10 @@
                                   </li>
                                 </ul>
                                 <div class="resto-detail-h">
-                                  <h3><?php if(isset($restaurant) and $restaurant->name != "") echo $restaurant->name; ?></h3>
+                                  <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $current->rid;?>"><h3 class="color__blackfont"><?php if(isset($restaurant) and $restaurant->name != "") echo $restaurant->name; ?></h3></a>
                                   <p><?php if(isset($restaurant) and $restaurant->address != "") echo $restaurant->address; ?></p>
                                 </div>
+                                <a href="<?php echo base_url();?>index.php/CustomerController/complete_order/<?php echo $current->no;?>" style="margin-left: 309px;margin-top: -110px;background-color: #8E203E;border: #8E203E;" class="btn btn-primary findhover">Complete</a>
                                 <a href="<?php echo base_url();?>index.php/CustomerController/cancel_order/<?php echo $current->no;?>" style="margin-left: 309px;margin-top: -110px;background-color: #8E203E;border: #8E203E;" class="btn btn-primary findhover">cancel</a>
                                 <div class="schedule">
                                   <ul class="scheduleRow">
@@ -266,6 +268,9 @@
                       </div>
                     </div>
                   </div>
+                  
+                  <!--  code for reservation tab of customer profile
+
                   <div role="tabpanel" class="tab-pane fade <?php if( $active == 3) echo "in active"; ?>" id="cancel">
                     <div class="container">
                       <div class="row products">
@@ -372,7 +377,7 @@
                       <?php } ?>                             
                     </div>
                   </div>
-                </div>
+                </div> -->
 
                 <div role="tabpanel" class="tab-pane fade <?php if( $active == 4) echo "in active"; ?>" id="credit">
                  <div class="container-fluid">
@@ -393,7 +398,7 @@
                               </li>
                               <li class="time" style="width:15%">
                                 <p>Expiry Date</p>
-                                <small><span style="color:red; font-weight: 600;"><?php echo $card->expirymonth; ?>/<?php echo $card->expiryyear  ; ?> </span></small>
+                                <small><span style="color:red; font-weight: 600;"><?php echo $card->expmonth; ?>/<?php echo $card->expyear; ?> </span></small>
                               </li>
                               <li class="people">
                                 <p>Action</p>
@@ -547,4 +552,3 @@
 
 
 <script src="<?php echo base_url();?>js/customer/jquery.min.js"></script>
-<div id="googleMap" class="map" style="margin-top:40px;"></div>

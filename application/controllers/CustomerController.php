@@ -64,6 +64,12 @@ class CustomerController extends BaseController {
         redirect('CustomerController/login');
     }
 
+    public function complete_order($id="") {
+        $this->load->model('Customer_Modal');
+        $status = $this->Customer_Modal->complete_order($id);
+        redirect('CustomerController/profile/2');
+    }
+
     public function fb_profile() {
     if($this->session->fb_login == 1) {
         $data['fb_logged_in'] = true;
@@ -204,12 +210,29 @@ class CustomerController extends BaseController {
         $data['restaurantdiscounts']  = $this->Customer_Modal->restaurant_discount($rid);
         $data['customerdetails']  = $this->Customer_Modal->customer_details();
         $data['savedcards'] = $this->Customer_Modal->card_list();
+        $data['rating'] = $this->Customer_Modal->restaurantrating($rid);
+
+        $noofrids = $data['rating']['noofrids'];
+        $totalrating = $data['rating']['totalrating'];
+
+        $temprating = $totalrating/$noofrids;
+        $data['mainrating'] = round($temprating);
+
         $data['active'] = $active;
         $this->load->view('view_customer', $data);   
     }
 
     public function faq() {
+        $this->load->model('Customer_Modal');
+        $data['faqs'] = $this->Customer_Modal->getFaqs();
         $data['pageName'] = "FAQ";
+        $this->load->view('view_customer', $data);      
+    }
+
+    public function terms() {
+        $this->load->model('Customer_Modal');
+        $data['terms'] = $this->Customer_Modal->getTerms();
+        $data['pageName'] = "TERMS";
         $this->load->view('view_customer', $data);      
     }
 
