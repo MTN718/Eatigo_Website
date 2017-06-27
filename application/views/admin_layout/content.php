@@ -29,6 +29,15 @@
         case "Categorys":
             include ("contents/categorys.php");
             break;
+        case "Citys":
+            include ("contents/citys.php");
+            break;
+        case "Currencys":
+            include ("contents/currency.php");
+            break;
+        case "Subcategorys":
+            include ("contents/subcategorys.php");
+            break;
         case "Faq":
             include ("contents/faq.php");
             break;
@@ -37,6 +46,9 @@
             break;
         case "Contactus":
             include ("contents/contactus.php");
+            break;
+        case "Memberships":
+            include ("contents/memberships.php");
             break;
         case "Transactions":
             include ("contents/transaction.php");
@@ -58,6 +70,12 @@
             break;
         case "EditCategory":
             include ("contents/edit_category.php");
+            break;
+        case "EditCurrency":
+            include ("contents/edit_currency.php");
+            break;
+        case "EditSubCategory":
+            include ("contents/edit_subcategory.php");
             break;
     }
     ?>

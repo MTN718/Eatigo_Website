@@ -112,6 +112,19 @@
                         <i class="fa fa-circle-o"></i> Country Data
                     </a>
                 </li>
+                
+                <?php
+                if ($pageName == "Cities")
+                    echo "<li class='active'>";
+                else
+                    echo "<li>";
+                ?>
+                <a href="<?php echo base_url() . ADMIN_PAGE_CITIES; ?>">
+                    <i class="fa fa-circle-o"></i> City Data
+                </a>
+                </li>
+                
+                
                 <?php
                     if ($pageName == "Categorys")
                         echo "<li class='active'>";
@@ -121,7 +134,27 @@
                     <a href="<?php echo base_url() . ADMIN_PAGE_CATEGORYS; ?>">
                         <i class="fa fa-circle-o"></i> Category Data
                     </a>
-                </li>                
+                </li>                                
+                <?php
+                    if ($pageName == "Subcategorys")
+                        echo "<li class='active'>";
+                    else
+                        echo "<li>";
+                    ?>
+                    <a href="<?php echo base_url() . ADMIN_PAGE_SUBCATEGORY; ?>">
+                        <i class="fa fa-circle-o"></i> Sub Category Data
+                    </a>
+                </li>         
+                <?php
+                    if ($pageName == "Memberships")
+                        echo "<li class='active'>";
+                    else
+                        echo "<li>";
+                    ?>
+                    <a href="<?php echo base_url() . ADMIN_PAGE_MEMBERSHIPS; ?>">
+                        <i class="fa fa-circle-o"></i> Membership Plans
+                    </a>
+                </li> 
                 <?php
                 if ($pageName == "Facilitys")
                     echo "<li class='active'>";
@@ -150,6 +183,16 @@
                 ?>
                 <a href="<?php echo base_url() . ADMIN_PAGE_ATMOSPHERES; ?>">
                     <i class="fa fa-circle-o"></i> Atmosphere Data
+                </a>
+                </li>
+                <?php
+                if ($pageName == "Currencys")
+                    echo "<li class='active'>";
+                else
+                    echo "<li>";
+                ?>
+                <a href="<?php echo base_url() . ADMIN_PAGE_CURRENCYS; ?>">
+                    <i class="fa fa-circle-o"></i> Currency Data
                 </a>
                 </li>
             </ul>

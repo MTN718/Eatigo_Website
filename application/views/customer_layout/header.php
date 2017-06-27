@@ -56,7 +56,7 @@ $account_type = $this->session->userdata('login_type');
                     <?php } ?>
 
                     <!-- /.Mega Dropdown -->
-                    <li class="hoo"><a href="<?php echo base_url(); ?>index.php/CustomerController/contactus">Contact Us</a></li>
+<!--                    <li class="hoo"><a href="<?php echo base_url(); ?>index.php/CustomerController/contactus">Contact Us</a></li>-->
                 </ul>
             </div>
 

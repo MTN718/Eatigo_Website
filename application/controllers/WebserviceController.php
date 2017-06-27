@@ -449,7 +449,8 @@ class WebserviceController extends BaseController {
                 "no" => $postVars['cardid']
             ));
             //Checkout
-            $transactionId = $this->stripe->checkOut($cardInfo->cardnumber, $cardInfo->expmonth, $cardInfo->expyear, $cardInfo->security, $discountInfo->price * 100);
+            //$transactionId = $this->stripe->checkOut($cardInfo->cardnumber, $cardInfo->expmonth, $cardInfo->expyear, $cardInfo->security, $discountInfo->price * 100);
+            $transactionId = "trans_test_0000";
             if ($transactionId != false) {
                 $tid = $this->sqllibs->insertRow($this->db, 'tbl_transaction'
                         , array(
@@ -461,7 +462,7 @@ class WebserviceController extends BaseController {
                     "did" => $postVars['did']
                 ));
 
-                $this->sqllibs->insertRow($this->db, 'tbl_reservation'
+                $iid = $this->sqllibs->insertRow($this->db, 'tbl_reservation'
                         , array(
                     "uid" => $postVars['uid'],
                     "rid" => $postVars['rid'],
@@ -472,9 +473,19 @@ class WebserviceController extends BaseController {
                     "transaction" => $tid,
                     "cardid" => $postVars['cardid']
                 ));
-
+                
+                
+                $restaurantInfo = $this->sqllibs->getOneRow($this->db, 'tbl_restaurant', array(
+                    "no" => $postVars['rid']
+                ));
+                $vendorInfo = $this->sqllibs->getOneRow($this->db, 'tbl_user', array(
+                    "no" => $restaurantInfo->uid
+                ));
+                $text = "You have a reservation in " + $restaurantInfo->name;
+                $this->notification->sendEmail($vendorInfo->email,"Reservation Alert",$text);
                 $result['code'] = $code;
                 $result['result'] = 200;
+                $result['rid'] = $iid;
                 echo json_encode($result);
                 return;
             } else {
@@ -594,7 +605,8 @@ class WebserviceController extends BaseController {
             "no" => $reserveInfo->transaction
         ));
         //Refund Money
-        $result = $this->stripe->refund($id);
+        //$result = $this->stripe->refund($id);
+        $result = "refund_test_0000";
 
         if ($result != false) {
 
@@ -611,7 +623,7 @@ class WebserviceController extends BaseController {
             $this->sqllibs->updateRow($this->db, 'tbl_reservation'
                     , array(
                 "transaction" => $tid,
-                "status" => 3
+                "state" => 3
                     )
                     , array(
                 "no" => $postVars['rid']

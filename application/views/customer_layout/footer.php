@@ -2,25 +2,15 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5 ft-aboutus">
-                <h2>Burped</h2>
-<<<<<<< HEAD
-                <p style="color:#B9657C;">At Burped our purpose is tod Restaurant Reservation who use those suppliers. <a href="#">Start Find Restaurant!</a></p>
-=======
-                <p style="color:#B9657C;">At Wedding Vendor our purpose is tod wedding couples who use those suppliers. <a href="<?php echo base_url()?>index.php/CustomerController/restaurants?>">Start Find Restaurant!</a></p>
->>>>>>> origin/master
+                <h2>Burped</h2>                
+                <p style="color:#B9657C;">At Burped our purpose is tod Restaurant Reservation who use those suppliers. <a href="#">Start Find Restaurant!</a></p>                
             </div>
             <div class="col-md-3 ft-link">
                 <h2>Useful links</h2>
-                <ul>
-<<<<<<< HEAD
+                <ul>                    
                     <li><a href="<?php echo base_url(); ?>index.php/CustomerController/aboutusPage" style="color:#B9657C;">About Us</a></li>                    
                     <li><a href="<?php echo base_url(); ?>index.php/CustomerController/faqPage" style="color:#B9657C;">FAQ</a></li>
-                    <li><a href="<?php echo base_url(); ?>index.php/CustomerController/termPage" style="color:#B9657C;">Terms of Use</a></li>
-=======
-                    <li><a href="<?php echo base_url();?>index.php/CustomerController/about" style="color:#B9657C;">About Us</a></li>
-                    <li><a href="<?php echo base_url();?>index.php/CustomerController/terms" style="color:#B9657C;">Privacy Policy</a></li>
-                    <li><a href="<?php echo base_url();?>index.php/CustomerController/terms" style="color:#B9657C;">Terms of Use</a></li>
->>>>>>> origin/master
+                    <li><a href="<?php echo base_url(); ?>index.php/CustomerController/termPage" style="color:#B9657C;">Terms of Use</a></li>                    
                 </ul>
             </div>
             <div class="col-md-4 newsletter">

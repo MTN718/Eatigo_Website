@@ -215,7 +215,11 @@ class CustomerController extends BaseController {
         $noofrids = $data['rating']['noofrids'];
         $totalrating = $data['rating']['totalrating'];
 
-        $temprating = $totalrating/$noofrids;
+        $temprating = 0;
+        if ($noofrids != 0)
+        {
+            $temprating = $totalrating/$noofrids;            
+        }
         $data['mainrating'] = round($temprating);
 
         $data['active'] = $active;
@@ -398,16 +402,19 @@ class CustomerController extends BaseController {
         $security = $carddetails->security;
         $price = $amt;
         $reservationid = $id;
+        
+        
+        
         // Checkout
-        // $transactionId = $this->stripe->checkOut($cardnumber, $expmonth, $expyear, $security, $price);
-            $transactionId = $this->stripe->testCheckout();
+        $transactionId = $this->stripe->checkOut($cardnumber, $expmonth, $expyear, $security, $price);
+            //$transactionId = $this->stripe->testCheckout();
 
-            if ($transactionId != false) {
-               $status = $this->Customer_Modal->payment_complete($transactionId,$reservationid);         
-               if($status==true) {
-                    redirect('CustomerController/profile/2');
-               }
-            }
+        if ($transactionId != false) {
+           $status = $this->Customer_Modal->payment_complete($transactionId,$reservationid);         
+           if($status==true) {
+                redirect('CustomerController/profile/2');
+           }
+        }
     }
 
     public function confirm_order($oid="") {
@@ -499,5 +506,97 @@ class CustomerController extends BaseController {
         $data['content'] = $content;
         $this->load->view('view_customer', $data);         
     }
-
+    
+    public function ajaxSearchRestaurant()
+    {
+        $postVars = $this->utils->inflatePost(array('discount','level','rate','category'));        
+        $sql = "";
+        if ($postVars['discount'] == '')
+                $sql = "select no as rid from tbl_restaurant";            
+        else $sql = "select B.rid from tbl_base_discount as A left join tbl_map_discount_restaurant as B on A.no = B.did where A.percent >='".$postVars['discount']."' group by B.rid";        
+        $rids = $this->sqllibs->rawSelectSql($this->db, $sql);        
+        
+        $sqlIn = "";
+        foreach ($postVars['level'] as $level) {
+            $sqlIn = $sqlIn . $level . ",";
+        }
+        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
+        if ($sqlIn !='')
+        {
+            $sql = "select no as rid from tbl_restaurant where level in (".$sqlIn.")";            
+        }
+        else
+            $sql = "select no as rid from tbl_restaurant";            
+        $rids2 = $this->sqllibs->rawSelectSql($this->db, $sql);
+            
+        
+        $sqlIn = "";
+        foreach ($postVars['category'] as $cat) {
+            $sqlIn = $sqlIn . $cat . ",";
+        }
+        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
+        
+        if ($sqlIn !='')
+        {
+            $sql = "select no as rid from tbl_restaurant where category in (".$sqlIn.")";
+        }
+        else
+            $sql = "select no as rid from tbl_restaurant";      
+        
+        
+        $rids3 = $this->sqllibs->rawSelectSql($this->db, $sql);        
+        
+        
+        $sqlIn = "";
+        foreach($postVars['rate'] as $rate)
+        {
+            $minPrice = $rate - 0.5;
+            $maxPrice = $rate + 0.5;            
+            $sqlIn = $sqlIn." (avgrate >='".$minPrice."' and avgrate <'".$maxPrice."') or";
+        }
+        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 3);        
+        
+        if ($sqlIn !='')
+        {
+            $sql = "select no as rid from tbl_restaurant where ".$sqlIn;
+        }
+        else
+            $sql = "select no as rid from tbl_restaurant";            
+        $rids4 = $this->sqllibs->rawSelectSql($this->db, $sql);     
+        
+        $array1 = array();
+        $array2 = array();
+        $array3 = array();
+        $array4 = array();
+        foreach ($rids as $rid) 
+            $array1[] = $rid->rid;        
+        foreach ($rids2 as $rid) 
+            $array2[] = $rid->rid;        
+        foreach ($rids3 as $rid) 
+            $array3[] = $rid->rid;                
+        foreach ($rids4 as $rid) 
+            $array4[] = $rid->rid;   
+        $ridArray = array_intersect($array1, $array2,$array3,$array4);        
+        if (count($ridArray) == 0)
+        {
+            $result = array();
+            $result['restaurants'] = array();
+            $result['result'] = 200;
+            echo json_encode($result);
+            return;
+        }
+        $sqlIn = "";
+        foreach ($ridArray as $rid) {
+            $sqlIn = $sqlIn . $rid . ",";
+        }
+        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
+        
+        $sql = "select *,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.no in (".$sqlIn.")";
+        $restaurants = $this->sqllibs->rawSelectSql($this->db, $sql);                     
+        $result = array();
+        $result['restaurants'] = $this->generateRestaurantArray($restaurants);
+        $result['result'] = 200;
+        echo json_encode($result);
+    }
+    
 }
