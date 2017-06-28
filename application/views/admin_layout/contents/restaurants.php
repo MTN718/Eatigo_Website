@@ -1,3 +1,71 @@
+<script>
+    function changeCategory()
+    {
+        var value = $("#category").val();
+        $.ajax({
+            type: 'POST',
+            data: {cid: value},
+            url: '<?php echo base_url() . "index.php/AdminController/ajaxLoadSubCategory"; ?>',
+            success: function(data)
+            {
+                var json = $.parseJSON(data);
+                addChild(json);
+            }
+        });
+    }
+    function addChild(json)
+    {
+        $("#subcategory").empty();
+        $("#subcategory").append("<option value='0'>All</option>");
+        for (var i = 0; i < json.subCategory.length; i++)
+        {
+            $("#subcategory").append("<option value='" + json.subCategory[i].no + "'>" + json.subCategory[i].name + "</option>");
+        }
+        filter();
+    }
+    function filter()
+    {
+        var catValue = $("#category").val();
+        var subValue = $("#subcategory").val();
+        $.ajax({
+            type: 'POST',
+            data: {cid: catValue, sid: subValue},
+            url: '<?php echo base_url() . "index.php/AdminController/ajaxFilterRestaurant"; ?>',
+            success: function(data)
+            {
+                var json = $.parseJSON(data);
+                addRestaurant(json);
+            }
+        });
+    }
+    function addRestaurant(json)
+    {
+        $("#tableBody").empty();
+        for (var i = 0; i < json.restaurants.length; i++)
+        {
+            var rtInfo = json.restaurants[i];
+            var featured = "Featured";
+            if (rtInfo.feature == 0)
+                featured = "None";
+            var featureButton = "<?php echo "<a href='" . base_url() . ADMIN_ACTION_RESTAURANT_FEATURE . "/"?>" + rtInfo.no + "'>Set Non-Feature</a>&nbsp;&nbsp;&nbsp";
+            var deleteButton = "<?php echo "<a href='" . base_url() . ADMIN_ACTION_RESTAURANT_DELETE . "/"?>" + rtInfo.no + "'>Delete</a>&nbsp;&nbsp;&nbsp";
+     
+            if (rtInfo.feature != 0)
+                featureButton = "<?php echo "<a href='" . base_url() . ADMIN_ACTION_RESTAURANT_FEATURE . "/"?>" + rtInfo.no + "'>Set Non-Feature</a>&nbsp;&nbsp;&nbsp";
+            $("#tableBody").append(
+                    "<tr>\n\
+                        <td>" + (i+1) + "</td>\n\
+                        <td>" + rtInfo.name + "</td>\n\
+                        <td>" + rtInfo.cname + "</td>\n\
+                        <td>" + rtInfo.sname + "</td>\n\
+                        <td>" + rtInfo.address + "</td>\n\
+                        <td>" + rtInfo.countReservation + "</td>\n\
+                        <td>" + featured + "</td>\n\
+                        <td>" + featureButton + deleteButton +  "</td></tr>");
+        }
+        filter();
+    }
+</script>
 <div class="box">
     <div class="box-header">
         <h3 class="box-title">Restaurants</h3>
@@ -5,32 +73,22 @@
     <!-- /.box-header -->
     <div class="box-body">
         <div class="row" style="margin-bottom: 10px"> 
-            <form id='formAddCity' name='formAddCity' method='post' action='<?php echo base_url() . ADMIN_ACTION_ADDCITY; ?>' enctype="multipart/form-data">			
+            <form id='formAddCity' name='formAddCity' method='post' action='<?php echo base_url() . ADMIN_ACTION_ADDCITY; ?>' enctype="multipart/form-data">			                      
                 <div class="col-md-3" >
-                    <input class='form-control' name='cityName' id='cityName' placeholder='New City'/></a>
-                </div>      
-                <div class="col-md-3" >
-                    <select class='form-control' id='cityCountry' name='cityCountry'>
+                    <select class='form-control' id='category' name='category' onchange="changeCategory()">
+                        <option value='0'>All</option>
                         <?php
-                        foreach ($countrys as $country) {
-                            echo "<option value='" . $country->no . "'>" . $country->name . "</option>";
+                        foreach ($categorys as $category) {
+                            echo "<option value='" . $category->no . "'>" . $category->name . "</option>";
                         }
                         ?>
                     </select>
                 </div>
                 <div class="col-md-3" >
-                    <select class='form-control' id='cityCurrency' name='cityCurrency'>
-                        <?php
-                        foreach ($currencys as $currency) {
-                            echo "<option value='" . $currency->no . "'>" . $currency->name . "</option>";
-                        }
-                        ?>
+                    <select class='form-control' id='subcategory' name='subcategory'>
+                        <option value='0'>All</option>
                     </select>
-                </div>
-                <input type="file" accept="image/*" name="uploadImage" id="uploadImage" style="visibility: hidden; width: 1px; height: 1px" multiple onchange="previewFile()">                
-                <div class="col-md-3" >
-                    <button type="button" class ="btn btn-block btn-success" onclick='onAddCity()'>Add City with Image</button>
-                </div>
+                </div>                
             </form>
         </div>
         <div class="box-body">
@@ -41,14 +99,13 @@
                         <th>Name</th>
                         <th>Category</th>
                         <th>Sub Category</th>
-                        <th>Address</th>                   
-                        <th>Opening</th>                    
+                        <th>Address</th>                                           
                         <th>Reservations</th>    
                         <th>Promote</th>                    
                         <th>Details</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableBody">
                     <?php
                     $i = 0;
                     foreach ($restaurants as $restaurant) {
@@ -59,8 +116,7 @@
                             <td><?php echo $restaurant->name; ?></td>
                             <td><?php echo $restaurant->cname; ?></td>
                             <td><?php echo $restaurant->sname; ?></td>
-                            <td><?php echo $restaurant->address; ?></td>
-                            <td><?php echo $restaurant->start_time . "~" . $restaurant->end_time; ?></td>                        
+                            <td><?php echo $restaurant->address; ?></td>                            
                             <td><?php echo $restaurant->countReserve; ?></td>
                             <td>
                                 <?php
@@ -81,9 +137,9 @@
                                 <a href='<?php echo base_url() . ADMIN_ACTION_RESTAURANT_DELETE . "/" . $restaurant->no; ?>'>Delete</a>&nbsp;&nbsp;&nbsp;
                             </td>
                         </tr>
-    <?php
-}
-?>
+                        <?php
+                    }
+                    ?>
                 </tbody>            
             </table>
         </div>

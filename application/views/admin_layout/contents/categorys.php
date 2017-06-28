@@ -57,7 +57,7 @@
                 <tr>
                     <th>No</th>
                     <th>Name</th>
-                    <th>Country</th>
+                    <th>City</th>
                     <th>Detail</th>
                 </tr>
             </thead>
@@ -70,7 +70,7 @@
                     <tr>
                         <td><?php echo $i; ?></td>                        
                         <td><?php echo $category->name; ?></td>
-                        <td><?php echo $category->country; ?></td>
+                        <td><?php echo $category->city; ?></td>
                         <td>
                             <a href='<?php echo base_url() . ADMIN_PAGE_EDITCATEGORY . "/" . $category->no; ?>'>Edit</a>&nbsp;&nbsp;&nbsp;
                             <a href='<?php echo base_url() . ADMIN_ACTION_DELETECATEGORY . "/" . $category->no; ?>'>Delete</a>&nbsp;&nbsp;&nbsp;
