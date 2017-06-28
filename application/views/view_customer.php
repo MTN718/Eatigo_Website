@@ -173,6 +173,23 @@
         <!-- Main Map -->
         <script src="<?php echo base_url();?>js/fileinput.js"></script>
 
+        <script type="text/javascript" src="<?php echo base_url(); ?>js/bootstrap-datepicker.min.js"></script>
+        <link rel="stylesheet" href="<?php echo base_url(); ?>css/bootstrap-datepicker3.css"/>
+        <script>
+
+
+            var date = new Date();
+            date.setDate(date.getDate());
+
+            $('#date').datepicker({ 
+                startDate: date,
+                format: 'MM dd, yyyy',
+                todayHighlight: true,
+                autoclose: true,
+            });
+
+        </script>
+
         <script>
 
           <?php if(isset($restaurantdetails) and $restaurantdetails != NULL) { ?>

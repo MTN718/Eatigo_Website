@@ -119,6 +119,7 @@ class Customer_Modal extends CI_Model{
 
         $this->db->select('*');
         $this->db->from('tbl_restaurant');
+        $this->db->where('status',0);
         $this->db->order_by("no", "desc");
         $this->db->limit(50);
         $rows = $this->db->get()->result();
@@ -130,6 +131,7 @@ class Customer_Modal extends CI_Model{
         $this->db->select('*');
         $this->db->from('tbl_restaurant');        
         $this->db->where('category', $categoryid);
+        $this->db->where('status',0);
         $rows = $this->db->get()->result();
         return $rows;      
     }
@@ -159,6 +161,7 @@ class Customer_Modal extends CI_Model{
         }  
         
         
+        $this->db->where('status',0);
         $rows = $this->db->get()->result();
    
     }

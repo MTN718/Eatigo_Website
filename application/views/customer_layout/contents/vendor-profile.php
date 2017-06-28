@@ -105,13 +105,11 @@
                     ?>
                     <tr class="odd gradeX">
                       <td><a style="color:#e41d27;" href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $restaurant->no; ?>"><?php echo $restaurant->name;?></a></td>
-                      <td class="row">
-                        <?php if(isset($restaurant->mon_starttime) and $restaurant->mon_starttime != NULL) { ?>
-                        <span class="col-md-4 w-30 no-padding">Mon - </span>
-                        <span><i class="fa fa-clock-o"></i> <?php echo $restaurant->mon_starttime;?> - </span>
-                        <span><i class="fa fa-clock-o"></i> <?php echo $restaurant->mon_endtime;?></span>
-                        <br>
-                        <?php } ?>
+                      <td class="row">                        
+                        <?php if(isset($restaurant->status) and $restaurant->status != NULL) {
+                          if($restaurant->status == 0) echo "<span style='color:green'>Open</span>";
+                          else echo "<span style='color:red'>Close</span>";
+                        } ?>
                       </td>
                       <td>
                         <?php
@@ -199,10 +197,14 @@
                             <span class="caret"></span></button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                               <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/view_restaurant/<?php echo $restaurant->no;?>">Update</a></li>
-                          <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Active</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Deactive</a></li> -->
                           <li role="presentation" class="divider"></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo base_url();?>index.php/VendorController/delete_restaurant/<?php echo $restaurant->no;?>"  onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></li>       
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo base_url();?>index.php/VendorController/delete_restaurant/<?php echo $restaurant->no;?>"  onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></li> 
+                          <li role="presentation" class="divider"></li>
+                          <?php if(isset($restaurant->status) and $restaurant->status != NULL) { if($restaurant->status == 0) { ?>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo base_url();?>index.php/VendorController/open_restaurant/<?php echo $restaurant->no;?>">Open</a></li>                           
+                          <?php } else { ?>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo base_url();?>index.php/VendorController/close_restaurant/<?php echo $restaurant->no;?>">Close</a></li> 
+                          <?php } } ?>
                         </ul>
                       </div>
                     </td>
@@ -469,26 +471,27 @@
                     <div class="row">
                       <div class="form-group col-md-6 no-padding">
                         <!-- Text input-->
-                        <!-- <div class="form-group col-md-6 no-padding" style="padding-left: 15px;">
-                          <label class="control-label" for="categ">Category</label>
-                          <select id="categ" name="categ" class="form-control" required="required">                   
-
-                            <?php if(isset($selected_category)) { ?>
-                            <option value="<?php echo $selected_category->category; ?>"><?php echo $selected_category->name; ?></option>
-                            <option value="<?php echo $selected_category->category; ?>">----------------------</option>
-                            <?php } else { ?>                            
-                            <option value="">Select Category</option>
+                        <div class="form-group col-md-6 no-padding" style="padding-left: 15px;">
+                          <label class="control-label" for="categ">Facilities<span class="required">*</span></label>  
+                          <select class="form-control" name="factOpt[]" multiple id="factOpt" required="required">    
+                            <?php foreach ($facilitylist as $facility) { 
+                              $str_flag = "";                              
+                              if(isset($selected_facilitylist) and $selected_facilitylist != NULL) {
+                                foreach ($selected_facilitylist as $selected_facility) {
+                                  if($facility->no == $selected_facility->fid) {
+                                   $str_flag = "selected"; 
+                                   break;
+                                  }
+                                  else $str_flag="";
+                                }
+                              }  
+                            ?>
+                            <option value="<?php echo $facility->no; ?>" <?php echo $str_flag; ?> ><?php echo $facility->name; ?></option>
                             <?php } ?>
-
-                            <?php foreach ($categorytlist as $category) { ?>
-                            <option value="<?php echo $category->no; ?>">
-                              <?php echo $category->name; ?>
-                            </option>                            
-                            <?php }?>
                           </select>
-                        </div> -->
+                        </div>
                         <!-- Text input-->
-                        <div class="form-group col-md-12 no-padding" style="padding-left: 15px;">
+                        <div class="form-group col-md-6 no-padding">
                           <label class="control-label" for="categ">Sub Category<span class="required">*</span></label>  
                           <select class="form-control" name="subcateOpt[]" multiple id="langOpt" required="required">    
                             <?php foreach ($subcategorytlist as $subcategory) { 
@@ -671,7 +674,23 @@
                           </select>
                         </div>
                         <!-- Text input-->
-                        <div class="form-group col-md-6 no-padding">
+                        <div class="form-group col-md-3 no-padding">
+                          <label class=" control-label" for="discount_time">Discount Date</label>
+                          <div class="input-group">
+
+                            <?php if(isset($selected_discount)) { ?>
+                            <input class="form-control" id="date" name="discount_date" placeholder="MM/DD/YYYY" type="text" value="<?php echo $selected_discount->date; ?>" required="required">
+                            <?php } else { ?>                            
+                            <input class="form-control" id="date" name="discount_date" placeholder="MM/DD/YYYY" type="text" value="" required="required">
+                            <?php } ?>
+
+                            <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                          </div>
+                        </div>
+                        <!-- Textarea -->
+                        <div class="form-group col-md-3 no-padding">
                           <label class=" control-label" for="discount_time">Discount Time</label>
                           <div class="input-group clockpicker-with-callbacks">
 
@@ -1315,6 +1334,10 @@
                       $('#langOpt').multiselect({
                           columns: 1,
                           placeholder: 'Select Sub Category'
+                      });
+                      $('#factOpt').multiselect({
+                          columns: 1,
+                          placeholder: 'Select Restaurant Facility'
                       });
                     </script>
 

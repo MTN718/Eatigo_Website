@@ -10,7 +10,6 @@ class Vendor_Modal extends CI_Model{
 
 	public function create_restaurant() { 
 
-
         if(isset($_SESSION['file_name'])) {
 
         $name = $_SESSION['file_name'];
@@ -76,7 +75,29 @@ class Vendor_Modal extends CI_Model{
                 $data2['rid'] = $resto_id;
                 $this->db->insert('tbl_map_sub_restaurant',$data2);
             }
-        }   
+        }
+
+        $this->db->select('*');
+        $this->db->from('tbl_base_facility');
+        $factbaseOptlist = $this->db->get()->result();
+        foreach ($factbaseOptlist as $factbaseOpt) { 
+
+            $data3['fid'] = $factbaseOpt->no;
+            $data3['rid'] = $resto_id;
+            $data3['state'] = 0;
+            $this->db->insert('tbl_map_facility_restaurant',$data3);
+        }
+
+        $factOpt                = $this->input->post('factOpt[]');
+        if(isset($factOpt) and $factOpt != NULL) {
+            foreach ($factOpt as $fact) { 
+
+                $data4['state'] = 1; 
+                $this->db->where('rid',$resto_id);
+                $this->db->where('fid',$fact);
+                $this->db->update('tbl_map_facility_restaurant',$data4);
+            }
+        }
     }  else {
         return "false";
     }        
@@ -142,6 +163,28 @@ class Vendor_Modal extends CI_Model{
                 $this->db->insert('tbl_map_sub_restaurant',$data2);
             }
         }
+
+        $this->db->select('*');
+        $this->db->from('tbl_map_facility_restaurant');
+        $this->db->where('rid',$id);
+        $factbaseOptlist = $this->db->get()->result();
+        foreach ($factbaseOptlist as $factbaseOpt) { 
+
+            $data3['state'] = 0; 
+            $this->db->where('rid',$id);
+            $this->db->update('tbl_map_facility_restaurant',$data3);
+        }
+
+        $factOpt                = $this->input->post('factOpt[]');
+        if(isset($factOpt) and $factOpt != NULL) {
+            foreach ($factOpt as $fact) { 
+
+                $data4['state'] = 1; 
+                $this->db->where('rid',$id);
+                $this->db->where('fid',$fact);
+                $this->db->update('tbl_map_facility_restaurant',$data4);
+            }
+        }
       
     }
 
@@ -161,6 +204,23 @@ class Vendor_Modal extends CI_Model{
 
         $this->db->where('rid', $id);
         $this->db->delete('tbl_map_discount_restaurant');
+
+        $this->db->where('rid', $id);
+        $this->db->delete('tbl_map_facility_restaurant');
+    }
+
+    public function open_restaurant($id = "") { 
+
+        $data['status']            = 0; 
+        $this->db->where('no',$id);
+        $this->db->update('tbl_restaurant',$data); 
+    }
+
+    public function close_restaurant($id = "") { 
+
+        $data['status']            = 1; 
+        $this->db->where('no',$id);
+        $this->db->update('tbl_restaurant',$data);  
     }
 
     public function vendore_details() {  
@@ -247,6 +307,16 @@ class Vendor_Modal extends CI_Model{
         return $rows;      
     }
 
+    public function selected_facilitylist($id = "") {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_map_facility_restaurant');
+        $this->db->where('tbl_map_facility_restaurant.rid', $id);
+        $this->db->where('tbl_map_facility_restaurant.state', 1);
+        $rows = $this->db->get()->result();
+        return $rows;      
+    }
+
     public function selected_language($id = "") {  
 
         $this->db->select('*');
@@ -289,6 +359,14 @@ class Vendor_Modal extends CI_Model{
 
         $this->db->select('*');
         $this->db->from('tbl_category');
+        $rows = $this->db->get()->result();
+        return $rows;      
+    }
+
+    public function facility_list() {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_base_facility');
         $rows = $this->db->get()->result();
         return $rows;      
     }
@@ -361,6 +439,7 @@ class Vendor_Modal extends CI_Model{
 
         $data['rid']            = $this->input->post('resto');
         $data['rtime']          = $this->input->post('discount_time'); 
+        $data['date']           = $this->input->post('discount_date'); 
         $data['did']            = $this->input->post('discount'); 
         $data['amount']         = $this->input->post('no_people');
         $data['status']         = 1;
@@ -382,10 +461,10 @@ class Vendor_Modal extends CI_Model{
 
         $data['rid']            = $this->input->post('resto');
         $data['rtime']          = $this->input->post('discount_time'); 
+        $data['date']           = $this->input->post('discount_date'); 
         $data['did']            = $this->input->post('discount'); 
         $data['amount']         = $this->input->post('no_people');
         $data['status']         = 1;
-        $data['price']         	= 50;
 
         $this->db->insert('tbl_map_discount_restaurant',$data);      
     }

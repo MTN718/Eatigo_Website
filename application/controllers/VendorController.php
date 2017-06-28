@@ -27,6 +27,7 @@ class VendorController extends BaseController {
         $data['discountlist']  = $this->Vendor_Modal->discount_list();
         $data['categorytlist']  = $this->Vendor_Modal->category_list();
         $data['subcategorytlist']  = $this->Vendor_Modal->subcategory_list();
+        $data['facilitylist']  = $this->Vendor_Modal->facility_list();
         $data['languagelist']  = $this->Vendor_Modal->language_list();
         $data['discountdatalist']  = $this->Vendor_Modal->discountdata_list();
         $data['active'] = $active;
@@ -54,6 +55,7 @@ class VendorController extends BaseController {
             $data['discountlist']  = $this->Vendor_Modal->discount_list();
             $data['categorytlist']  = $this->Vendor_Modal->category_list();
             $data['subcategorytlist']  = $this->Vendor_Modal->subcategory_list();
+            $data['facilitylist']  = $this->Vendor_Modal->facility_list();
             $data['languagelist']  = $this->Vendor_Modal->language_list();
             $data['discountdatalist']  = $this->Vendor_Modal->discountdata_list();
             $data['active'] = 'update_restaurant';
@@ -76,7 +78,34 @@ class VendorController extends BaseController {
         } 
             
         $this->Vendor_Modal->delete_restaurant($id);
-        $this->session->set_flashdata('message' , 'user_info_added_successfuly');
+        redirect('VendorController/index/1'); 
+    }
+
+    public function open_restaurant($id = "") {
+
+        $this->load->model('Vendor_Modal');
+
+        if ($this->session->userdata('vendor_login') != 1)
+        {
+            $this->session->set_userdata('last_page' , current_url());
+            redirect(base_url(), 'refresh');
+        } 
+            
+        $this->Vendor_Modal->open_restaurant($id);
+        redirect('VendorController/index/1'); 
+    }
+
+    public function close_restaurant($id = "") {
+
+        $this->load->model('Vendor_Modal');
+
+        if ($this->session->userdata('vendor_login') != 1)
+        {
+            $this->session->set_userdata('last_page' , current_url());
+            redirect(base_url(), 'refresh');
+        } 
+            
+        $this->Vendor_Modal->close_restaurant($id);
         redirect('VendorController/index/1'); 
     }
 
@@ -97,11 +126,13 @@ class VendorController extends BaseController {
         $data['discountlist']  = $this->Vendor_Modal->discount_list();
         $data['categorytlist']  = $this->Vendor_Modal->category_list();
         $data['subcategorytlist']  = $this->Vendor_Modal->subcategory_list();
+        $data['facilitylist']  = $this->Vendor_Modal->facility_list();
         $data['languagelist']  = $this->Vendor_Modal->language_list();
         $data['discountdatalist']  = $this->Vendor_Modal->discountdata_list();
         $data['selected_restaurant'] =  $this->Vendor_Modal->selected_restaurant($id);
         $data['selected_category'] =  $this->Vendor_Modal->selected_category($id);
         $data['selected_subcategorytlist'] =  $this->Vendor_Modal->selected_subcategorytlist($id);
+        $data['selected_facilitylist'] =  $this->Vendor_Modal->selected_facilitylist($id);
         $data['selected_language'] =  $this->Vendor_Modal->selected_language($id);
         $data['selected_image'] =  $this->Vendor_Modal->selected_image($id);
         $data['active'] = 'update_restaurant';
@@ -191,6 +222,7 @@ class VendorController extends BaseController {
         $data['discountlist']  = $this->Vendor_Modal->discount_list();
         $data['categorytlist']  = $this->Vendor_Modal->category_list();
         $data['subcategorytlist']  = $this->Vendor_Modal->subcategory_list();
+        $data['facilitylist']  = $this->Vendor_Modal->facility_list();
         $data['languagelist']  = $this->Vendor_Modal->language_list();
         $data['discountdatalist']  = $this->Vendor_Modal->discountdata_list();
         $data['selected_discount'] =  $this->Vendor_Modal->selected_discount($id);
@@ -281,6 +313,7 @@ class VendorController extends BaseController {
         $data['discountlist']  = $this->Vendor_Modal->discount_list();
         $data['categorytlist']  = $this->Vendor_Modal->category_list();
         $data['subcategorytlist']  = $this->Vendor_Modal->subcategory_list();
+        $data['facilitylist']  = $this->Vendor_Modal->facility_list();
         $data['languagelist']  = $this->Vendor_Modal->language_list();
         $data['discountdatalist']  = $this->Vendor_Modal->discountdata_list();
         $data['active'] = 'update_restaurant';
