@@ -1039,12 +1039,15 @@ class AdminController extends BaseController {
         $restaurants = "";
                 
         if ($postVars['sid'] != 0)
-        {
-            $rts = $this->sqllibs->selectJoinTables($this->db, array('tbl_restaurant', 'tbl_subcategory')
-                , array('category', 'no')
-                , array('category'=>$postVars['sid'])
-                , array(null, array('name as sname', 'no as sno'))
-            );
+        {            
+            $rtIds = $this->sqllibs->rawSelectSql($this->db,"select rid from tbl_map_sub_restaurant where sid='".$postVars['sid']."'");
+            $sqlIn = "0,";
+            foreach ($rtIds as $id) {
+                $sqlIn = $sqlIn . $id->rid . ",";
+            }            
+            $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);             
+            $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.no in (" . $sqlIn . ")";
+            $rts = $this->sqllibs->rawSelectSql($this->db, $sqlIn);            
             $restaurants = array();
             foreach ($rts as $rt) {
                 $reservs = $this->sqllibs->selectAllRows($this->db, 'tbl_reservation', array('rid' => $rt->no));
@@ -1065,14 +1068,20 @@ class AdminController extends BaseController {
             $categorys = $this->sqllibs->selectAllRows($this->db, 'tbl_subcategory');
             if ($postVars['cid'] != 0)
                 $categorys = $this->sqllibs->rawSelectSql($this->db, "select * from tbl_subcategory where cid='".$postVars['cid']."'");
-            $sqlIn = "";
+            $sqlIn = "0,";
             foreach ($categorys as $category) {
                 $sqlIn = $sqlIn . $category->no . ",";
             }            
-            $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
-            $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.category in (" . $sqlIn . ")";
-            $rts = $this->sqllibs->rawSelectSql($this->db, $sqlIn);
+            $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);            
+            $rtIds = $this->sqllibs->rawSelectSql($this->db,"select rid from tbl_map_sub_restaurant where sid in (".$sqlIn.")");
             
+            $sqlIn = "0,";
+            foreach ($rtIds as $id) {
+                $sqlIn = $sqlIn . $id->rid . ",";
+            }            
+            $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);     
+            $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.no in (" . $sqlIn . ")";
+            $rts = $this->sqllibs->rawSelectSql($this->db, $sqlIn);
             $restaurants = array();
             foreach ($rts as $rt) {
                 $reservs = $this->sqllibs->selectAllRows($this->db, 'tbl_reservation', array('rid' => $rt->no));
