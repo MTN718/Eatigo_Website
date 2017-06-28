@@ -79,6 +79,7 @@
                         <td><?php echo $city->name; ?></td>
                         <td><?php echo $city->country; ?></td>                        
                         <td>
+                            <a href='<?php echo base_url().ADMIN_PAGE_EDITCITY."/".$city->no;?>'>Edit</a>&nbsp;&nbsp;&nbsp;
                             <a href='<?php echo base_url() . ADMIN_ACTION_DELETECITY . "/" . $city->no; ?>'>Delete</a>&nbsp;&nbsp;&nbsp;
                         </td>
                     </tr>

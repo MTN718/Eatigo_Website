@@ -5,10 +5,7 @@
     <!-- /.box-header -->
     <div class="box-body">
         <div class="row" style="margin-bottom: 10px"> 
-            <form id='formAddCity' name='formAddCity' method='post' action='<?php echo base_url() . ADMIN_ACTION_ADDCITY; ?>' enctype="multipart/form-data">			
-                <div class="col-md-3" >
-                    <input class='form-control' name='cityName' id='cityName' placeholder='New City'/></a>
-                </div>      
+            <form id='formAddCity' name='formAddCity' method='post' action='<?php echo base_url() . ADMIN_ACTION_ADDCITY; ?>' enctype="multipart/form-data">			                      
                 <div class="col-md-3" >
                     <select class='form-control' id='cityCountry' name='cityCountry'>
                         <?php
@@ -41,8 +38,7 @@
                         <th>Name</th>
                         <th>Category</th>
                         <th>Sub Category</th>
-                        <th>Address</th>                   
-                        <th>Opening</th>                    
+                        <th>Address</th>                                           
                         <th>Reservations</th>    
                         <th>Promote</th>                    
                         <th>Details</th>
@@ -59,8 +55,7 @@
                             <td><?php echo $restaurant->name; ?></td>
                             <td><?php echo $restaurant->cname; ?></td>
                             <td><?php echo $restaurant->sname; ?></td>
-                            <td><?php echo $restaurant->address; ?></td>
-                            <td><?php echo $restaurant->start_time . "~" . $restaurant->end_time; ?></td>                        
+                            <td><?php echo $restaurant->address; ?></td>                            
                             <td><?php echo $restaurant->countReserve; ?></td>
                             <td>
                                 <?php

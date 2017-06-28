@@ -135,19 +135,13 @@ class AdminController extends BaseController {
             return;
         }
         $data = $this->getViewParameters("Categorys", "Admin");
-        $data = $this->setMessages($data);
-        $tables = $condition = array('cid', 'no');
-        $where = null;
-        $selectFields = array(
-            null,
-            array('name as country')
-        );
-        $data['categorys'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_category', 'tbl_base_country')
+        $data = $this->setMessages($data);                
+        $data['categorys'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_category', 'tbl_base_city')
                 , array('cid', 'no')
                 , null
-                , $selectFields = array(null, array('name as country'))
+                , array(null, array('name as city'))
         );
-        $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_country');
+        $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_city');
         $this->load->view('view_admin', $data);
     }
     public function subCategoryPage()
@@ -343,6 +337,21 @@ class AdminController extends BaseController {
         ));
         $this->load->view('view_admin', $data);
     }
+    public function editCityPage($id)
+    {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $data = $this->getViewParameters("EditCity", "Admin");
+        $data = $this->setMessages($data);
+        $data['cityInfo'] = $this->sqllibs->getOneRow($this->db, 'tbl_base_city', array(
+            "no" => $id
+        ));
+        $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_country');
+        $data['currencys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_currency');
+        $this->load->view('view_admin', $data);
+    }
     public function editFacilityPage($id) {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
@@ -389,7 +398,7 @@ class AdminController extends BaseController {
         $data['category'] = $this->sqllibs->getOneRow($this->db, 'tbl_category', array(
             "no" => $id
         ));
-        $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_country');
+        $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_city');
         $this->load->view('view_admin', $data);
     }
     
@@ -474,8 +483,8 @@ class AdminController extends BaseController {
     public function actionAddCity() {
         $postVars = $this->utils->inflatePost(array('cityName','cityCountry','cityCurrency'));
         $imageFile = "";
-        if (isset($_FILES['uploadFlag'])) {
-            $imageFile = $this->utils->uploadImage($_FILES['uploadFlag'], 0, 400, 250);
+        if (isset($_FILES['uploadImage'])) {
+            $imageFile = $this->utils->uploadImage($_FILES['uploadImage'], 0, 400, 250);
         }
         $this->sqllibs->insertRow($this->db, 'tbl_base_city'
                 , array(
@@ -706,6 +715,35 @@ class AdminController extends BaseController {
         ));
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_COUNTRYS);
+    }
+    public function actionUpdateCity()
+    {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $postVars = $this->utils->inflatePost(array('cityName', 'cityCountry', 'cid', 'cityCurrency'));
+        $data = $this->sqllibs->getOneRow($this->db, 'tbl_base_city', array(
+            "no" => $postVars['cid']
+        ));
+        $imageFile = $data->image;
+        if (isset($_FILES['uploadLogo0'])) {
+            $imageFile = $this->utils->uploadImage($_FILES['uploadLogo0'], 0, 400, 250);
+            if ($imageFile == "")
+                $imageFile = $data->image;
+        }
+        $this->sqllibs->updateRow($this->db, 'tbl_base_city'
+                , array(
+            "name" => $postVars['cityName'],
+            "cid" => $postVars['cityCountry'],
+            "currency" => $postVars['cityCurrency'],
+            "image" => $imageFile
+                )
+                , array(
+            "no" => $postVars['cid']
+        ));
+        $this->session->set_flashdata('message', "Update Successful");
+        redirect(base_url() . ADMIN_PAGE_CITIES);
     }
     public function actionUpdateMembership()
     {

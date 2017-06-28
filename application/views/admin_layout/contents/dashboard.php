@@ -70,7 +70,6 @@
                         <th>Name</th>
                         <th>Category</th>
                         <th>Address</th>                   
-                        <th>Opening</th>                    
                         <th>Promote</th>                                            
                     </tr>
                 </thead>
@@ -84,8 +83,7 @@
                             <td><?php echo $i; ?></td>
                             <td><?php echo $restaurant->name; ?></td>
                             <td><?php echo $restaurant->cname; ?></td>
-                            <td><?php echo $restaurant->address; ?></td>
-                            <td><?php echo $restaurant->start_time . "~" . $restaurant->end_time; ?></td>                        
+                            <td><?php echo $restaurant->address; ?></td>                            
                             <td>
                                 <?php
                                 if ($restaurant->feature == 0)
