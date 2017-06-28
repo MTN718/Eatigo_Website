@@ -74,9 +74,50 @@
                                     </p>
                                     <hr>
                                     <label>Restaurant Timing</label>
-                                    <p>
-                                        <span><strong>Open Time</strong>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $restaurantdetails->start_time; ?></span>
-                                        <span class="pull-right"><strong>Close Time</strong>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $restaurantdetails->end_time; ?></span>
+                                    <p> 
+                                            <?php if(isset($restaurantdetails->mon_starttime) and $restaurantdetails->mon_starttime != NULL) { ?>
+                                            <span class="col-md-4 no-padding">Monday</span>
+                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->mon_starttime;?></span>
+                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->mon_endtime;?></span>
+                                            <br>
+                                            <?php } ?>
+                                            <?php if(isset($restaurantdetails->tue_starttime) and $restaurantdetails->tue_starttime != NULL) { ?>
+                                            <span class="col-md-4 no-padding">Tuesday</span>
+                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->tue_starttime;?></span>
+                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->tue_endtime;?></span>
+                                            <br>
+                                            <?php } ?>
+                                            <?php if(isset($restaurantdetails->wed_starttime) and $restaurantdetails->wed_starttime != NULL) { ?>
+                                            <span class="col-md-4 no-padding">Wednesday</span>
+                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->wed_starttime;?></span>
+                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->wed_endtime;?></span>
+                                            <br>
+                                            <?php } ?>
+                                            <?php if(isset($restaurantdetails->thu_starttime) and $restaurantdetails->thu_starttime != NULL) { ?>
+                                            <span class="col-md-4 no-padding">Thusday </span>
+                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->thu_starttime;?></span>
+                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->thu_endtime;?></span>
+                                            <br>
+                                            <?php } ?>
+                                            <?php if(isset($restaurantdetails->fri_starttime) and $restaurantdetails->fri_starttime != NULL) { ?>
+                                            <span class="col-md-4 no-padding">Friday</span>
+                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->fri_starttime;?></span>
+                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->fri_endtime;?></span>
+                                            <br>
+                                            <?php } ?>
+                                            <?php if(isset($restaurantdetails->sat_starttime) and $restaurantdetails->sat_starttime != NULL) { ?>
+                                            <span class="col-md-4 no-padding">Saturday</span>
+                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->sat_starttime;?></span>
+                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->sat_endtime;?></span>
+                                            <br>
+                                            <?php } ?>
+                                            <?php if(isset($restaurantdetails->sun_starttime) and $restaurantdetails->sun_starttime != NULL) { ?>
+                                            <span class="col-md-4 no-padding">Sunday</span>
+                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->sun_starttime;?></span>
+                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->sun_endtime;?></span>
+                                            <br> 
+                                            <?php } ?>
+
                                     </p>
                                 </div>
                             </div>

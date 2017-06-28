@@ -36,7 +36,9 @@ Description:Wedding Vendor | Vendor Directory HTML Template for All Vendor Listi
 .dont_show{
 	display: none;
 }
-
+.w-30 {
+	width: 18% !important;
+}
 
 body { font-family: sans-serif; font-size: 16px; line-height: 27px; background-color: #faf9f5; color: #706a68; -webkit-font-smoothing: antialiased;}
 h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; margin: 0px 0 20px 0px; color: #3c3634;}

@@ -24,10 +24,22 @@ class Vendor_Modal extends CI_Model{
 
         $data['level']              = $this->input->post('radio2');
         $data['name']              	= $this->input->post('name'); 
-        $data['start_time']        	= $this->input->post('start_time');
-        $data['end_time']   		= $this->input->post('end_time');
+        $data['mon_starttime']      = $this->input->post('mon_starttime'); 
+        $data['mon_endtime']        = $this->input->post('mon_endtime');
+        $data['tue_starttime']      = $this->input->post('tue_starttime');
+        $data['tue_endtime']        = $this->input->post('tue_endtime');
+        $data['wed_starttime']      = $this->input->post('wed_starttime');
+        $data['wed_endtime']        = $this->input->post('wed_endtime');
+        $data['thu_starttime']      = $this->input->post('thu_starttime');
+        $data['thu_endtime']        = $this->input->post('thu_endtime');
+        $data['fri_starttime']      = $this->input->post('fri_starttime');
+        $data['fri_endtime']        = $this->input->post('fri_endtime');
+        $data['sat_starttime']      = $this->input->post('sat_starttime');
+        $data['sat_endtime']        = $this->input->post('sat_endtime');
+        $data['sun_starttime']      = $this->input->post('sun_starttime');
+        $data['sun_endtime']        = $this->input->post('sun_endtime');
         $data['address']   			= $this->input->post('address');
-        $data['category']           = $this->input->post('categ');
+        // $data['category']           = $this->input->post('categ');
         $data['lat']   				= $this->input->post('lat');
         $data['lng']   				= $this->input->post('lng');
         $data['about']   			= $this->input->post('description');
@@ -37,11 +49,7 @@ class Vendor_Modal extends CI_Model{
         $resto_id = $this->db->insert_id();     
 
         if(isset($resto_id) and isset($_SESSION['file_name'])) {
-
-            if(count($_SESSION['file_name'])>0) {
-
-                
-
+            if(count($_SESSION['file_name'])>0) {     
                 foreach($_SESSION['file_name'] as $image)
                 {
                     $this->db->insert("tbl_image_restaurant",array("image"=>'upload/restaurant/'.$image,"rid"=>$resto_id));
@@ -51,13 +59,22 @@ class Vendor_Modal extends CI_Model{
         }
 
         $langu                = $this->input->post('langu[]');
-
         if(isset($langu) and $langu != NULL) {
             foreach ($langu as $bhasa) { 
 
                 $data1['lid'] = $bhasa;
                 $data1['rid'] = $resto_id;
                 $this->db->insert('tbl_map_language_restaurant',$data1);
+            }
+        }
+
+        $subcateOpt                = $this->input->post('subcateOpt[]');
+        if(isset($subcateOpt) and $subcateOpt != NULL) {
+            foreach ($subcateOpt as $subcate) { 
+
+                $data2['sid'] = $subcate;
+                $data2['rid'] = $resto_id;
+                $this->db->insert('tbl_map_sub_restaurant',$data2);
             }
         }   
     }  else {
@@ -90,10 +107,8 @@ class Vendor_Modal extends CI_Model{
 
         $data['level']              = $this->input->post('radio2');
         $data['name']               = $this->input->post('name'); 
-        $data['start_time']         = $this->input->post('start_time');
-        $data['end_time']           = $this->input->post('end_time');
         $data['address']            = $this->input->post('address');
-        $data['category']           = $this->input->post('categ');
+        // $data['category']           = $this->input->post('categ');
         $data['lat']                = $this->input->post('lat');
         $data['lng']                = $this->input->post('lng');
         $data['about']              = $this->input->post('description');
@@ -106,13 +121,25 @@ class Vendor_Modal extends CI_Model{
         $this->db->delete('tbl_map_language_restaurant');
 
         $langu  = $this->input->post('langu[]');
-
         if(isset($langu) and $langu != NULL) {
             foreach ($langu as $bhasa) { 
 
                 $data1['lid'] = $bhasa;
                 $data1['rid'] = $id;
                 $this->db->insert('tbl_map_language_restaurant',$data1);
+            }
+        }
+
+        $this->db->where('rid', $id);
+        $this->db->delete('tbl_map_sub_restaurant');
+
+        $subcateOpt                = $this->input->post('subcateOpt[]');
+        if(isset($subcateOpt) and $subcateOpt != NULL) {
+            foreach ($subcateOpt as $subcate) { 
+
+                $data2['sid'] = $subcate;
+                $data2['rid'] = $id;
+                $this->db->insert('tbl_map_sub_restaurant',$data2);
             }
         }
       
@@ -211,6 +238,15 @@ class Vendor_Modal extends CI_Model{
         return $row;      
     }
 
+    public function selected_subcategorytlist($id = "") {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_map_sub_restaurant');
+        $this->db->where('tbl_map_sub_restaurant.rid', $id);
+        $rows = $this->db->get()->result();
+        return $rows;      
+    }
+
     public function selected_language($id = "") {  
 
         $this->db->select('*');
@@ -257,6 +293,14 @@ class Vendor_Modal extends CI_Model{
         return $rows;      
     }
 
+    public function subcategory_list() {  
+
+        $this->db->select('*');
+        $this->db->from('tbl_subcategory');
+        $rows = $this->db->get()->result();
+        return $rows;      
+    }
+
     public function language_list() {  
 
         $this->db->select('*');
@@ -288,6 +332,29 @@ class Vendor_Modal extends CI_Model{
 
         $this->db->where('no',$user_id);
         $this->db->update('tbl_user',$data);      
+    }
+
+    public function update_restauranttime() { 
+
+        $id                                 = $this->input->post('resto_id');
+        $data['mon_starttime']              = $this->input->post('mon_starttime'); 
+        $data['mon_endtime']                = $this->input->post('mon_endtime');
+        $data['tue_starttime']              = $this->input->post('tue_starttime');
+        $data['tue_endtime']                = $this->input->post('tue_endtime');
+        $data['wed_starttime']              = $this->input->post('wed_starttime');
+        $data['wed_endtime']                = $this->input->post('wed_endtime');
+        $data['thu_starttime']              = $this->input->post('thu_starttime');
+        $data['thu_endtime']                = $this->input->post('thu_endtime');
+        $data['fri_starttime']              = $this->input->post('fri_starttime');
+        $data['fri_endtime']                = $this->input->post('fri_endtime');
+        $data['sat_starttime']              = $this->input->post('sat_starttime');
+        $data['sat_endtime']                = $this->input->post('sat_endtime');
+        $data['sun_starttime']              = $this->input->post('sun_starttime');
+        $data['sun_endtime']                = $this->input->post('sun_endtime');
+
+        $this->db->where('no',$id);
+        $this->db->update('tbl_restaurant',$data);  
+        return $id;    
     }
 
     public function update_discount($id = "") { 
