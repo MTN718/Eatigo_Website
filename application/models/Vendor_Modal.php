@@ -536,4 +536,4 @@ class Vendor_Modal extends CI_Model{
         $this->db->update('tbl_reservation',$data);   
 
     } 
-}
+}?>

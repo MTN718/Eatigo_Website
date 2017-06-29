@@ -6,6 +6,7 @@
       <p style="color:red;">Do not go back or Referesh your page.</p>
         <div class="well-box">
         <?php 
+
             $this->db->select('*');
             $this->db->from('tbl_card');
             $this->db->where('no', $cardid);
@@ -18,7 +19,6 @@
               $cardnumber = $row['expiryyear'];
               $cardnumber = $row['cvv'];
             }
-          } 
           ?>
 
           <form action="<?php echo base_url();?>index.php/CustomerController/add_card" method="post">

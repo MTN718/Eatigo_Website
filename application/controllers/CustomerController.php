@@ -241,7 +241,13 @@ class CustomerController extends BaseController {
     }
 
     public function pricingplan() {
+        $this->load->model('Customer_Modal');
+        $data['membershipplanlist'] = $this->Customer_Modal->membershipplan();
         $data['pageName'] = "PRICINGPLAN";
+        if ($this->session->userdata('customer_login') == 1)
+        {
+            $data['usercardlist'] = $this->Customer_Modal->card_list();
+        }
         $this->load->view('view_customer', $data);      
     }
 
@@ -393,17 +399,35 @@ class CustomerController extends BaseController {
 
     public function confirm_payment($id="", $amt="", $cardid="") {
 
-
         $this->load->model('Customer_Modal');
-        $carddetails = $this->Customer_Modal->getcarddetails($cardid);
-        $cardnumber  = $carddetails->cardnumber;
-        $expmonth = $carddetails->expirymonth;
-        $expyear = $carddetails->expiryyear;
-        $security = $carddetails->security;
-        $price = $amt;
-        $reservationid = $id;
-        
-        
+
+        if($id == "add_credit") {
+
+            $user_id = $this->session->userdata('login_user_id');
+            $cardid = $this->input->post('card_id');
+            $planid = $this->input->post('plan_id');
+            $carddetails = $this->Customer_Modal->getcarddetails($cardid);
+            $plandetails = $this->Customer_Modal->getplandetails($planid);
+            $cardnumber  = $carddetails->cardnumber;
+            $expmonth = $carddetails->expmonth;
+            $expyear = $carddetails->expyear;
+            $security = $carddetails->security;
+            $price = $plandetails->price;
+            $credit = $plandetails->credit;
+            //for updating user credit
+            $this->Customer_Modal->updateusercredit($planid,$credit);
+            redirect('CustomerController/profile/6');
+
+        } else {
+
+            $carddetails = $this->Customer_Modal->getcarddetails($cardid);
+            $cardnumber  = $carddetails->cardnumber;
+            $expmonth = $carddetails->expmonth;
+            $expyear = $carddetails->expyear;
+            $security = $carddetails->security;
+            $price = $amt;
+            $reservationid = $id;
+        }          
         
         // Checkout
         $transactionId = $this->stripe->checkOut($cardnumber, $expmonth, $expyear, $security, $price);
@@ -597,6 +621,29 @@ class CustomerController extends BaseController {
         $result['restaurants'] = $this->generateRestaurantArray($restaurants);
         $result['result'] = 200;
         echo json_encode($result);
+    }
+
+    public function selectplan($task = "") {
+
+        $this->load->model('Customer_Modal');
+
+        if ($this->session->userdata('customer_login') != 1)
+        {
+            $this->session->set_userdata('last_page' , current_url());
+            redirect('CustomerController/login');
+        }
+
+        if($task == "checkout") {
+
+            $data['pageName'] = "CONFIRMPAYMENTPAGE";
+            $data['cardid'] = $this->input->post('cardid');
+            $data['planid'] = $this->input->post('plan_id');
+            $this->load->view('view_customer', $data);  
+
+        } else {
+            
+            redirect('CustomerController/pricingplan');            
+        }    
     }
     
 }

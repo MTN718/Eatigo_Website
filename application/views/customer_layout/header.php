@@ -9,6 +9,7 @@ $account_type = $this->session->userdata('login_type');
             </div>
             <div class="col-md-6 top-links">
                 <ul class="listnone">
+                        <li><a href="<?php echo base_url(); ?>index.php/CustomerController/pricingplan">Pricing Plan</a></li> 
                     <?php if ($account_type == 'customer') { ?>                       
                         <li><a href="<?php echo base_url(); ?>index.php/LoginController/logout">Logout</a></li> 
                     <?php } else if ($account_type == 'vendor') { ?>
