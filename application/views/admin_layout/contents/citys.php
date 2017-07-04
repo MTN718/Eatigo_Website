@@ -79,10 +79,7 @@
                         <td><?php echo $city->name; ?></td>
                         <td><?php echo $city->currency; ?></td>                        
                         <td>
-<<<<<<< HEAD
                             <a href='<?php echo base_url() . ADMIN_PAGE_EDITCITY . "/" . $city->no; ?>'>Edit</a>&nbsp;&nbsp;&nbsp;
-=======
->>>>>>> origin/master
                             <a href='<?php echo base_url() . ADMIN_ACTION_DELETECITY . "/" . $city->no; ?>'>Delete</a>&nbsp;&nbsp;&nbsp;
                         </td>
                     </tr>

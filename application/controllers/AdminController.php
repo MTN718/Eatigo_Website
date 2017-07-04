@@ -34,12 +34,10 @@ class AdminController extends BaseController {
         }
         $data = $this->getViewParameters("Dashboard", "Admin");
         $data = $this->setMessages($data);
-        
         $cats = $this->sqllibs->selectAllRows($this->db, 'tbl_category');
         $rests = $this->sqllibs->selectAllRows($this->db, 'tbl_restaurant');
         $reserves = $this->sqllibs->selectAllRows($this->db, 'tbl_reservation');
         $users = $this->sqllibs->selectAllRows($this->db, 'tbl_user');
-        
         $data['countCat'] = count($cats);
         $data['countRest'] = count($rests);
         $data['countReserve'] = count($reserves);
@@ -64,28 +62,24 @@ class AdminController extends BaseController {
         }
         $data = $this->getViewParameters("Restaurants", "Admin");
         $data = $this->setMessages($data);
-        
         $rts = $this->sqllibs->selectJoinTables($this->db, array('tbl_restaurant', 'tbl_subcategory')
                 , array('category', 'no')
                 , null
-                , array(null, array('name as sname','no as sno'))
+                , array(null, array('name as sname', 'no as sno'))
         );
-
         $restaurants = array();
-        foreach($rts as $rt)
-        {
-            $reservs = $this->sqllibs->selectAllRows($this->db, 'tbl_reservation', array('rid' => $rt->no));            
-            
-            $category = $this->sqllibs->getOneRow($this->db,'tbl_category',array('no'=> $rt->sno));
+        foreach ($rts as $rt) {
+            $reservs = $this->sqllibs->selectAllRows($this->db, 'tbl_reservation', array('rid' => $rt->no));
+            $category = $this->sqllibs->getOneRow($this->db, 'tbl_category', array('no' => $rt->sno));
             $cname = "";
             if ($category != null)
                 $cname = $category->name;
-            if($reservs == null)
+            if ($reservs == null)
                 $reservs = array();
-            $discount = (object) array_merge((array) $rt, array('countReserve' => count($reservs),'cname'=>$cname));
+            $discount = (object) array_merge((array) $rt, array('countReserve' => count($reservs), 'cname' => $cname));
             $restaurants[] = $discount;
         }
-        
+        $data['categorys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_category');
         $data['restaurants'] = $restaurants;
         $this->load->view('view_admin', $data);
     }
@@ -136,26 +130,10 @@ class AdminController extends BaseController {
         }
         $data = $this->getViewParameters("Categorys", "Admin");
         $data = $this->setMessages($data);
-<<<<<<< HEAD
         $data['categorys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_category');                        
-=======
-        $tables = $condition = array('cid', 'no');
-        $where = null;
-        $selectFields = array(
-            null,
-            array('name as country')
-        );
-        $data['categorys'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_category', 'tbl_base_country')
-                , array('cid', 'no')
-                , null
-                , $selectFields = array(null, array('name as country'))
-        );
-        $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_country');
->>>>>>> origin/master
         $this->load->view('view_admin', $data);
     }
-    public function subCategoryPage()
-    {
+    public function subCategoryPage() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
@@ -176,14 +154,13 @@ class AdminController extends BaseController {
         $data['categorys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_category');
         $this->load->view('view_admin', $data);
     }
-    public function membershipPage()
-    {
+    public function membershipPage() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
         }
         $data = $this->getViewParameters("Memberships", "Admin");
-        $data = $this->setMessages($data);        
+        $data = $this->setMessages($data);
         $data['memberships'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_membership');
         $this->load->view('view_admin', $data);
     }
@@ -201,9 +178,8 @@ class AdminController extends BaseController {
         );
         $dist = array();
         $i = 0;
-        foreach($discounts as $discount)
-        {
-            $dInfo = $this->sqllibs->getOneRow($this->db, 'tbl_base_discount', array('no' => $discount->did));            
+        foreach ($discounts as $discount) {
+            $dInfo = $this->sqllibs->getOneRow($this->db, 'tbl_base_discount', array('no' => $discount->did));
             $discount = (object) array_merge((array) $discount, array('percent' => $dInfo->percent));
             $dist[$i] = $discount;
             $i++;
@@ -244,9 +220,7 @@ class AdminController extends BaseController {
         $data['content'] = ($content == null ? "" : $content->content);
         $this->load->view('view_admin', $data);
     }
-    
-    public function transactionPage()
-    {
+    public function transactionPage() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
@@ -256,30 +230,26 @@ class AdminController extends BaseController {
         $transactions = $this->sqllibs->selectAllRows($this->db, 'tbl_transaction');
         $tranArray = array();
         $i = 0;
-        foreach($transactions as $trans)
-        {
-            $restInfo = $this->sqllibs->getOneRow($this->db, 'tbl_restaurant', array('no' => $trans->rid));            
-            $userInfo = $this->sqllibs->getOneRow($this->db, 'tbl_user', array('no' => $trans->uid));            
+        foreach ($transactions as $trans) {
+            $restInfo = $this->sqllibs->getOneRow($this->db, 'tbl_restaurant', array('no' => $trans->rid));
+            $userInfo = $this->sqllibs->getOneRow($this->db, 'tbl_user', array('no' => $trans->uid));
             $userName = "";
             $restName = "";
             if ($restInfo != null)
                 $restName = $restInfo->name;
             if ($userInfo != null)
                 $userName = $userInfo->name;
-            $trans = (object) array_merge((array) $trans, 
-                    array(
+            $trans = (object) array_merge((array) $trans, array(
                         'restaurant' => $restName,
-                        'user'=> $userName
-                    ));
+                        'user' => $userName
+            ));
             $tranArray[$i] = $trans;
             $i++;
-        }        
+        }
         $data['transactions'] = $tranArray;
         $this->load->view('view_admin', $data);
     }
-    
-    public function reportPage()
-    {
+    public function reportPage() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
@@ -289,41 +259,30 @@ class AdminController extends BaseController {
         $reports = $this->sqllibs->selectAllRows($this->db, 'tbl_report');
         $repArray = array();
         $i = 0;
-        foreach($reports as $report)
-        {            
-            $userInfo = $this->sqllibs->getOneRow($this->db, 'tbl_user', array('no' => $report->uid));            
+        foreach ($reports as $report) {
+            $userInfo = $this->sqllibs->getOneRow($this->db, 'tbl_user', array('no' => $report->uid));
             $userName = "";
             if ($userInfo != null)
                 $userName = $userInfo->name;
-            $report = (object) array_merge((array) $report, 
-                    array(                        
-                        'user'=> $userName
-                    ));
+            $report = (object) array_merge((array) $report, array(
+                        'user' => $userName
+            ));
             $repArray[$i] = $report;
             $i++;
-        }        
+        }
         $data['reports'] = $repArray;
         $this->load->view('view_admin', $data);
     }
-    public function cityPage()
-    {
+    public function cityPage() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
         }
         $data = $this->getViewParameters("Citys", "Admin");
         $data = $this->setMessages($data);
-<<<<<<< HEAD
         $cities = $this->sqllibs->selectAllRows($this->db, 'tbl_base_city');
-
         $data['citys'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_base_city', 'tbl_base_currency')
                 , array('currency', 'no')
-=======
-        $cities = $this->sqllibs->selectAllRows($this->db, 'tbl_base_city');                
-        
-        $data['citys'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_base_city', 'tbl_base_country')
-                , array('cid', 'no')
->>>>>>> origin/master
                 , null
                 , array(null, array('name as currency'))
         );
@@ -331,8 +290,7 @@ class AdminController extends BaseController {
         $data['currencys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_currency');
         $this->load->view('view_admin', $data);
     }
-    public function currencyPage()
-    {
+    public function currencyPage() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
@@ -352,6 +310,20 @@ class AdminController extends BaseController {
         $data['countryInfo'] = $this->sqllibs->getOneRow($this->db, 'tbl_base_country', array(
             "no" => $id
         ));
+        $this->load->view('view_admin', $data);
+    }
+    public function editCityPage($id) {
+        if (!$this->isLogin()) {
+            $this->utils->redirectPage(ADMIN_PAGE_HOME);
+            return;
+        }
+        $data = $this->getViewParameters("EditCity", "Admin");
+        $data = $this->setMessages($data);
+        $data['cityInfo'] = $this->sqllibs->getOneRow($this->db, 'tbl_base_city', array(
+            "no" => $id
+        ));
+        $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_country');
+        $data['currencys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_currency');
         $this->load->view('view_admin', $data);
     }
     public function editFacilityPage($id) {
@@ -400,10 +372,9 @@ class AdminController extends BaseController {
         $data['category'] = $this->sqllibs->getOneRow($this->db, 'tbl_category', array(
             "no" => $id
         ));
-        $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_country');
+        $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_city');
         $this->load->view('view_admin', $data);
     }
-    
     public function editSubCategoryPage($id) {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
@@ -417,10 +388,7 @@ class AdminController extends BaseController {
         $data['categorys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_category');
         $this->load->view('view_admin', $data);
     }
-    
-    
-    public function editCurrencyPage($id)
-    {
+    public function editCurrencyPage($id) {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
@@ -429,10 +397,9 @@ class AdminController extends BaseController {
         $data = $this->setMessages($data);
         $data['currency'] = $this->sqllibs->getOneRow($this->db, 'tbl_base_currency', array(
             "no" => $id
-        ));        
+        ));
         $this->load->view('view_admin', $data);
     }
-            
     public function actionLogin() {
         if ($this->utils->isEmptyPost(array('user', 'pw'))) {
             $this->session->set_flashdata('errorMessage', "Please fill input.");
@@ -466,9 +433,8 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Success Add Country");
         redirect(base_url() . ADMIN_PAGE_COUNTRYS);
     }
-    public function actionAddSubCategory()
-    {
-        $postVars = $this->utils->inflatePost(array('subcategory','categoryName'));
+    public function actionAddSubCategory() {
+        $postVars = $this->utils->inflatePost(array('subcategory', 'categoryName'));
         $imageFile = "";
         if (isset($_FILES['uploadImage'])) {
             $imageFile = $this->utils->uploadImage($_FILES['uploadImage'], 0, 400, 250);
@@ -481,16 +447,12 @@ class AdminController extends BaseController {
         ));
         $this->session->set_flashdata('message', "Success Add SubCategory");
         redirect(base_url() . ADMIN_PAGE_SUBCATEGORY);
-    }    
+    }
     public function actionAddCity() {
-<<<<<<< HEAD
         $postVars = $this->utils->inflatePost(array('cityName','cityCurrency'));
-=======
-        $postVars = $this->utils->inflatePost(array('cityName','cityCountry','cityCurrency'));
->>>>>>> origin/master
         $imageFile = "";
-        if (isset($_FILES['uploadFlag'])) {
-            $imageFile = $this->utils->uploadImage($_FILES['uploadFlag'], 0, 400, 250);
+        if (isset($_FILES['uploadImage'])) {
+            $imageFile = $this->utils->uploadImage($_FILES['uploadImage'], 0, 400, 250);
         }
         $this->sqllibs->insertRow($this->db, 'tbl_base_city'
                 , array(
@@ -501,11 +463,8 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Success Add City");
         redirect(base_url() . ADMIN_PAGE_CITIES);
     }
-    
-    
-    
     public function actionAddCurrency() {
-        $postVars = $this->utils->inflatePost(array('currencyName'));        
+        $postVars = $this->utils->inflatePost(array('currencyName'));
         $this->sqllibs->insertRow($this->db, 'tbl_base_currency'
                 , array(
             "name" => $postVars['currencyName']
@@ -513,8 +472,6 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Success Add Currency");
         redirect(base_url() . ADMIN_PAGE_CURRENCYS);
     }
-    
-    
     public function actionAddFacility() {
         $postVars = $this->utils->inflatePost(array('facilityName'));
         $this->sqllibs->insertRow($this->db, 'tbl_base_facility'
@@ -580,8 +537,7 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_SUBCATEGORY);
     }
-    public function actionDeleteCity($id)
-    {
+    public function actionDeleteCity($id) {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
@@ -591,7 +547,7 @@ class AdminController extends BaseController {
         ));
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_CITIES);
-    }    
+    }
     public function actionDeleteFacility($id) {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
@@ -647,8 +603,7 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_USERS);
     }
-    public function actionDeleteDiscount($id)
-    {
+    public function actionDeleteDiscount($id) {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
@@ -659,8 +614,7 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_DISCOUNTS);
     }
-    public function actionDeleteTransaction($id)
-    {
+    public function actionDeleteTransaction($id) {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
@@ -671,8 +625,7 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_TRANSACTION);
     }
-    public function actionDeleteReport($id)
-    {
+    public function actionDeleteReport($id) {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
@@ -683,8 +636,7 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_REPORT);
     }
-    public function actionDeleteCurrency($id)
-    {
+    public function actionDeleteCurrency($id) {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
@@ -721,8 +673,6 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_COUNTRYS);
     }
-<<<<<<< HEAD
-
     public function actionUpdateCity() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
@@ -750,20 +700,13 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_CITIES);
     }
-
     public function actionUpdateMembership() {
-=======
-    public function actionUpdateMembership()
-    {
->>>>>>> origin/master
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
         }
-        $postVars = $this->utils->inflatePost(array('planName', 'planPrice','planCredit'));
-        
-        for ($i = 1;$i < 4;$i++)
-        {
+        $postVars = $this->utils->inflatePost(array('planName', 'planPrice', 'planCredit'));
+        for ($i = 1; $i < 4; $i++) {
             $this->sqllibs->updateRow($this->db, 'tbl_base_membership'
                     , array(
                 "name" => $postVars['planName'][$i - 1],
@@ -777,8 +720,7 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_MEMBERSHIPS);
     }
-    public function actionEditCurrency()
-    {
+    public function actionEditCurrency() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
@@ -786,7 +728,7 @@ class AdminController extends BaseController {
         $postVars = $this->utils->inflatePost(array('currencyName', 'cid'));
         $data = $this->sqllibs->getOneRow($this->db, 'tbl_base_currency', array(
             "no" => $postVars['cid']
-        ));        
+        ));
         $this->sqllibs->updateRow($this->db, 'tbl_base_currency'
                 , array(
             "name" => $postVars['currencyName']
@@ -880,7 +822,6 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_CATEGORYS);
     }
-    
     public function actionUpdateSubCategory() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
@@ -908,8 +849,6 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Update Successful");
         redirect(base_url() . ADMIN_PAGE_SUBCATEGORY);
     }
-    
-    
     public function actionUpdateFaq() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
@@ -980,15 +919,12 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Delete Successful");
         redirect(base_url() . ADMIN_PAGE_RESTAURANTS);
     }
-    
-    public function actionChangePrice()
-    {
+    public function actionChangePrice() {
         if (!$this->isLogin()) {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
         }
-        $postVars = $this->utils->inflatePost(array('did', 'priceValue'));                
-        
+        $postVars = $this->utils->inflatePost(array('did', 'priceValue'));
         $this->sqllibs->updateRow($this->db, 'tbl_map_discount_restaurant'
                 , array(
             "price" => $postVars['priceValue']
@@ -996,8 +932,84 @@ class AdminController extends BaseController {
                 , array(
             "no" => $postVars['did']
         ));
-        
         $this->session->set_flashdata('message', "Price Changed");
         redirect(base_url() . ADMIN_PAGE_DISCOUNTS);
+    }
+    public function ajaxLoadSubCategory() {
+        $postVars = $this->utils->inflatePost(array('cid'));
+        $subCategory = $this->sqllibs->selectAllRows($this->db, 'tbl_subcategory', array(
+            "cid" => $postVars['cid']
+        ));
+        $result = array();
+        $result['subCategory'] = $subCategory;
+        echo json_encode($result);
+    }
+    public function ajaxFilterRestaurant()
+    {
+        $postVars = $this->utils->inflatePost(array('cid','sid'));
+        $restaurants = "";
+                
+        if ($postVars['sid'] != 0)
+        {            
+            $rtIds = $this->sqllibs->rawSelectSql($this->db,"select rid from tbl_map_sub_restaurant where sid='".$postVars['sid']."'");
+            $sqlIn = "0,";
+            foreach ($rtIds as $id) {
+                $sqlIn = $sqlIn . $id->rid . ",";
+            }            
+            $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);             
+            $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.no in (" . $sqlIn . ")";
+            $rts = $this->sqllibs->rawSelectSql($this->db, $sqlIn);            
+            $restaurants = array();
+            foreach ($rts as $rt) {
+                $reservs = $this->sqllibs->selectAllRows($this->db, 'tbl_reservation', array('rid' => $rt->no));
+                $subcategory = $this->sqllibs->getOneRow($this->db, 'tbl_subcategory', array('no' => $rt->sno));
+                $category = $this->sqllibs->getOneRow($this->db, 'tbl_category', array('no' => $subcategory->cid));
+                $cname = "";
+                if ($category != null)
+                    $cname = $category->name;
+                if ($reservs == null)
+                    $reservs = array();
+                $discount = (object) array_merge((array) $rt, array('countReservation' => count($reservs), 'cname' => $cname));
+                $restaurants[] = $discount;
+            }                    
+            $restaurants = $this->generateRestaurantArray($restaurants);
+        }
+        else
+        {
+            $categorys = $this->sqllibs->selectAllRows($this->db, 'tbl_subcategory');
+            if ($postVars['cid'] != 0)
+                $categorys = $this->sqllibs->rawSelectSql($this->db, "select * from tbl_subcategory where cid='".$postVars['cid']."'");
+            $sqlIn = "0,";
+            foreach ($categorys as $category) {
+                $sqlIn = $sqlIn . $category->no . ",";
+            }            
+            $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);            
+            $rtIds = $this->sqllibs->rawSelectSql($this->db,"select rid from tbl_map_sub_restaurant where sid in (".$sqlIn.")");
+            
+            $sqlIn = "0,";
+            foreach ($rtIds as $id) {
+                $sqlIn = $sqlIn . $id->rid . ",";
+            }            
+            $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);     
+            $sqlIn = "select A.*,(select count(*) from tbl_reservation as B where B.rid=A.no) as countReservation from tbl_restaurant as A where A.no in (" . $sqlIn . ")";
+            $rts = $this->sqllibs->rawSelectSql($this->db, $sqlIn);
+            $restaurants = array();
+            foreach ($rts as $rt) {
+                $reservs = $this->sqllibs->selectAllRows($this->db, 'tbl_reservation', array('rid' => $rt->no));
+                $subcategory = $this->sqllibs->getOneRow($this->db, 'tbl_subcategory', array('no' => $rt->category));
+                $category = $this->sqllibs->getOneRow($this->db, 'tbl_category', array('no' => $subcategory->cid));
+                $cname = "";
+                if ($category != null)
+                    $cname = $category->name;
+                if ($reservs == null)
+                    $reservs = array();
+                $discount = (object) array_merge((array) $rt, array('countReserve' => count($reservs), 'cname' => $cname,'sname' =>$subcategory->name));
+                $restaurants[] = $discount;
+            }                    
+            $restaurants = $this->generateRestaurantArray($restaurants);
+        }
+        $result = array();
+        $result['restaurants'] = $restaurants;
+        echo json_encode($result);
     }
 }
