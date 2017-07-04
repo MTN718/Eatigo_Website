@@ -955,4 +955,5 @@ class AdminController extends BaseController {
         $this->session->set_flashdata('message', "Price Changed");
         redirect(base_url() . ADMIN_PAGE_DISCOUNTS);
     }
+
 }

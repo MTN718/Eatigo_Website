@@ -38,7 +38,7 @@
                 <div class="col-md-3" >
                     <input class='form-control' name='categoryName' id='categoryName' value='<?php echo $category->name; ?>' placeholder='Category Name'/></a>
                 </div>			
-                <div class="col-md-3" >
+<!--                <div class="col-md-3" >
                     <select class='form-control' id='categoryCountry' name='categoryCountry'>
                         <?php
                         foreach ($countrys as $country) {
@@ -49,8 +49,8 @@
                         }
                         ?>
                     </select>
-                </div>
-                <div class="col-md-2" >
+                </div>-->
+<!--                <div class="col-md-2" >
                     <div class="checkbox" style="margin:5px;">
                         <label>
                             <?php
@@ -62,7 +62,7 @@
                             
                             Is Featured?</label>
                     </div>
-                </div>
+                </div>-->
             </div>
             <?php
             $image = base_url() . $category->image;
