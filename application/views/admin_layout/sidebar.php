@@ -102,16 +102,16 @@
                     <i class="fa fa-database"></i> <span>Base Data Management</span> <i class="fa fa-angle-right pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <!--                    <?php
+                    <?php
                     if ($pageName == "Countrys")
                         echo "<li class='active'>";
                     else
                         echo "<li>";
                     ?>
-                                        <a href="<?php echo base_url() . ADMIN_PAGE_COUNTRYS; ?>">
-                                            <i class="fa fa-circle-o"></i> Country Data
-                                        </a>
-                                    </li>-->
+                    <a href="<?php echo base_url() . ADMIN_PAGE_COUNTRYS; ?>">
+                        <i class="fa fa-circle-o"></i> Country Data
+                    </a>
+                </li>
                 
                 <?php
                 if ($pageName == "Cities")

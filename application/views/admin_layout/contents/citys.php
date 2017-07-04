@@ -4,7 +4,7 @@
         var formElement = document.getElementById('formAddCity');
         var reader = new FileReader();
         reader.onloadend = function() {
-            formElement.submit();
+            formElement.submit();            
         }
         if (file) {
             reader.readAsDataURL(file); //reads the data as a URL
@@ -15,10 +15,10 @@
         var nameElement = document.getElementById('cityName');
         if (nameElement.value == '')
         {
-            swal('City Name is Empty', '', 'error');
+            swal('City Name is Empty','','error');
             return;
         }
-        document.getElementById('uploadImage').click();
+        document.getElementById('uploadImage').click();        
     }
 </script>
 
@@ -33,16 +33,16 @@
                 <div class="col-md-3" >
                     <input class='form-control' name='cityName' id='cityName' placeholder='New City'/></a>
                 </div>      
-                <!--                <div class="col-md-3" >
-                                    <select class='form-control' id='cityCountry' name='cityCountry'>
-                <?php
-                foreach ($countrys as $country) {
-                    echo "<option value='" . $country->no . "'>" . $country->name . "</option>";
-                }
-                ?>
-                                    </select>
-                                </div>-->
                 <div class="col-md-3" >
+                    <select class='form-control' id='cityCountry' name='cityCountry'>
+                        <?php
+                        foreach ($countrys as $country) {
+                            echo "<option value='" . $country->no . "'>" . $country->name . "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                 <div class="col-md-3" >
                     <select class='form-control' id='cityCurrency' name='cityCurrency'>
                         <?php
                         foreach ($currencys as $currency) {
@@ -57,14 +57,14 @@
                 </div>
             </form>
         </div>
-
-
+        
+        
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>No</th>
                     <th>Name</th>
-                    <th>Currency</th>                    
+                    <th>Country</th>                    
                     <th>Details</th>
                 </tr>
             </thead>
@@ -77,9 +77,8 @@
                     <tr>
                         <td><?php echo $i; ?></td>
                         <td><?php echo $city->name; ?></td>
-                        <td><?php echo $city->currency; ?></td>                        
+                        <td><?php echo $city->country; ?></td>                        
                         <td>
-                            <a href='<?php echo base_url() . ADMIN_PAGE_EDITCITY . "/" . $city->no; ?>'>Edit</a>&nbsp;&nbsp;&nbsp;
                             <a href='<?php echo base_url() . ADMIN_ACTION_DELETECITY . "/" . $city->no; ?>'>Delete</a>&nbsp;&nbsp;&nbsp;
                         </td>
                     </tr>

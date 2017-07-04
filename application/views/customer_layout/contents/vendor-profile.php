@@ -213,7 +213,7 @@
                   <?php } else { } ?>
                 </tbody>
               </table>              
-              <a href="<?php echo base_url();?>index.php/VendorController/add_restaurant_page" title="Restaurant" class="btn tp-btn-primary btn-lg">Add Category</a>
+              <a href="<?php echo base_url();?>index.php/VendorController/add_restaurant_page" title="Restaurant" class="btn tp-btn-primary btn-lg">Add Places</a>
 
             </div>
             <div role="tabpanel" class="tab-pane fade <?php if( $active == 'update_restaurant') echo "in active"; ?>" id="add_restaurant">

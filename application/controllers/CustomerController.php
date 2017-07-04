@@ -735,24 +735,25 @@ class CustomerController extends BaseController {
         $ridArray = array_intersect($array1, $array2,$array3);        
         if (count($ridArray) == 0)
         {
-            $result = array();
-            $result['restaurants'] = array();
-            $result['result'] = 200;
-            echo json_encode($result);
-            return;
-        }
-        $sqlIn = "";
-        foreach ($ridArray as $rid) {
-            $sqlIn = $sqlIn . $rid . ",";
-        }
-        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
-        
-        $sql = "select * from tbl_restaurant where no in (".$sqlIn.")";
-        $restaurants = $this->sqllibs->rawSelectSql($this->db, $sql); 
+            $restaurants = "";
+            $data['restaurantlist'] = $restaurants;
+            $data['pageName'] = "SEARCHRESTAURANTS";
+            $data['category_id'] = $categoryid;
+            $this->load->view('view_customer', $data);
+        } else {
+            $sqlIn = "";
+            foreach ($ridArray as $rid) {
+                $sqlIn = $sqlIn . $rid . ",";
+            }
+            $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
+            
+            $sql = "select * from tbl_restaurant where no in (".$sqlIn.")";
+            $restaurants = $this->sqllibs->rawSelectSql($this->db, $sql); 
 
-        $data['restaurantlist'] = $restaurants;;
-        $data['pageName'] = "SEARCHRESTAURANTS";
-        $data['category_id'] = $categoryid;
-        $this->load->view('view_customer', $data); 
+            $data['restaurantlist'] = $restaurants;
+            $data['pageName'] = "SEARCHRESTAURANTS";
+            $data['category_id'] = $categoryid;
+            $this->load->view('view_customer', $data); 
+        }
     }
 }

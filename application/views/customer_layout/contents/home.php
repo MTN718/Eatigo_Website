@@ -33,7 +33,7 @@
                                     <?php } ?>
                                 </select>
                             </div>
-                            <button type="submit" class="h btn tp-btn-default tp-btn-lg findhover" style="height: 48px;">Find Restaurants</button>
+                            <button type="submit" class="h btn tp-btn-default tp-btn-lg findhover" style="height: 48px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                         </form>
                     </div>
                     <div class="finder-caption" style="margin-top: 35px;">
@@ -88,10 +88,10 @@
 </div>
 
 <div class="spacer container text-center home-margin-top15 wow fadeIn" style="padding-top: 0px;">
-    <h1 style="margin-bottom:20px;">Categories / Restaurants</h1>
+    <h1 style="margin-bottom:20px;">Categories</h1>
     <div class="controls mt-3" style="margin-bottom:20px;">
-        <button type="button" class="control btn btn1 btn-secondary btn-sm mx-2 mb-4 active" href="#recentproducts" aria-controls="recentproducts" role="tab" data-toggle="tab">Categories</button>
-        <button type="button" class="control btn btn1 btn-secondary btn-sm mx-2 mb-4 " href="#featuredproduct" aria-controls="recentproducts" role="tab" data-toggle="tab">Restaurant</button>
+        <!-- <button type="button" class="control btn btn1 btn-secondary btn-sm mx-2 mb-4 active" href="#recentproducts" aria-controls="recentproducts" role="tab" data-toggle="tab">Categories</button>
+        <button type="button" class="control btn btn1 btn-secondary btn-sm mx-2 mb-4 " href="#featuredproduct" aria-controls="recentproducts" role="tab" data-toggle="tab">Restaurant</button> -->
     </div>
 
     <!-- Tab panes -->
