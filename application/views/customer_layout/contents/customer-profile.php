@@ -61,7 +61,8 @@
                     <ul class="nav nav-tabs" role="tablist">
                       <li role="presentation" class="<?php if( $active == 2) echo "active"; ?>"><a href="#current" aria-controls="featuredproduct" role="tab" data-toggle="tab">Upcoming Reservation</a></li>
                       <li role="presentation" class="<?php if( $active == 1) echo "active"; ?>"><a href="#previous" aria-controls="recentproducts" role="tab" data-toggle="tab">History</a></li>
-                      <li role="presentation" class="<?php if( $active == 4 || $active == 5) echo "active"; ?>"><a href="#credit" aria-controls="toprated" role="tab" data-toggle="tab" style="width: 177px;">Credit card</a></li>
+                      <li role="presentation" class="<?php if( $active == 4 || $active == 5) echo "active"; ?>"><a href="#credit" aria-controls="toprated" role="tab" data-toggle="tab">Credit card</a></li>
+                      <li role="presentation" class="<?php if( $active == 6 ) echo "active"; ?>"><a href="#yourcredit" aria-controls="toprated" role="tab" data-toggle="tab">Credits</a></li>
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
@@ -412,7 +413,7 @@
                     <?php } } else { echo "No Card Now"; } ?>
 
                     <form action="<?php echo base_url();?>index.php/CustomerController/profile/5">
-                      <button type="submit" onclick="" class="btn tp-btn-default" style="margin-top:15px;  width:140px;float: right;">Add Credits</button>
+                      <button type="submit" onclick="" class="btn tp-btn-default" style="margin-top:15px;  width:140px;float: right;">Add Card</button>
                     </form>   
                   </div>    
                 </div>
@@ -436,15 +437,15 @@
                           <div class="col-md-6" style="padding-right:7px;">
                             <select class="form-control" name="emonth" required="required">
                             <option value="">Select Month</option>
-                              <option value="01">1</option>
-                              <option value="02">2</option>
-                              <option value="03">3</option>
-                              <option value="04">4</option>
-                              <option value="05">5</option>
-                              <option value="06">6</option>
-                              <option value="07">7</option>
-                              <option value="08">8</option>
-                              <option value="09">9</option>
+                              <option value="01">01</option>
+                              <option value="02">02</option>
+                              <option value="03">03</option>
+                              <option value="04">04</option>
+                              <option value="05">05</option>
+                              <option value="06">06</option>
+                              <option value="07">07</option>
+                              <option value="08">08</option>
+                              <option value="09">09</option>
                               <option value="10">10</option>
                               <option value="11">11</option>
                               <option value="12">12</option>
@@ -452,7 +453,7 @@
                           </div>
                           <div class="col-md-6" style="padding-left:7px;">
                             <select class="form-control" name="eyear" required="required">
-                            <option value="">Select Month</option>
+                            <option value="">Select Year</option>
                               <option value="2017">2017</option>
                               <option value="2018">2018</option>
                               <option value="2019">2019</option>
@@ -478,11 +479,41 @@
                       </div>
 
                        <div class="form-group col-md-12">
-                         <button type="submit" class="btn tp-btn-default findhover" style="margin-top:15px;  width:140px;float: right;">Add Credits</button>
+                         <button type="submit" class="btn tp-btn-default findhover" style="margin-top:15px;  width:140px;float: right;">Add Card</button>
                       </div>              
                  </div>
               </form>
               </div>
+
+              <div role="tabpanel" class="tab-pane fade <?php if( $active == 6) echo "in active"; ?>" id="yourcredit">
+                <div class="container-fluid">
+                  <div class="row products">
+                    <div id="bookinglist">
+                      <div class="display_booking" style="display:block;width: 715px; height:61px;border: none;box-shadow: unset;">
+                        <div class="history-Right" style="width:703px;min-height: 57px;">
+                          <div class="schedule" style="width: 711px; ">
+                            <ul class="scheduleRow">
+                              <li class="date" style="width:50%">
+                                <small>
+                                  <strong>Total Credits</strong>
+                                </small>
+                              </li>
+                              <li class="time" style="width:15%">
+                                <small><span style="color:red; font-weight: 600;"><?php echo $customer->credit; ?></span></small>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>                                
+                    </div>
+                    <form action="<?php echo base_url();?>index.php/CustomerController/pricingplan">
+                      <button type="submit" onclick="" class="btn tp-btn-default" style="margin-top:15px;  width:140px;float: right;">Add Credit</button>
+                    </form>   
+                  </div>    
+                </div>
+              </div>
+
+
             </div>
           </div>
         </div>
@@ -514,9 +545,6 @@
       </div>
       <form class="form-horizontal"> action="<?php echo base_url();?>index.php/CustomerController/update_profile" method="post">        
         <div class="modal-body">
-
-
-
           <!-- Text input-->
           <div class="form-group">
             <div class="">
@@ -535,9 +563,6 @@
               <input name="mobile" type="text" placeholder="Mobile Number" pattern="[789][0-9]{9}" value="<?php echo $customer->mobile ?>" class="form-control" required>
             </div>
           </div>
-
-
-
         </div>
         <div class="modal-footer">
           <a href="#" type="button" class="btn tp-btn-default" data-dismiss="modal">Close</a>

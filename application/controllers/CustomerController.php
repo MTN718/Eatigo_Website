@@ -18,6 +18,7 @@ class CustomerController extends BaseController {
         
         $data = $this->getViewParameters('Home', 'Customer');
         $data['categorylist']  = $this->Customer_Modal->category_list();
+        $data['discountlist']  = $this->Customer_Modal->base_discount();
         $data['restaurantlist']  = $this->Customer_Modal->restaurant_list();
         $data['reviews']  = $this->Customer_Modal->get_reviews();
         $data['times']  = $this->Customer_Modal->get_time();
@@ -132,21 +133,35 @@ class CustomerController extends BaseController {
 
     // function for opening restaurants page 
 
-    public function restaurants($categoryid = "") {
+    public function subcategory($categoryid = "") {
+
+        $this->load->model('Customer_Modal');  
+        
+        $data['pageName'] = "SUBCATEGORY";
+
+        $data['subcategorylist']  = $this->Customer_Modal->sub_category_list($categoryid);
+        $data['categories']  = $this->Customer_Modal->category_list();
+        $data['category_id'] = $categoryid;
+        $this->load->view('view_customer', $data);
+    }
+
+    // function for opening restaurants page 
+
+    public function restaurants($subcategoryid = "") {
 
         $this->load->model('Customer_Modal');  
         
         $data['pageName'] = "RESTAURANTS";
 
-        if(isset($categoryid) and $categoryid != NULL) {
-            $data['restaurantlist']  = $this->Customer_Modal->category_restaurant_list($categoryid);
+        if(isset($subcategoryid) and $subcategoryid != NULL) {
+            $data['restaurantlist']  = $this->Customer_Modal->subcategory_restaurant_list($subcategoryid);
         } else {   
             $data['restaurantlist']  = $this->Customer_Modal->restaurant_list();         
         }
 
         $data['discount']  = $this->Customer_Modal->base_discount();
         $data['categories']  = $this->Customer_Modal->category_list();
-        $data['category_id'] = $categoryid;
+        $data['category_id'] = $subcategoryid;
         $this->load->view('view_customer', $data);
     }
 
@@ -241,7 +256,13 @@ class CustomerController extends BaseController {
     }
 
     public function pricingplan() {
+        $this->load->model('Customer_Modal');
+        $data['membershipplanlist'] = $this->Customer_Modal->membershipplan();
         $data['pageName'] = "PRICINGPLAN";
+        if ($this->session->userdata('customer_login') == 1)
+        {
+            $data['usercardlist'] = $this->Customer_Modal->card_list();
+        }
         $this->load->view('view_customer', $data);      
     }
 
@@ -343,18 +364,6 @@ class CustomerController extends BaseController {
         redirect('CustomerController/restaurantdetails/'.$rid.'/2');
     }
 
-    public function getrestaurantsbysearch($categoryid = "") {
-        $this->load->model('Customer_Modal');        
-        $model_data = array(
-            'restaurantname' => $this->input->post('restaurantname'), 
-            'persons'        => $this->input->post('noofperson')
-        );
-
-        $data['restaurantlist'] = $this->Customer_Modal->get_restaurants_by_search_name($model_data);
-        $data['pageName'] = "SEARCHRESTAURANTS";
-        $data['category_id'] = $categoryid;
-        $this->load->view('view_customer', $data); 
-    }
     public function booking($rid = "") {
 
         $this->load->model('Customer_Modal');
@@ -393,17 +402,35 @@ class CustomerController extends BaseController {
 
     public function confirm_payment($id="", $amt="", $cardid="") {
 
-
         $this->load->model('Customer_Modal');
-        $carddetails = $this->Customer_Modal->getcarddetails($cardid);
-        $cardnumber  = $carddetails->cardnumber;
-        $expmonth = $carddetails->expirymonth;
-        $expyear = $carddetails->expiryyear;
-        $security = $carddetails->security;
-        $price = $amt;
-        $reservationid = $id;
-        
-        
+
+        if($id == "add_credit") {
+
+            $user_id = $this->session->userdata('login_user_id');
+            $cardid = $this->input->post('card_id');
+            $planid = $this->input->post('plan_id');
+            $carddetails = $this->Customer_Modal->getcarddetails($cardid);
+            $plandetails = $this->Customer_Modal->getplandetails($planid);
+            $cardnumber  = $carddetails->cardnumber;
+            $expmonth = $carddetails->expmonth;
+            $expyear = $carddetails->expyear;
+            $security = $carddetails->security;
+            $price = $plandetails->price;
+            $credit = $plandetails->credit;
+            //for updating user credit
+            $this->Customer_Modal->updateusercredit($planid,$credit);
+            redirect('CustomerController/profile/6');
+
+        } else {
+
+            $carddetails = $this->Customer_Modal->getcarddetails($cardid);
+            $cardnumber  = $carddetails->cardnumber;
+            $expmonth = $carddetails->expmonth;
+            $expyear = $carddetails->expyear;
+            $security = $carddetails->security;
+            $price = $amt;
+            $reservationid = $id;
+        }          
         
         // Checkout
         $transactionId = $this->stripe->checkOut($cardnumber, $expmonth, $expyear, $security, $price);
@@ -598,5 +625,134 @@ class CustomerController extends BaseController {
         $result['result'] = 200;
         echo json_encode($result);
     }
+
+    public function selectplan($task = "") {
+
+        $this->load->model('Customer_Modal');
+
+        if ($this->session->userdata('customer_login') != 1)
+        {
+            $this->session->set_userdata('last_page' , current_url());
+            redirect('CustomerController/login');
+        }
+
+        if($task == "checkout") {
+
+            $data['pageName'] = "CONFIRMPAYMENTPAGE";
+            $data['cardid'] = $this->input->post('cardid');
+            $data['planid'] = $this->input->post('plan_id');
+            $this->load->view('view_customer', $data);  
+
+        } else {
+            
+            redirect('CustomerController/pricingplan');            
+        }    
+    }
     
+    public function ajaxSearchSubCategory()
+    {
+        $postVars = $this->utils->inflatePost(array('category'));        
+        
+        $sqlIn = "";
+        foreach ($postVars['category'] as $cat) {
+            $sqlIn = $sqlIn . $cat . ",";
+        }
+        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
+        
+        if ($sqlIn !='')
+        {
+            $sql = "select no as rid from tbl_subcategory where cid in (".$sqlIn.")";
+        }
+        else
+            $sql = "select no as rid from tbl_subcategory";      
+        
+        
+        $rids4 = $this->sqllibs->rawSelectSql($this->db, $sql);    
+        
+        
+        $array4 = array();
+
+        foreach ($rids4 as $rid) 
+            $array4[] = $rid->rid;  
+
+        $ridArray = $array4;  
+
+        if (count($ridArray) == 0)
+        {
+            $result = array();
+            $result['restaurants'] = array();
+            $result['result'] = 200;
+            echo json_encode($result);
+            return;
+        }
+        $sqlIn = "";
+        foreach ($ridArray as $rid) {
+           
+            $sqlIn = $sqlIn . $rid . ",";
+        }
+        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
+        
+        $sql = "select *,(select count(*) from tbl_map_sub_restaurant as B where B.sid=A.no) as countRestaurant from tbl_subcategory as A where A.no in (".$sqlIn.")";
+        $subcategory = $this->sqllibs->rawSelectSql($this->db, $sql); 
+        $result = array();
+        $result['restaurants'] = $subcategory;
+        $result['result'] = 200;
+        echo json_encode($result);
+    }    
+
+    public function getrestaurantsbysearch($categoryid = "") {
+        $this->load->model('Customer_Modal'); 
+
+        $postVars = $this->utils->inflatePost(array('searchdate','searchdiscount','noofperson'));    
+        $sql = "";
+        if ($postVars['searchdiscount'] == '')
+            $sql = "select no as rid from tbl_restaurant";            
+        else $sql = "select rid from tbl_map_discount_restaurant where did >='".$postVars['searchdiscount']."'";        
+        $rids = $this->sqllibs->rawSelectSql($this->db, $sql);
+
+        
+        if ($postVars['noofperson'] == '')
+            $sql = "select no as rid from tbl_restaurant";            
+        else $sql = "select rid from tbl_map_discount_restaurant where amount >='".$postVars['noofperson']."'";             
+        $rids2 = $this->sqllibs->rawSelectSql($this->db, $sql);
+            
+        
+        if ($postVars['searchdate'] == '')
+            $sql = "select no as rid from tbl_restaurant";            
+        else $sql = "select rid from tbl_map_discount_restaurant where date ='".date('Y-m-d', strtotime($postVars['searchdate']))."'"; 
+        $rids3 = $this->sqllibs->rawSelectSql($this->db, $sql);        
+        
+          
+        $array1 = array();
+        $array2 = array();
+        $array3 = array();
+        foreach ($rids as $rid) 
+            $array1[] = $rid->rid;        
+        foreach ($rids2 as $rid) 
+            $array2[] = $rid->rid;        
+        foreach ($rids3 as $rid) 
+            $array3[] = $rid->rid;     
+        $ridArray = array_intersect($array1, $array2,$array3);        
+        if (count($ridArray) == 0)
+        {
+            $result = array();
+            $result['restaurants'] = array();
+            $result['result'] = 200;
+            echo json_encode($result);
+            return;
+        }
+        $sqlIn = "";
+        foreach ($ridArray as $rid) {
+            $sqlIn = $sqlIn . $rid . ",";
+        }
+        $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
+        
+        $sql = "select * from tbl_restaurant where no in (".$sqlIn.")";
+        $restaurants = $this->sqllibs->rawSelectSql($this->db, $sql); 
+
+        $data['restaurantlist'] = $restaurants;;
+        $data['pageName'] = "SEARCHRESTAURANTS";
+        $data['category_id'] = $categoryid;
+        $this->load->view('view_customer', $data); 
+    }
 }

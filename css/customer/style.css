@@ -78,7 +78,7 @@ border-bottom: 1px solid #fff;}
 /*------- Bullet Point CSS --------*/
 ul.check-circle{ margin-bottom: 30px;}
 .check-circle li { position: relative; list-style: none; padding-left: 10px;}
-.check-circle li:before { font-size: 16px; margin-right: 10px; font-family: FontAwesome; top: 0; left: -5px; color: #04cccd; content: "\f058";}
+.check-circle li:before { font-size: 16px; margin-right: 10px; font-family: FontAwesome; top: 0; left: -5px; color: #8e203e; content: "\f058";}
 ul.listnone{list-style: none; margin: 0px; }
 .angle-double-right li { position: relative;}
 .angle-double-right li:before { font-size: 16px; margin-right: 10px; font-family: FontAwesome; top: 0; left: -5px; color: #7d7d7d;content: "\f101";}
@@ -693,7 +693,7 @@ p.wp-caption-text { margin-bottom: 0; color: #353535; font-size: 11px;}
 .help-page .list-group-item{padding: 30px; border: 1px solid #e9e6e0;}
 .help-page .list-group-item p{margin-bottom: 10px;}
 .help-page .list-group-item p:last-child{margin-bottom: 0px;}
-.question-sign{color: #00aeaf; padding-right: 10px;}
+.question-sign{color: #8e203e; padding-right: 10px;}
 /*----------------------
 	10.- Contact us  
 -----------------------*/

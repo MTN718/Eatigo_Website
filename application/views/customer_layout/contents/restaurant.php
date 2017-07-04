@@ -20,7 +20,6 @@
 
     function appendRestaurantGrid(restaurant)
     {
-
         var gridContainer = document.getElementById("ias-vendor-list");
         gridContainer.innerHTML = "";
         if (restaurant.restaurants.length == 0)

@@ -77,9 +77,6 @@
         case "EditSubCategory":
             include ("contents/edit_subcategory.php");
             break;
-        case "EditCity":
-            include ("contents/edit_city.php");
-            break;
     }
     ?>
 </div>

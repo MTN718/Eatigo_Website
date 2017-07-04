@@ -57,7 +57,7 @@
      <div class="col-md-8 venue-data">
       <div class="venue-info"><!-- venue-info-->
         <div class="capacity">
-          <div>Restaurants :</div>
+          <div>Places :</div>
           <span class="cap-people"> <?php echo $resto_no ?> </span> </div>
           <div class="pricebox">
             <div>Booking Todays</div>
@@ -79,7 +79,7 @@
         <div class="col-md-12"> 
           <!-- Nav tabs -->
           <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="<?php if( $active == 1 || $active == 'update_restaurant') echo "active"; ?>"><a href="#Restaurant" title="Restaurant" aria-controls="Restaurant" role="tab" data-toggle="tab"> <i class="fa fa-home"></i> <span class="tab-title">Restaurant</span></a></li>
+            <li role="presentation" class="<?php if( $active == 1 || $active == 'update_restaurant') echo "active"; ?>"><a href="#Restaurant" title="Restaurant" aria-controls="Restaurant" role="tab" data-toggle="tab"> <i class="fa fa-home"></i> <span class="tab-title">Management</span></a></li>
             <li role="presentation" class="<?php if( $active == 2 || $active == 'update_discount') echo "active"; ?>"><a href="#Discount" title="Discount" aria-controls="Discount" role="tab" data-toggle="tab"> <i class="fa fa-percent"></i> <span class="tab-title">Discount</span></a></li>
             <li role="presentation" class="<?php if( $active == 3 || $active == 'view_reservation') echo "active"; ?>"><a href="#Reservation" title="Reservation" aria-controls="Reservation" role="tab" data-toggle="tab"> <i class="fa fa-bookmark"></i> <span class="tab-title">Reservation</span></a></li>
             <li role="presentation" class="<?php if( $active == 4) echo "active"; ?>"><a href="#reviews" title="Review" aria-controls="reviews" role="tab" data-toggle="tab"> <i class="fa fa-commenting"></i> <span class="tab-title">Reviews</span></a></li>
@@ -91,7 +91,7 @@
               <table class="table table-hover table-condensed" id="example">
                 <thead>
                   <tr>
-                    <th>Restaurant Name</th>
+                    <th>Category</th>
                     <th>Status</th>
                     <th>Sub Category</th>
                     <th>Level</th>
@@ -213,7 +213,7 @@
                   <?php } else { } ?>
                 </tbody>
               </table>              
-              <a href="<?php echo base_url();?>index.php/VendorController/add_restaurant_page" title="Restaurant" class="btn tp-btn-primary btn-lg">Add Restaurant</a>
+              <a href="<?php echo base_url();?>index.php/VendorController/add_restaurant_page" title="Restaurant" class="btn tp-btn-primary btn-lg">Add Category</a>
 
             </div>
             <div role="tabpanel" class="tab-pane fade <?php if( $active == 'update_restaurant') echo "in active"; ?>" id="add_restaurant">
@@ -285,9 +285,9 @@
                       <label class=" control-label" for="reviewtitle">Click For Timing<span class="required">*</span></label>
                       <div class=""> 
                         <?php if(isset($selected_restaurant) and $selected_restaurant != NULL) { ?>            
-                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addrestauranttiming" style="width: 100%; height: 47px;padding: 14px;">Update Restaurant Timing</button>  
+                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addrestauranttiming" style="width: 100%; height: 47px;padding: 14px;">Update Timing</button>  
                         <?php } else { ?>           
-                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addrestauranttimingnew" style="width: 100%; height: 47px;padding: 14px;">Add Restaurant Timing</button>  
+                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addrestauranttimingnew" style="width: 100%; height: 47px;padding: 14px;">Add Timing</button>  
                         <?php } ?>              
                       </div>  
                     </div>
@@ -297,7 +297,7 @@
                           <div class="modal-content">
                             <div class="modal-header">
                               <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Modal Header</h4>
+                              <h4 class="modal-title">Add Timing</h4>
                             </div>
                             <div class="modal-body" style="padding: 22px;">
                              <div class="input-group control-group">
@@ -576,7 +576,7 @@
                     <form action="<?php echo base_url()?>index.php/VendorController/upload_resto_image/" class="dropzone">
                       <div class="dz-message">
                         Drop files here or click to upload.<br>
-                        <span class="note" style="color:red;"><small>( Please Choose Atleast one image of Restaurant* )</small></span>
+                        <span class="note" style="color:red;"><small>( Please Choose Atleast one image* )</small></span>
                       </div>
                     </form>
                   </div>
@@ -599,7 +599,7 @@
                 <table class="table table-hover table-condensed" id="example4">
                   <thead>
                     <tr>
-                      <th>Restaurant Name</th>
+                      <th>Name</th>
                       <th>Discount Time / Discount Persent</th>
                       <th>No. of People</th>
                       <th>status</th>
@@ -656,14 +656,14 @@
 
                         <!-- Text input-->                           
                         <div class="form-group col-md-6 no-padding">
-                          <label class="control-label" for="resto">Restaurant Name</label>
+                          <label class="control-label" for="resto">Place Name</label>
                           <select id="resto" name="resto" class="form-control" required="required">                   
 
                             <?php if(isset($selected_discount)) { ?>
                             <option value="<?php echo $selected_discount->rid; ?>"><?php echo $selected_discount->name; ?></option>
                             <option value="<?php echo $selected_discount->rid; ?>">----------------------</option>
                             <?php } else { ?>                            
-                            <option value="">Select Restaurant</option>
+                            <option value="">Select Place</option>
                             <?php } ?>
 
                             <?php foreach ($restaurantlist as $resto) { ?>
@@ -679,9 +679,9 @@
                           <div class="input-group">
 
                             <?php if(isset($selected_discount)) { ?>
-                            <input class="form-control" id="date" name="discount_date" placeholder="MM/DD/YYYY" type="text" value="<?php echo $selected_discount->date; ?>" required="required">
+                            <input class="form-control" id="date" name="discount_date" placeholder="YYYY/DD/MM" type="text" value="<?php echo date('M d,Y', strtotime($selected_discount->date)); ?>" required="required">
                             <?php } else { ?>                            
-                            <input class="form-control" id="date" name="discount_date" placeholder="MM/DD/YYYY" type="text" value="" required="required">
+                            <input class="form-control" id="date" name="discount_date" placeholder="YYYY/DD/MM" type="text" value="" required="required">
                             <?php } ?>
 
                             <span class="input-group-addon">
@@ -833,7 +833,7 @@
                             <table class="table table-hover table-condensed" id="example3">
                               <thead>
                                 <tr>
-                                  <th>Restaurant</th>
+                                  <th>Place Name</th>
                                   <th>User</th>
                                   <th>Booking Date</th>
                                   <th>Time / Discount</th>
@@ -894,7 +894,7 @@
                                   <form action="" method="post" enctype="multipart/form-data">
 
                                     <div class="form-group col-md-4 no-padding">
-                                      <label class=" control-label" for="reviewtitle">Restaurant Name</label>
+                                      <label class=" control-label" for="reviewtitle">Place Name</label>
                                       <div class="">
                                         <?php if(isset($restaurant) and $restaurant != NULL) { ?>
                                         <input class="form-control" value="<?php echo $restaurant->name; ?>" readonly>
@@ -1337,7 +1337,7 @@
                       });
                       $('#factOpt').multiselect({
                           columns: 1,
-                          placeholder: 'Select Restaurant Facility'
+                          placeholder: 'Select Facility'
                       });
                     </script>
 

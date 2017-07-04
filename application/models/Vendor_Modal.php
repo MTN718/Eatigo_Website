@@ -459,9 +459,12 @@ class Vendor_Modal extends CI_Model{
 
     public function add_discount() { 
 
+        $date1                   = $this->input->post('discount_date'); 
+        $date = date('Y-m-d', strtotime($date1));
+
         $data['rid']            = $this->input->post('resto');
         $data['rtime']          = $this->input->post('discount_time'); 
-        $data['date']           = $this->input->post('discount_date'); 
+        $data['date']           = $date;
         $data['did']            = $this->input->post('discount'); 
         $data['amount']         = $this->input->post('no_people');
         $data['status']         = 1;
@@ -536,4 +539,4 @@ class Vendor_Modal extends CI_Model{
         $this->db->update('tbl_reservation',$data);   
 
     } 
-}
+}?>

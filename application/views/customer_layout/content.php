@@ -8,7 +8,7 @@ switch ($pageName) {
         include ("contents/login-page.php");
         break;
     case "REGISTER":
-        include ("contents/signup-couple.php");
+        include ("contents/signup-customer.php");
         break;
     case "PROFILE":
         include ("contents/customer-profile.php");
@@ -57,6 +57,9 @@ switch ($pageName) {
         break;   
     case "CONFIRMPAYMENTPAGE":
         include ("contents/payment.php");
-        break;    
+        break;           
+    case "SUBCATEGORY":
+        include ("contents/subcategory.php");
+        break;  
 }
 ?>

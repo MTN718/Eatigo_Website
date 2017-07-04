@@ -15,16 +15,23 @@
                     <div class="finderform col-md-offset-1 col-md-10">
                         <form action="<?php echo base_url(); ?>index.php/CustomerController/getrestaurantsbysearch" method="POST" type="multipart/form-data">
                             <div class="col-md-3 no-padding">
+                                <input type="text" id="date" name="searchdate" class="form-control" placeholder="Select Date">
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <select class="form-control selectpicker" name="searchdiscount">
+                                    <option>Discount</option>
+                                    <?php foreach($discountlist as $discount ) { ?>
+                                    <option value="<?php echo $discount->no; ?>"><?php echo $discount->percent; ?> %</option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-3 no-padding">
                                 <select class="form-control selectpicker" name="noofperson">
                                     <option class="active">1 person</option>
                                     <?php for ($i = 2; $i <= 20; $i++) { ?>
                                     <option value="<?php echo $i; ?>"><?php echo $i; ?> people</option>
                                     <?php } ?>
-
                                 </select>
-                            </div>
-                            <div class="col-md-6 no-padding">
-                                <input type="text" name="restaurantname" class="form-control" placeholder="Enter Restaurant Name">
                             </div>
                             <button type="submit" class="h btn tp-btn-default tp-btn-lg findhover" style="height: 48px;">Find Restaurants</button>
                         </form>
@@ -94,7 +101,7 @@
             <div class="portfolio-grid clearfix" id="portfolioList">
                 <?php foreach ($categorylist as $category) { ?>
                 <div class="mix Categories">
-                    <a href="<?php echo base_url(); ?>index.php/CustomerController/restaurants/<?php echo $category->no; ?>">
+                    <a href="<?php echo base_url(); ?>index.php/CustomerController/subcategory/<?php echo $category->no; ?>">
                         <div class="home-group-img location-block"><!-- location block -->
                             <div class="home-group-img lazy vendor-image">
                                 <img src="<?php echo base_url(); ?><?php echo $category->image; ?>" alt="" class="img-responsive">
