@@ -38,7 +38,7 @@
                 <div class="col-md-3" >
                     <input class='form-control' name='cityName' id='cityName' value='<?php echo $cityInfo->name; ?>' placeholder='Category Name'/></a>
                 </div>			
-                <div class="col-md-3" >
+<!--                <div class="col-md-3" >
                     <select class='form-control' id='cityCountry' name='cityCountry'>
                         <?php
                         foreach ($countrys as $country) {
@@ -49,7 +49,7 @@
                         }
                         ?>
                     </select>
-                </div>                
+                </div>                -->
                 <div class="col-md-3" >
                     <select class='form-control' id='cityCurrency' name='cityCurrency'>
                         <?php

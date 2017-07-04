@@ -150,12 +150,7 @@ class AdminController extends BaseController {
         }
         $data = $this->getViewParameters("Categorys", "Admin");
         $data = $this->setMessages($data);
-        $data['categorys'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_category', 'tbl_base_city')
-                , array('cid', 'no')
-                , null
-                , array(null, array('name as city'))
-        );
-        $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_city');
+        $data['categorys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_category');                        
         $this->load->view('view_admin', $data);
     }
 
@@ -316,10 +311,10 @@ class AdminController extends BaseController {
         $data = $this->setMessages($data);
         $cities = $this->sqllibs->selectAllRows($this->db, 'tbl_base_city');
 
-        $data['citys'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_base_city', 'tbl_base_country')
-                , array('cid', 'no')
+        $data['citys'] = $this->sqllibs->selectJoinTables($this->db, array('tbl_base_city', 'tbl_base_currency')
+                , array('currency', 'no')
                 , null
-                , array(null, array('name as country'))
+                , array(null, array('name as currency'))
         );
         $data['countrys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_country');
         $data['currencys'] = $this->sqllibs->selectAllRows($this->db, 'tbl_base_currency');
@@ -498,7 +493,7 @@ class AdminController extends BaseController {
     }
 
     public function actionAddCity() {
-        $postVars = $this->utils->inflatePost(array('cityName', 'cityCountry', 'cityCurrency'));
+        $postVars = $this->utils->inflatePost(array('cityName','cityCurrency'));
         $imageFile = "";
         if (isset($_FILES['uploadImage'])) {
             $imageFile = $this->utils->uploadImage($_FILES['uploadImage'], 0, 400, 250);
@@ -506,8 +501,7 @@ class AdminController extends BaseController {
         $this->sqllibs->insertRow($this->db, 'tbl_base_city'
                 , array(
             "name" => $postVars['cityName'],
-            "image" => $imageFile,
-            "cid" => $postVars['cityCountry'],
+            "image" => $imageFile,            
             "currency" => $postVars['cityCurrency']
         ));
         $this->session->set_flashdata('message', "Success Add City");
@@ -747,7 +741,7 @@ class AdminController extends BaseController {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
         }
-        $postVars = $this->utils->inflatePost(array('cityName', 'cityCountry', 'cid', 'cityCurrency'));
+        $postVars = $this->utils->inflatePost(array('cityName', 'cid', 'cityCurrency'));
         $data = $this->sqllibs->getOneRow($this->db, 'tbl_base_city', array(
             "no" => $postVars['cid']
         ));
@@ -759,8 +753,7 @@ class AdminController extends BaseController {
         }
         $this->sqllibs->updateRow($this->db, 'tbl_base_city'
                 , array(
-            "name" => $postVars['cityName'],
-            "cid" => $postVars['cityCountry'],
+            "name" => $postVars['cityName'],            
             "currency" => $postVars['cityCurrency'],
             "image" => $imageFile
                 )
@@ -878,7 +871,7 @@ class AdminController extends BaseController {
             $this->utils->redirectPage(ADMIN_PAGE_HOME);
             return;
         }
-        $postVars = $this->utils->inflatePost(array('categoryName', 'categoryCountry', 'cid', 'categoryFeature'));
+        $postVars = $this->utils->inflatePost(array('categoryName', 'cid'));
         $data = $this->sqllibs->getOneRow($this->db, 'tbl_category', array(
             "no" => $postVars['cid']
         ));
@@ -890,9 +883,7 @@ class AdminController extends BaseController {
         }
         $this->sqllibs->updateRow($this->db, 'tbl_category'
                 , array(
-            "name" => $postVars['categoryName'],
-            "cid" => $postVars['categoryCountry'],
-            "feature" => $postVars['categoryFeature'],
+            "name" => $postVars['categoryName'],                        
             "image" => $imageFile
                 )
                 , array(

@@ -27,7 +27,7 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <div class="row" style="margin-bottom: 10px"> 
+<!--        <div class="row" style="margin-bottom: 10px"> 
             <form id='formAddCategory' name='formAddCategory' method='post' action='<?php echo base_url() . ADMIN_ACTION_ADDCATEGORY; ?>' enctype="multipart/form-data">			
                 <div class="col-md-3" >
                     <input class='form-control' name='categoryName' id='categoryName' placeholder='New Category'/></a>
@@ -51,13 +51,13 @@
                     <button type="button" class ="btn btn-block btn-success" onclick='onAddCategory()'>Add Category with Image</button>
                 </div>
             </form>
-        </div>
+        </div>-->
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>No</th>
                     <th>Name</th>
-                    <th>City</th>
+<!--                    <th>City</th>-->
                     <th>Detail</th>
                 </tr>
             </thead>
@@ -70,10 +70,10 @@
                     <tr>
                         <td><?php echo $i; ?></td>                        
                         <td><?php echo $category->name; ?></td>
-                        <td><?php echo $category->city; ?></td>
+<!--                        <td><?php echo $category->city; ?></td>-->
                         <td>
                             <a href='<?php echo base_url() . ADMIN_PAGE_EDITCATEGORY . "/" . $category->no; ?>'>Edit</a>&nbsp;&nbsp;&nbsp;
-                            <a href='<?php echo base_url() . ADMIN_ACTION_DELETECATEGORY . "/" . $category->no; ?>'>Delete</a>&nbsp;&nbsp;&nbsp;
+<!--                            <a href='<?php echo base_url() . ADMIN_ACTION_DELETECATEGORY . "/" . $category->no; ?>'>Delete</a>&nbsp;&nbsp;&nbsp;-->
                         </td>
                     </tr>
                     <?php
