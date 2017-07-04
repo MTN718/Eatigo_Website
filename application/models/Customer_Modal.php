@@ -44,6 +44,13 @@ class Customer_Modal extends CI_Model{
         $data['password']           = $this->input->post('password');
         $data['mobile']             = $this->input->post('phone');
         $data['role']               = '0';
+        $data['mdate']              = date('M,d-Y');
+        $data['membership']         = '1';
+
+        $sql = $this->db->get_where('tbl_base_membership', array('no' => 1));
+        $membership = $sql->row();
+
+        $data['credit']               = $membership->credit;
         $this->db->insert('tbl_user',$data); 
         return true;     
     }
@@ -68,12 +75,27 @@ class Customer_Modal extends CI_Model{
         return $rows;         
     }
 
+    public function membershipplan() {
+        $this->db->select('*');
+        $this->db->from('tbl_base_membership');
+        $rows = $this->db->get()->result();
+        return $rows;         
+    }
+
     public function getcarddetails($cardid) {
         $this->db->select('*');
         $this->db->from('tbl_card');
         $this->db->where('no',$cardid);
-        $rows = $this->db->get()->row();
-        return $rows;
+        $row = $this->db->get()->row();
+        return $row;
+    }
+
+    public function getplandetails($planid) {
+        $this->db->select('*');
+        $this->db->from('tbl_base_membership');
+        $this->db->where('no',$planid);
+        $row = $this->db->get()->row();
+        return $row;
     }
 
     public function get_time() {
@@ -445,14 +467,15 @@ class Customer_Modal extends CI_Model{
 
         $this->db->select('*');
         $this->db->where('cardnumber',$card_no);
+        $this->db->where('uid',$user_id);
         $query = $this->db->get('tbl_card');
         $num = $query->num_rows();
         if($num > 0) {
             return false;   
         }
         $data['cardnumber']        = $this->input->post('cnumber');
-        $data['expirymonth']       = $this->input->post('emonth');
-        $data['expiryyear']        = $this->input->post('eyear');
+        $data['expmonth']       = $this->input->post('emonth');
+        $data['expyear']        = $this->input->post('eyear');
         $data['security']          = $this->input->post('cvv'); 
         $data['uid']          = $user_id;
         $this->db->insert('tbl_card',$data);  
@@ -480,4 +503,18 @@ class Customer_Modal extends CI_Model{
         $result = $this->db->query($sql)->row_array();
         return $result;
     }
-}
+
+    public function updateusercredit($planid,$credit) { 
+
+        $user_id                    = $this->session->userdata('login_user_id');
+
+        $p_credit                   = $this->db->get_where('tbl_user', array('no' => $user_id))->row()->credit;
+        $n_credit                   = $p_credit + $credit;
+        $data['membership']         = $planid;
+        $data['mdate']              = date('M,d-Y');
+        $data['credit']             = $n_credit;
+        $this->db->where('no',$user_id);
+        $this->db->update('tbl_user',$data);      
+    }
+
+} ?>

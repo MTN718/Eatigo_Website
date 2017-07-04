@@ -52,8 +52,6 @@
         });
     }
 </script>
-
-
 <script class="pre">
     function logout(network) {
         hello('facebook').logout().then(function() {

@@ -35,7 +35,12 @@ class LoginController extends BaseController {
                 $this->session->set_userdata('login_user_id', $row->no);   
                 $this->session->set_userdata('name',$row->name);          
                 $this->session->set_userdata('login_type','customer');
+                $last_page = $this->session->userdata('last_page');
+                if(isset($last_page) and $last_page != NULL) {
+                redirect($last_page);
+                } else {                    
                 redirect(base_url() . 'index.php/CustomerController/profile','refresh');
+                }
             }
             else if (1 == $row->role) {
                 

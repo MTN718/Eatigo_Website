@@ -10,67 +10,79 @@
     </div>
   </div>
 </div>
-<!-- /.page header -->
-<div class="tp-breadcrumb">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <ol class="breadcrumb">
-          <li><a href="#">Home</a></li>
-          <li class="active">Pricing Table</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="main-container">
   <div class="container">
     <div class="row">
       <div class="col-md-8">
         <h1>Pricing plan that best suits your business needs.</h1>
       </div>
-      <div class="col-md-4 "><a href="#" class="btn tp-btn-primary tp-btn-lg pull-right"> Start Free Trial</a></div>
+      <?php if ($this->session->userdata('customer_login') != 1) { ?>
+      <div class="col-md-4 "><a href="<?php echo base_url(); ?>index.php/CustomerController/register" class="btn tp-btn-primary tp-btn-lg pull-right"> Start Free Trial</a></div>
+      <?php } ?>
     </div>
     <div class="row pricing-container">
-      <div class="col-md-4 pricing-box pricing-box-regualr">
+    <?php if(isset($membershipplanlist) and $membershipplanlist != NULL) {
+      foreach ($membershipplanlist as $membershipplan) { 
+        if($membershipplan->no != 1) { ?>      
+        <div class="col-md-4 pricing-box pricing-box-regualr">
         <div class="well-box">
-          <h2 class="price-title">sliver</h2>
-          <h1 class="price-plan"><span class="dollor-sign">$</span>65<span class="permonth">/mo</span></h1>
+          <h2 class="price-title"><?php echo $membershipplan->name; ?></h2>
+          <h1 class="price-plan"><span class="dollor-sign">$</span><?php echo $membershipplan->price; ?><span class="permonth">/<?php echo $membershipplan->credit; ?> credit</span></h1>
           <p>Nullam sitamet <strong>sodales magnaorem</strong> ipsumgererit ullamcorper lacus. </p>
-          <a href="#" class="btn tp-btn-default">Select Plan</a> </div>
+          <?php if ($this->session->userdata('customer_login') != 1) { ?>
+          <a href="<?php echo base_url(); ?>index.php/CustomerController/selectplan" class="btn tp-btn-default">Select Plan</a> 
+          <?php } else { ?>
+          <a href="#" class="btn tp-btn-default" data-toggle="modal" data-target="#myModalforplancard<?php echo $membershipplan->no; ?>">Select Plan</a> 
+          <?php } ?> 
+        </div>
         <ul class="check-circle list-group">
           <li class="list-group-item">24/7 Email Support</li>
           <li class="list-group-item">ePayments &amp; eInvoices</li>
           <li class="list-group-item">Advanced Review Management</li>
           <li class="list-group-item">Education Webinars</li>
         </ul>
-      </div>
-      <div class="col-md-4 pricing-box pricing-box-top">
-        <div class="well-box">
-          <h2 class="price-title">gold</h2>
-          <h1 class="price-plan"><span class="dollor-sign">$</span>75<span class="permonth">/mo</span></h1>
-          <p>Lorem ipsum dolor <strong>sitamet consectetur</strong> adipistur exvi taequam. </p>
-          <a href="#" class="btn tp-btn-primary">Select Plan</a> </div>
-        <ul class="check-circle list-group">
-          <li class="list-group-item">24/7 Email Support</li>
-          <li class="list-group-item">Unlimited User Accounts</li>
-          <li class="list-group-item">Secure Client Transactions</li>
-          <li class="list-group-item">Online Appointment Scheduling</li>
-        </ul>
-      </div>
-      <div class="col-md-4 pricing-box pricing-box-regualr">
-        <div class="well-box">
-          <h2 class="price-title">Platinum</h2>
-          <h1 class="price-plan"><span class="dollor-sign">$</span>95<span class="permonth">/mo</span></h1>
-          <p>Nullam sitamet <strong>sodales magnaorem</strong> ipsumgererit ullamcorper lacus. </p>
-          <a href="#" class="btn tp-btn-default">Select Plan</a> </div>
-        <ul class="check-circle list-group">
-          <li class="list-group-item">24/7 Email Support</li>
-          <li class="list-group-item">ePayments &amp; eInvoices</li>
-          <li class="list-group-item">Advanced Review Management</li>
-          <li class="list-group-item">Education Webinars</li>
-        </ul>
-      </div>
+      </div>               
+          <div class="modal fade" id="myModalforplancard<?php echo $membershipplan->no; ?>" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Please Select Card</h4>
+                </div>
+                <form action="<?php echo base_url(); ?>index.php/CustomerController/confirm_payment/add_credit" method="post"> 
+                <input type="hidden" name="plan_id" value="<?php echo $membershipplan->no; ?>">         
+                <div class="modal-body">
+                    <div class="container-fluid">
+                      <div class="rating-group">
+                      <?php if(isset($usercardlist) and $usercardlist != NULL) {
+                        foreach ($usercardlist as $usercard) { ?>
+                        <div class="radio">
+                          <input type="radio" name="card_id" id="card_id" value="<?php echo $usercard->no; ?>" >
+                          <label style="width: 100%;">
+                            <span class="col-md-6"><?php echo $usercard->cardnumber; ?></span>
+                            <!-- <span class="col-md-6"><?php echo $usercard->name; ?></span> -->
+                          </label>
+                        </div>                        
+                      <?php } } else echo "No Card Available"; ?>
+                      </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <?php if(isset($usercardlist) and $usercardlist != NULL) { ?>
+                    <button type="submit" class="btn tp-btn-primary" style="height: 32px;">Checkout</button>
+                  <?php } else { ?>                  
+                    <a href="<?php echo base_url(); ?>index.php/CustomerController/profile/5" class="btn tp-btn-primary">Add Card</a> 
+                  <?php } ?>
+                  <button type="button" class="btn tp-btn-default" style="height: 32px;" data-dismiss="modal">Close</button>
+                </div>
+                </form>
+              </div>      
+            </div>
+          </div>
+    <?php } 
+      }
+    }
+    ?>
     </div>
     <div></div>
     <div class="row spacer">

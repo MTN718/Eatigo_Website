@@ -6,7 +6,7 @@
         foreach ($restaurantimages as $restaurantimage) {
             ?>
             <div class="item">
-                <div class="slider-pic"><img src="<?php echo base_url(); ?><?php echo $restaurantimage->image; ?>" alt="Restauant pic"></div>
+                <div class="slider-pic"><img src="<?php echo base_url(); ?><?php echo $restaurantimage->image; ?>" alt="Restauant pic" height="300"></div>
             </div>
             <?php
         }
