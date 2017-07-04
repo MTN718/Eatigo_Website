@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-12 finder-block">
                     <div class="finder-caption">
-                    <h1 style="margin-bottom:20px;">Find your perfect Restaurant</h1>
+                    <h1 style="margin-bottom:20px;">Find your perfect Places</h1>
                     </div>
                     <div class="finderform col-md-offset-1 col-md-10">
                         <form action="<?php echo base_url(); ?>index.php/CustomerController/getrestaurantsbysearch" method="POST" type="multipart/form-data">
@@ -40,7 +40,7 @@
                         <div class="row feature-center">
                             <div class="col-md-4 feature-block" style="line-height: 18px;font-size: 14px;">
                                 <div class="feature-icon"><img src="<?php echo base_url(); ?>images/11111.png" width="70" alt=""></div>
-                                <h2 style="margin-bottom: 10px; color: #000;">Find Your Favourite Restaurant</h2>
+                                <h2 style="margin-bottom: 10px; color: #000;">Find Your Favourite Places</h2>
                                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
                             </div>
                             <div class="col-md-4 feature-block" style="line-height: 18px;font-size: 14px;">
@@ -111,7 +111,7 @@
                                     <h2 style="color: white;margin: 0px;"><?php echo $category->name; ?></h2>
                                 </div>
                                 <div class="total-txt small-font" style="color: white;">
-                                    <?php echo $no_restaurant = $this->db->get_where('tbl_restaurant', array('category' => $category->no))->num_rows(); ?> Restaurants
+                                    <?php echo $no_restaurant = $this->db->get_where('tbl_subcategory', array('cid' => $category->no))->num_rows(); ?> Sub Category
                                 </div>
                             </div>
                         </div>

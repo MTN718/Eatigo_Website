@@ -137,6 +137,15 @@ class Customer_Modal extends CI_Model{
         return $rows;      
     }
 
+    public function subcategory_list() {  
+        $this->db->select('*');
+        $this->db->from('tbl_subcategory');
+        $this->db->order_by("no", "desc");
+        $this->db->limit(50);
+        $rows = $this->db->get()->result();
+        return $rows;      
+    }
+
     public function restaurant_list() {  
 
         $this->db->select('*');
@@ -158,11 +167,11 @@ class Customer_Modal extends CI_Model{
         return $rows;
     }
 
-    public function sub_category_list($categoryid) {  
+    public function sub_category_list($category_id) {  
 
         $this->db->select('*');
         $this->db->from('tbl_subcategory');        
-        $this->db->where('cid', $categoryid);
+        $this->db->where('cid', $category_id);
         $rows = $this->db->get()->result();
         return $rows;      
     }

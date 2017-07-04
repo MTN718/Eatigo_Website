@@ -160,8 +160,8 @@ class CustomerController extends BaseController {
         }
 
         $data['discount']  = $this->Customer_Modal->base_discount();
-        $data['categories']  = $this->Customer_Modal->category_list();
-        $data['category_id'] = $subcategoryid;
+        $data['subcategories']  = $this->Customer_Modal->subcategory_list();
+        $data['subcategory_id'] = $subcategoryid;      
         $this->load->view('view_customer', $data);
     }
 
@@ -536,7 +536,7 @@ class CustomerController extends BaseController {
     
     public function ajaxSearchRestaurant()
     {
-        $postVars = $this->utils->inflatePost(array('discount','level','rate','category'));        
+        $postVars = $this->utils->inflatePost(array('discount','level','rate','subcategory'));        
         $sql = "";
         if ($postVars['discount'] == '')
                 $sql = "select no as rid from tbl_restaurant";            
@@ -558,14 +558,14 @@ class CustomerController extends BaseController {
             
         
         $sqlIn = "";
-        foreach ($postVars['category'] as $cat) {
+        foreach ($postVars['subcategory'] as $cat) {
             $sqlIn = $sqlIn . $cat . ",";
         }
         $sqlIn = substr($sqlIn, 0, strlen($sqlIn) - 1);
         
         if ($sqlIn !='')
         {
-            $sql = "select no as rid from tbl_restaurant where category in (".$sqlIn.")";
+            $sql = "select no as rid from tbl_map_sub_restaurant where sid in (".$sqlIn.")";
         }
         else
             $sql = "select no as rid from tbl_restaurant";      

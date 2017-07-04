@@ -57,8 +57,8 @@
             
             var divFav = vendorContent.createElement('div');
             divFav.className = "favourite-bg";
-            divFav.style = "background: rgba(0, 0, 0, 0.6);color:'rgb(255,255,255)';font-size: 13px;bottom: 5px;right: 6px;padding: 5px 20px 5px 12px;";
-            divFav.innerHTML = "<label style='margin-top:5px;color:#ffffff;'>" + vendorUser.countReservation + " reservations recently</label>";
+            divFav.style = "background: rgba(0, 0, 0, 0.6);color:'rgb(255,255,255)';font-size: 13px;bottom: 5px;right: 6px;padding: 5px 20px 0px 12px;";
+            divFav.innerHTML = "<label style='color:#ffffff;font-weight: normal;font-size: 12px;height: 24px;'>" + vendorUser.countReservation + " reservations recently</label>";
             vendorImageDiv.appendChild(divFav);
             
             var divFloat = vendorContent.createElement('div');
@@ -241,7 +241,6 @@
                     <div class="col-md-12 form-title">
                         <h2>Filter</h2>
                     </div>
-                    <!-- <?php echo base_url(); ?>index.php/CustomerController/refine_restaurants/<?php if (isset($category_id) and $category_id != NULL) echo $category_id; ?> -->
                     <form method="post" id="searchForm">
                         <div class="col-md-12 form-group">
                             <label class="control-label" for="capacity">Discount</label>
@@ -307,16 +306,18 @@
                             </div>
                         </div>
                         <div class="col-md-12 form-group">
-                            <label class="control-label">Categories</label>
+                            <label class="control-label">Sub Categories</label>
 
                             <?php
-                            if (isset($categories) and $categories != NULL) {
-                                foreach ($categories as $category) {
+                            if (isset($subcategories) and $subcategories != NULL) {
+                                foreach ($subcategories as $subcategory) {
+                                    $flag = "";
+                                    if($subcategory->no == $subcategory_id) $flag = "checked";
                                     ?>
 
                                     <div class="checkbox checkbox-success">
-                                        <input type="checkbox" name="category[]" value="<?php echo $category->no; ?>" class="styled">
-                                        <label class="control-label"><?php echo $category->name; ?></label>
+                                        <input type="checkbox" name="subcategory[]" value="<?php echo $subcategory->no; ?>" class="styled" <?php echo $flag; ?> >
+                                        <label class="control-label"><?php echo $subcategory->name; ?></label>
                                     </div>
 
                                     <?php
@@ -329,7 +330,7 @@
                         </div>                        
                     </form>
                     <div class="col-md-12 form-group">
-                        <button type="submit" class="btn tp-btn-primary tp-btn-lg btn-block findhover" style="background-color:#8E203E" onclick="onSearch()">Search Restaurant</button>
+                        <button type="submit" class="btn tp-btn-primary tp-btn-lg btn-block findhover" style="background-color:#8E203E" onclick="onSearch()">Search Places</button>
                     </div>
                 </div>
             </div>

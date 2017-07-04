@@ -40,7 +40,7 @@ $account_type = $this->session->userdata('login_type');
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="active hoo"><a href="<?php echo base_url(); ?>index.php/CustomerController">Home</a></li>
-                    <li class="dropdown hoo"> <a href="<?php echo base_url(); ?>index.php/CustomerController/restaurants">Restaurants </a></li>
+                    <li class="dropdown hoo"> <a href="<?php echo base_url(); ?>index.php/CustomerController/restaurants">Places </a></li>
 
                     <?php if ($account_type == 'customer' || $account_type == 'vendor') { ?>
                         <li class="dropdown hoo"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="fa fa-angle-down"></span></a>
