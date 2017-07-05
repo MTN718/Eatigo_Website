@@ -25,7 +25,7 @@
       </ul>
 
       <!-- Tab panes -->
-      <div class="tab-content ">
+      <div class="tab-content responsive_p">
         <div role="tabpanel" class="tab-pane active vendor-login" id="home">
 
           <form class="form-horizontal" action="<?php echo base_url();?>index.php/LoginController/validate_user" method="post">
@@ -61,7 +61,7 @@
          <!--     <a href="forget-password.html" class="pull-right"> <small>Forgot Password ?</small></a> -->
             </div>
           </form>
-                        <button id='profile' class="btn btn-primary" onclick="login('facebook');" style="background-color:#337AB7;float:right;padding-top:11px;padding-bottom:10px;margin-top: -54px;margin-right: -15px;" >Login with facebook</button>
+                        <button id='profile' class="btn btn-primary" onclick="login('facebook');" style="background-color:#337AB7;float:right;padding-top:11px;padding-bottom:10px;margin-top: -54px;margin-right: -15px;" >facebook login</button>
 
         </div>
       </div>
@@ -71,5 +71,5 @@
 </div>
 
 
-	
+  
 

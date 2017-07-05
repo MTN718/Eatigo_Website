@@ -36,9 +36,7 @@ Description:Wedding Vendor | Vendor Directory HTML Template for All Vendor Listi
 .dont_show{
 	display: none;
 }
-.w-30 {
-	width: 18% !important;
-}
+
 
 body { font-family: sans-serif; font-size: 16px; line-height: 27px; background-color: #faf9f5; color: #706a68; -webkit-font-smoothing: antialiased;}
 h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; margin: 0px 0 20px 0px; color: #3c3634;}
@@ -121,7 +119,7 @@ ul.listnone{list-style: none; margin: 0px; }
 .top-message p{margin-bottom: 0px; color: #000000; font-size: 14px;}
 .top-bar{background-color: #fff;padding: 4px 0px;border-bottom: 1px solid #d5d4d4;}
 .top-links{}
-.top-links ul{ float: right;}
+.top-links ul{ float: right !important;}
 .top-links li{float: left; padding-right: 20px; position: relative;}
 .top-links li:last-child{padding-right: 0px;}
 .top-links li a{font-size: 12px; color: #000000; text-transform: uppercase;}
@@ -182,9 +180,9 @@ box-shadow: unset;}
 .mega-menu-link{}
 /*----- Mobile Toggle Button-------*/
 .tp-nav .navbar-toggle { position: relative; float: right; padding: 9px 10px; margin-top: 8px; margin-right: 0px; margin-bottom: 8px; background-color: #fff; background-image: none; border: 1px solid transparent; border-radius: 4px;}
-.tp-nav .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover{ background-color: #04cccd;}
-.tp-nav .navbar-default .navbar-collapse, .navbar-default .navbar-form{border-color: #048a8b; }
-.tp-nav .navbar-default .navbar-toggle .icon-bar{background-color: #00aeaf;}
+.tp-nav .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover{ background-color: #de1e2a;}
+.tp-nav .navbar-default .navbar-collapse, .navbar-default .navbar-form{border-color: #048a8b; border: none;}
+.tp-nav .navbar-default .navbar-toggle .icon-bar{background-color: #000;}
 /*----- Homepage Template Slider --------*/
 #slider .item img {display: block;width: 100%;}
 .slider-bg{position: relative; background: #eee;}
@@ -192,14 +190,14 @@ box-shadow: unset;}
 .slider-pic img{position: relative; z-index: -1;}
 .slider-pic{ -webkit-transition: all 0.3s; -moz-transition: all 0.3s;transition: all 0.3s;background: -moz-linear-gradient(top, rgba(16, 14, 13, 0) 0%, rgba(16, 14, 13, 1) 100%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(16, 14, 13, 1)), color-stop(100%, rgba(16, 14, 13, 0)));background: -webkit-linear-gradient(top, rgba(16, 14, 13, 0) 0%, rgba(16, 14, 13, 1) 100%); background: -o-linear-gradient(top, rgba(16, 14, 13, 0) 0%, rgba(16, 14, 13, 1) 100%); background: -ms-linear-gradient(top, rgba(16, 14, 13, 0) 0%, rgba(16, 14, 13, 1) 100%); background: linear-gradient(to bottom, rgba(16, 14, 13, 0) 0%, rgba(16, 14, 13, 1) 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000', GradientType=0 );}
 /*---------- Home Page Finder Section ---------*/
-.find-section { position: absolute; top: 12%; margin: 0 auto; left: 0%; right: 0%; text-align: center; color: #fff; z-index: 1;}
+.find-section { position: absolute; top: 17%; margin: 0 auto; left: 0%; right: 0%; text-align: center; color: #fff; z-index: 1;}
 .finder-block{}
 .finder-caption{ margin-bottom: 20px;display: inline-block;}
 .finder-caption h1 { font-size: 42px; letter-spacing: -1px; font-weight: 700;}
 .finder-caption h1, .finder-caption p { margin-bottom: 20px; color: #fff;}
 .finderform { background-color: rgba(0, 0, 0, 0.5); padding: 20px 0px 20px 20px;}
 .finderform .col-md-5 { padding-right: 15px;}
-.finderform .tp-btn-lg { padding: 14px 36px; margin-left: -18px;}
+.finderform .tp-btn-lg { padding: 14px 14px; margin-left: -18px;}
 
 /*------- Top Location ------------*/
 .top-location{}
@@ -272,7 +270,7 @@ box-shadow: unset;}
 .vendor-box-grid .no-right-pd{padding-right: 0px;}
 .vendor-box-grid .vendor-image{height: 212px;}
 .vendor-box .effect-oscar h2 a{color: #fff;}
-.favourite-bg{ background: #fcfbf9; border-radius: 100px; position: absolute; bottom: 10px; right: 10px; padding: 9px 12px 5px 12px; font-size: 18px;  -webkit-box-shadow: 0px 0px 9px 0px rgba(50, 50, 50, 0.2); -moz-box-shadow: 0px 0px 9px 0px rgba(50, 50, 50, 0.2); box-shadow: 0px 0px 9px 0px rgba(50, 50, 50, 0.2);}
+.favourite-bg{ background: #fcfbf9; border-radius: 100px;color: white;position: absolute; bottom: 10px; right: 10px; padding: 9px 12px 5px 12px; font-size: 18px;  -webkit-box-shadow: 0px 0px 9px 0px rgba(50, 50, 50, 0.2); -moz-box-shadow: 0px 0px 9px 0px rgba(50, 50, 50, 0.2); box-shadow: 0px 0px 9px 0px rgba(50, 50, 50, 0.2);}
 .favourite-icon{}
 /*------------Listing Map + Row  ----------*/
 .listing-wrap{height: 800px; overflow-y:scroll; overflow-x: hidden;}
@@ -315,7 +313,7 @@ box-shadow: unset;}
 .tabbed-page .venue-data .venue-info{background-color: #fff; margin-bottom: 30px; border: 1px solid #e9e6e0;}
 .tabbed-page .venue-info{ background-color: #fcfbf9; border-top: 1px solid #e9e6e0; height: 84px; font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-weight: 700;}
 .tabbed-page .capacity{border-right: 1px solid #e9e6e0;}
-.capacity, .pricebox{width:50%; float: left;    padding: 15px 20px; font-size: 12px;}
+.capacity, .pricebox{width:50%; float: left; padding: 10px 10px; font-size: 12px;}
 .price, .cap-people{font-size: 18px; letter-spacing: -1px; color: #3c3634;  display: block;}
 /*------- Thumbnail Slider----------*/
 #sync1 .item{ background: #fff;margin: 5px;}
@@ -693,7 +691,7 @@ p.wp-caption-text { margin-bottom: 0; color: #353535; font-size: 11px;}
 .help-page .list-group-item{padding: 30px; border: 1px solid #e9e6e0;}
 .help-page .list-group-item p{margin-bottom: 10px;}
 .help-page .list-group-item p:last-child{margin-bottom: 0px;}
-.question-sign{color: #8e203e; padding-right: 10px;}
+.question-sign{color: #00aeaf; padding-right: 10px;}
 /*----------------------
 	10.- Contact us  
 -----------------------*/
@@ -844,7 +842,8 @@ section.module.parallax-2 { background-image: url("../images/woo-parallax.jpg");
 .category-thumb{position: relative;}
 .btn-label{position: absolute;bottom: 20px; left: 20px;}
 .woo-shop .shop-listing {}
-.products { margin-bottom: 30px;}
+.products { margin-bottom: 30px; }
+.products1 {padding-top: 10px;padding-left: 14px; }
 .products .product-box {margin-top: 30px;}
 .products .product-box  {}
 .products .product-box a {}
@@ -1471,6 +1470,9 @@ figure.effect-oscar:hover img {
 .profile-feature{padding-bottom: 30px;}
 .profile-feature-title{font-weight: 400;font-family: 'Montserrat', sans-serif; text-transform: uppercase;}
 .profile-address i, .profile-email i, .profile-website i{color: #8E203E; padding-right: 20px;}
+.fa-envelope {
+ padding-right: 16px !important;
+ }
 .vendr-profile-info .profile-website i{padding-left: 10px;}
 .profile-gallery{padding-bottom: 10px;}
 #profile-gallery #sync2 .item{background-color: transparent;padding: 0px;}
@@ -1479,13 +1481,13 @@ figure.effect-oscar:hover img {
 --------------------------------------*/
 @media (max-width: 767px){
 .top-message, .side-nav {display: none;}
-.tp-nav { background-color: #00aeaf; padding-top: 10px; z-index: 9999; position: relative; padding-bottom: 14px;}
+.tp-nav { background-color: #fff; padding-top: 10px; z-index: 9999; position: relative; padding-bottom: 14px;}
 .find-section{position: relative; padding-top: 30px; padding-bottom: 30px;}
 .finder-caption h1{font-size: 24px;}
 .finder-caption h1, .finder-caption p { margin-bottom: 20px; color: #3c3634;}
 .finderform .col-md-5 { padding-right: 15px; margin-bottom: 18px;}
 .tab-title{display: none;}  
-.tabbed-page .nav-tabs>li>a { background-color: #fff; border-radius: 0px; padding: 7px 13px; text-transform: uppercase; border: 1px solid #e9e6e0;  margin-right: -1px; color: #706a68; font-size: 18px;} 
+.tabbed-page .nav-tabs>li>a { background-color: #fff; border-radius: 0px; padding: 7px 13px; text-transform: uppercase;  margin-right: -1px; color: #706a68; font-size: 18px;} 
 .tp-nav .navbar-default .navbar-nav>li>a{padding: 15px;}
 .tp-nav .dropdown-submenu>.dropdown-menu li{padding-left: 10px;}
 .tp-nav .navbar-default .navbar-nav>li>a{border-bottom: 1px solid #019394;}
@@ -1549,8 +1551,8 @@ section.module.parallax h1 { color: #fff; font-size: 38px; font-weight: 700; tex
     display: none;
 }
 .history-Left {
-    float: left;
-    width: 300px;
+    /*float: left;*/
+   /* width: 300px;*/
     position: relative;
     cursor: pointer;
     max-height: 240px;
@@ -1602,15 +1604,16 @@ sup {
     text-transform: uppercase;
 }
 .history-Right {
-    float: left;
-    width: 403px;
+    /*float: left;*/
+    /*width: 403px;*/
     position: relative;
     min-height: 240px;
-    margin-left: 10px;
+    /*margin-left: 10px;*/
 }
 .right_title_history {
     float: right;
-    width: 410px;
+    /*width: 410px;*/
+    width: 100%;
     border-bottom: 1px solid #eee;
 }
 .right_title_history li {
@@ -1630,7 +1633,7 @@ ul.right_title_history li p {
     font: 12px 'Helvetica';
 }
 .resto-detail-h {
-    padding: 0px 0 0 0;
+    padding: 0px 0 0 8px;
     float: left;
     width: 100%;
     margin:0px;
@@ -1649,11 +1652,11 @@ ul.right_title_history li p {
 }
 .schedule {
     float: left;
-    width: 410px;
+    /*width: 410px;*/
     border: 1px solid #ddd;
     position: absolute;
     bottom: 0px;
-    right: 1px;
+    width: 100%;
 }
 ul.scheduleRow {.history-Right {
     float: left;
@@ -1677,7 +1680,7 @@ ul.scheduleRow li {
     border-left: 1px solid #ddd;
 }
 ul.scheduleRow li.date {
-    width: 39%;
+    width: 50%;
 }ul.scheduleRow li strong {
     font-weight: bold;
 }
@@ -1836,3 +1839,43 @@ tbody .col-md-1, tbody .col-md-5, tbody .col-md-6  {
 .color__blackfont {
 	color: #3c3634;
 }
+
+            @media only screen and (max-width: 767px) {
+        table, thead, tbody, th, td, tr { display: block; }
+        thead tr { position: absolute; left: -9999px; top: -9999px; }
+        td { border: none !important; position: relative; text-align: right !important; }
+        .agencylist:nth-of-type(6) { border-bottom: 1px solid #E41D27 !important; }
+        .agencylist:before { color:black; padding-right: 10px; position: absolute; left: 8px; white-space: nowrap; text-align: left; }
+        .agencylist:nth-of-type(1):before { content: 'Name'; }
+        .agencylist:nth-of-type(2):before { content: 'Status'; }
+        .agencylist:nth-of-type(3):before { content: 'Sub category'; }
+        .agencylist:nth-of-type(4):before { content: 'Level'; }
+        .agencylist:nth-of-type(5):before { content: 'Rating'; }
+        .agencylist:nth-of-type(6):before { content: 'Action'; }
+
+        .contactlist:nth-of-type(5) { border-bottom: 1px solid #E41D27 !important; }
+        .contactlist:before { color:black; padding-right: 10px; position: absolute; left: 8px; white-space: nowrap; text-align: left; }
+        .contactlist:nth-of-type(1):before { content: 'Name'; }
+        .contactlist:nth-of-type(2):before { content: 'Time/Discount'; }
+        .contactlist:nth-of-type(3):before { content: 'No. of People'; }
+        .contactlist:nth-of-type(4):before { content: 'Status'; }
+        .contactlist:nth-of-type(5):before { content: 'Action'; }      
+
+        .citylist:nth-of-type(7) { border-bottom: 1px solid #E41D27 !important; }
+        .citylist:before { color:black; padding-right: 10px; position: absolute; left: 8px; white-space: nowrap; text-align: left; }
+        .citylist:nth-of-type(1):before { content: 'Name'; }
+        .citylist:nth-of-type(2):before { content: 'User'; }
+        .citylist:nth-of-type(3):before { content: 'Booking Date'; }
+        .citylist:nth-of-type(4):before { content: 'Time/Discount'; }
+        .citylist:nth-of-type(5):before { content: 'Price'; }
+        .citylist:nth-of-type(6):before { content: 'Status'; }
+        .citylist:nth-of-type(7):before { content: 'Action'; }
+
+
+        .pad-right {
+            padding-right: 0px;
+        }
+
+      }
+
+

@@ -9,37 +9,67 @@
 
        <div class="main-container">
           <div class="container">
+
+          <?php
+          $currentdate = date('Y-m-d');
+          $date = $customer->mdate;
+          $monthdate = strtotime ( '+1 month' , strtotime ( $date ) ) ;
+          $monthdate = date ( 'Y-m-d' , $monthdate );
+
+          if ($currentdate == $monthdate){ ?>
+          <div class="alert alert-warning alert-dismissable" style="color:red;">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Warnig!</strong> Charge Credit buy membership
+          </div>
+          <?php  } 
+
+          $date = $monthdate;
+          $onedaydate = strtotime ( '-1 day' , strtotime ( $date ) ) ;
+          $onedaydate = date ( 'Y-m-d' , $onedaydate );
+
+          if ($onedaydate == $currentdate){ ?>
+          <div class="alert alert-warning alert-dismissable" style="color:red;">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Warnig!</strong> Charge Credit buy membership
+          </div>
+          <?php  } ?>
+
             <div class="row">
               <div class="col-md-4 page-sidebar">
                 <div class="row">
-                  <div class="col-md-12 vendor-profile-block">
-                    <div class="vendor-profile">
+                 <div class="col-md-12 col-sm-12 vendor-profile-block">
+            <div class="vendor-profile">
 
-                      <form class="text-center" action="<?php echo base_url();?>index.php/CustomerController/update_picture" method="post" enctype="multipart/form-data">
+              <form class="text-center" action="<?php echo base_url();?>index.php/CustomerController/update_picture" method="post" enctype="multipart/form-data">
 
-                        <div class="fileinput fileinput-new text-center" data-provides="fileinput">
-                          <div class="fileinput-new thumbnail" style="width: 317px; height: 236px; border:none;" data-trigger="fileinput">
-                            <?php if($customer->image != "") { ?>
-                            <img src="<?php echo base_url();?><?php echo $customer->image; ?>" alt="">
-                            <?php } else { ?> 
-                            <img src="http://placehold.it/300x250" alt="">                           
-                            <?php } ?>
-                          </div>
-                          <div class="fileinput-preview fileinput-exists thumbnail" style="height: 236px; border:none;"></div>
-                          <div>
-                            <span class="btn tp-btn-default btn-file">
-                              <span class="fileinput-new">Change image</span>
-                              <span class="fileinput-exists">Change</span>
-                              <input type="file" name="image" accept="image/*" style="left: 295px;">
-                            </span>
-                            <button type="submit" class="btn tp-btn-primary fileinput-exists" style="height: 33px;">Save</button>
-                          </div>
-                        </div>
-
-                      </form>
-
-                    </div>
+                <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                  <div class="fileinput-new thumbnail" style="height: 236px; border:none;" data-trigger="fileinput">
+                    <?php if($customer->image != "") {
+                      if($customer->type == 1) { ?>
+                        <img src="<?php echo $customer->image; ?>?width=317&height=236" alt="">                        
+                      <?php } else { ?>
+                        <img src="<?php echo base_url();?><?php echo $customer->image; ?>" alt="">
+                      <?php } ?>
+                    <?php } else { ?> 
+                      <img src="http://placehold.it/300x250" alt="">                           
+                    <?php } ?>
                   </div>
+                  <div class="fileinput-preview fileinput-exists thumbnail" style="height: 236px; border:none;"></div>
+                  <div>
+                    <span class="btn tp-btn-default btn-file">
+                      <span class="fileinput-new">Change image</span>
+                      <span class="fileinput-exists">Change</span>
+                      <input type="file" name="image" accept="image/*" style="left: 295px;">
+                    </span>
+                    <button type="submit" class="btn tp-btn-primary fileinput-exists" style="height: 33px;">Save</button>
+                  </div>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+
 
                   <div class="col-md-12 ">
                     <div class="social-sidebar side-box">
@@ -60,7 +90,7 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                       <li role="presentation" class="<?php if( $active == 2) echo "active"; ?>"><a href="#current" aria-controls="featuredproduct" role="tab" data-toggle="tab">Upcoming Reservation</a></li>
-                      <li role="presentation" class="<?php if( $active == 1) echo "active"; ?>"><a href="#previous" aria-controls="recentproducts" role="tab" data-toggle="tab">History</a></li>
+                      <li role="presentation" class="<?php if( $active == 1 || $active == 7) echo "active"; ?>"><a href="#previous" aria-controls="recentproducts" role="tab" data-toggle="tab">History</a></li>
                       <li role="presentation" class="<?php if( $active == 4 || $active == 5) echo "active"; ?>"><a href="#credit" aria-controls="toprated" role="tab" data-toggle="tab">Credit card</a></li>
                       <li role="presentation" class="<?php if( $active == 6 ) echo "active"; ?>"><a href="#yourcredit" aria-controls="toprated" role="tab" data-toggle="tab">Credits</a></li>
                     </ul>
@@ -68,7 +98,7 @@
                     <div class="tab-content">
                       <div role="tabpanel" class="tab-pane fade in <?php if( $active == 1 ) echo "active"; ?>" id="previous">                 
 
-                        <div class="container">
+                        <div class="container-fluid">
                           <div class="row products">
 
                             <?php if(isset($previousorder) and $previousorder != NULL) {
@@ -80,8 +110,8 @@
                                 ?>
 
                                 <div id="bookinglist">
-                                  <div class="display_booking" style="display:block;width: 715px;">
-                                    <div class="history-Left vendor-image">
+                                  <div class="display_booking col-md-12 no-padding" style="display:block;padding-right:0px;">
+                                    <div class=" col-md-5 col-sm-5 no-padding history-Left vendor-image">
                                       <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $previous->rid;?>">
                                         <?php if(isset($resto_image) and $resto_image->image != "") { ?>
                                         <img class="colforheight" src="<?php echo base_url();?><?php echo $resto_image->image; ?>">
@@ -95,23 +125,29 @@
                                         <span class="offStyle">off&nbsp;</span>
                                       </div>
                                     </div>
-                                    <div class="history-Right">
-                                      <ul class="right_title_history">
-                                        <li class="imgdollar_h">
-                                          <p>price</p>
-                                          <div class="prRatingDiv_h">
-                                            <div class="dollarVal_h" style="width:
-                                            <?php $review = $restaurant->reviews; 
+                                    <div class="col-md-7 col-sm-7 no-padding history-Right">
+                                    <ul class="right_title_history">
+                                      <li class="imgdollar_h" style="width: 14%;">
+                                        <p>price</p>
+                                          <div class="prRatingDiv_h" style="background: none; color: #F69314;margin-top: -3px;">
+                                            <!-- <div class="dollarVal_h" style="width:
+                                            <?php $review = $restaurant->avgrate; 
                                             if ($review == 1) echo "20%";
                                             if ($review == 2) echo "40%";
                                             if ($review == 3) echo "60%";
                                             if ($review == 4) echo "80%";
                                             if ($review == 5) echo "100%"; 
                                             ?> ;"> 
-                                          </div>
+                                            </div> -->
+                                          <strong>
+                                          <?php 
+                                            $total_price = $previous->people*$discount->price;
+                                            echo $total_price;
+                                          ?>
+                                          </strong>
                                         </div>
                                       </li>
-                                      <li class="imgrating_h">
+                                      <li class="imgrating_h" style="width: 30%;">
                                         <p>rating:</p>
                                         <div class="ratingDiv_h">
                                           <div class="ratingVal_h" style="width:
@@ -125,7 +161,7 @@
                                         </div>
                                       </div>
                                     </li>
-                                    <li class="imgheart_h">
+                                    <li class="imgheart_h" style="width: 42%;">
                                       <p>reservation code:</p>
                                       <small class="bkNumber"> <?php echo $previous->code; ?></small>
                                     </li>
@@ -134,13 +170,21 @@
                                     <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $previous->rid;?>"><h3 class="color__blackfont"><?php echo $restaurant->name; ?></h3></a>
                                     <p><?php echo $restaurant->address; ?></p>
                                   </div>
+
                                   <?php if($previous->state == 1) { ?>
-                                   <a href="<?php echo base_url();?>index.php/CustomerController/add_review/<?php echo $previous->no;?>" style="margin-left: 309px;margin-top: -110px;background-color: #8E203E;border: #8E203E;" class="btn btn-primary findhover">Review</a>
-                                   <?php  }  ?>  
+                                    <a href="<?php echo base_url();?>index.php/CustomerController/add_review/<?php echo $previous->rid;?>/<?php echo $previous->no;?>" style="margin-left: 315px;margin-top: -128px;background-color: #8E203E;border: #8E203E;" class="btn btn-primary findhover">Review</a>
+                                    <?php  } else if($previous->state == 2) { ?>
+
+                                    <a href="<?php echo base_url();?>index.php/CustomerController/add_reviewed/<?php echo $previous->no;?>" class="btn btn-primary findhover reviewed">Reviewed</a>
+                                    <?php  } else if($previous->state == 3) { ?>
+
+                                    <a href="javascript:void(0)" class="btn btn-primary findhover  cancelled">Cancelled</a>
+                                  <?php  } ?> 
+
                                   <div class="schedule">
                                     <ul class="scheduleRow">
                                       <li class="date">
-                                        <p>1</p>
+                                        <p>date</p>
                                         <small>
                                           <strong><?php echo $date = date('M',strtotime($previous->date)); ?></strong>
                                           <span style="color:red; font-weight: 600;"> <?php echo $date = date('d,',strtotime($previous->date)); ?></span>
@@ -153,7 +197,7 @@
                                       </li>
                                       <li class="people">
                                         <p>for</p>
-                                        <small><span style="color:red; font-weight: 600;"><?php echo $previous->people; ?> </span>person</small>
+                                <small><span style="color:red; font-weight: 600;"><?php echo $previous->people; ?> </span><span class="nono">person</span></small>
                                       </li>
                                     </ul>
                                   </div>
@@ -169,7 +213,7 @@
                       </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade <?php if( $active == 2) echo "in active"; ?>" id="current">
-                      <div class="container">
+                      <div class="container-fluid">
                         <div class="row products">
                           <?php if(isset($currentorder) and $currentorder != NULL) {
                             foreach ($currentorder as $current) { 
@@ -183,8 +227,8 @@
                               }
                               ?>
                               <div id="bookinglist">
-                                <div class="display_booking" style="display:block;width: 715px;">
-                                  <div class="history-Left vendor-image"> 
+                                <div class="display_booking col-md-12 no-padding" style="display:block;padding-right:0px;">
+                                  <div class=" col-md-5 col-sm-5 no-padding history-Left vendor-image">
                                     <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $current->rid;?>">
                                       <?php if(isset($resto_image) and $resto_image->image != "") { ?>
                                       <img class="colforheight" src="<?php echo base_url();?><?php echo $resto_image->image; ?>">
@@ -198,23 +242,29 @@
                                       <span class="offStyle">off&nbsp;</span>
                                     </div>
                                   </div>
-                                  <div class="history-Right">
+                                  <div class="col-md-7 col-sm-7 no-padding history-Right">
                                     <ul class="right_title_history">
-                                      <li class="imgdollar_h">
+                                      <li class="imgdollar_h"  style="width: 14%;">
                                         <p>price</p>
-                                        <div class="prRatingDiv_h">
-                                          <div class="dollarVal_h" style="width:
-                                          <?php $review = $restaurant->reviews; 
-                                          if ($review == 1) echo "20%";
-                                          if ($review == 2) echo "40%";
-                                          if ($review == 3) echo "60%";
-                                          if ($review == 4) echo "80%";
-                                          if ($review == 5) echo "100%"; 
-                                          ?> ;"> 
+                                        <div class="prRatingDiv_h" style="background: none; color: #F69314;margin-top: -3px;">
+                                            <!-- <div class="dollarVal_h" style="width:
+                                            <?php $review = $restaurant->avgrate; 
+                                            if ($review == 1) echo "20%";
+                                            if ($review == 2) echo "40%";
+                                            if ($review == 3) echo "60%";
+                                            if ($review == 4) echo "80%";
+                                            if ($review == 5) echo "100%"; 
+                                            ?> ;"> 
+                                          </div> -->
+                                          <strong>
+                                          <?php 
+                                            $total_price = $current->people*$discount->price;
+                                            echo $total_price;
+                                          ?>
+                                          </strong>
                                         </div>
-                                      </div>
                                     </li>
-                                    <li class="imgrating_h">
+                                    <li class="imgrating_h"  style="width: 30%;">
                                       <p>rating:</p>
                                       <div class="ratingDiv_h">
                                         <div class="ratingVal_h" style="width:
@@ -228,7 +278,7 @@
                                       </div>
                                     </div>
                                   </li>
-                                  <li class="imgheart_h">
+                                  <li class="imgheart_h"  style="width: 42%;">
                                     <p>reservation code:</p>
                                     <small class="bkNumber"> <?php if(isset($current) and $current->code != "") echo $current->code; ?></small>
                                   </li>
@@ -237,12 +287,12 @@
                                   <a href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $current->rid;?>"><h3 class="color__blackfont"><?php if(isset($restaurant) and $restaurant->name != "") echo $restaurant->name; ?></h3></a>
                                   <p><?php if(isset($restaurant) and $restaurant->address != "") echo $restaurant->address; ?></p>
                                 </div>
-                                <a href="<?php echo base_url();?>index.php/CustomerController/complete_order/<?php echo $current->no;?>" style="margin-left: 309px;margin-top: -110px;background-color: #8E203E;border: #8E203E;" class="btn btn-primary findhover">Complete</a>
-                                <a href="<?php echo base_url();?>index.php/CustomerController/cancel_order/<?php echo $current->no;?>" style="margin-left: 309px;margin-top: -110px;background-color: #8E203E;border: #8E203E;" class="btn btn-primary findhover">cancel</a>
+
+                                <a href="<?php echo base_url();?>index.php/CustomerController/cancel_order/<?php echo $current->no;?>" class="btn btn-primary findhover cancel">cancel</a>
                                 <div class="schedule">
                                   <ul class="scheduleRow">
                                     <li class="date">
-                                      <p>1</p>
+                                      <p>date</p>
                                       <small>
                                         <strong><?php echo $date = date('M',strtotime($current->date)); ?></strong>
                                         <span style="color:red; font-weight: 600;"> <?php echo $date = date('d,',strtotime($current->date)); ?></span>
@@ -255,7 +305,7 @@
                                     </li>
                                     <li class="people">
                                       <p>for</p>
-                                      <small><span style="color:red; font-weight: 600;"><?php echo $current->people; ?> </span>person</small>
+                                      <small><span style="color:red; font-weight: 600;"><?php echo $current->people; ?> </span><span class="nono">person</span></small>
                                     </li>
                                   </ul>
                                 </div>
@@ -263,122 +313,13 @@
                             </div>
                           </div> 
                           <?php }
-                        } else { ?>
-                        No order Yet
+                        } else { ?> 
+                        <span>No order Yet</span>
                         <?php } ?>
                       </div>
                     </div>
                   </div>
                   
-                  <!--  code for reservation tab of customer profile
-
-                  <div role="tabpanel" class="tab-pane fade <?php if( $active == 3) echo "in active"; ?>" id="cancel">
-                    <div class="container">
-                      <div class="row products">
-
-                        <?php if(isset($canceldorder) and $canceldorder != NULL) {
-                          foreach ($canceldorder as $cancel) { 
-                            if(isset($cancel) and $cancel != NULL) {
-                              $restaurant = $this->db->get_where('tbl_restaurant', array('no' => $cancel->rid))->row();
-                              $resto_image = $this->db->get_where('tbl_image_restaurant', array('rid' => $cancel->rid))->row();
-                              $discount = $this->db->get_where('tbl_map_discount_restaurant', array('no' => $cancel->did))->row();
-                              if(isset($discount) and $discount != NULL) {
-                                $percentdata = $this->db->get_where('tbl_base_discount', array('no' => $discount->did))->row();
-                                }
-                              }
-                              ?>
-                              
-                            <div id="bookinglist">
-                              <div class="display_booking" style="display:block;width: 715px;">
-                                <div class="history-Left vendor-image">
-                                  <a href="">
-                                    <?php if(isset($resto_image) and $resto_image->image != "") { ?>
-                                    <img class="colforheight" src="<?php echo base_url();?><?php echo $resto_image->image; ?>">
-                                    <?php } else { ?> 
-                                    <img src="http://placehold.it/300x250" alt="">                           
-                                    <?php } ?>
-                                  </a>
-                                  <div class="offerDiv">
-                                    <small class="timeStyle"><strong><?php if(isset($discount) and $discount->rtime != "") echo $discount->rtime; ?></strong></small>
-                                    <small class="offPrice"><?php if(isset($percentdata) and $percentdata->percent != "") echo $percentdata->percent; ?><sup class="offpercent">%</sup></small>
-                                    <span class="offStyle">off&nbsp;</span>
-                                  </div>
-                                </div>
-                                <div class="history-Right">
-                                  <ul class="right_title_history">
-                                    <li class="imgdollar_h">
-                                      <p>price</p>
-                                      <div class="prRatingDiv_h">
-                                        <div class="dollarVal_h" style="width:
-                                        <?php $review = $restaurant->reviews; 
-                                        if ($review == 1) echo "20%";
-                                        if ($review == 2) echo "40%";
-                                        if ($review == 3) echo "60%";
-                                        if ($review == 4) echo "80%";
-                                        if ($review == 5) echo "100%"; 
-                                        ?> ;"> 
-                                      </div>
-                                    </div>
-                                  </li>
-                                  <li class="imgrating_h">
-                                    <p>rating:</p>
-                                    <div class="ratingDiv_h">
-                                      <div class="ratingVal_h" style="width:
-                                      <?php $level = $restaurant->level; 
-                                      if ($level == 1) echo "20%";
-                                      if ($level == 2) echo "40%";
-                                      if ($level == 3) echo "60%";
-                                      if ($level == 4) echo "80%";
-                                      if ($level == 5) echo "100%"; 
-                                      ?> ;">
-                                    </div>
-                                  </div>
-                                </li>
-                                <li class="imgheart_h">
-                                  <p>reservation code:</p>
-                                  <small class="bkNumber"> <?php echo $cancel->code; ?></small>
-                                </li>
-                              </ul>
-                              <div class="resto-detail-h" style="width:95%;">
-                                <h3><?php echo $restaurant->name; ?>
-                                <?php if($cancel->by_owner != 0) { ?>
-                                    <small style="color:red; float:right;">Canceled By Restaurant</small>
-                                <?php } else { ?>    
-                                    <small style="color:red; float:right;">Canceled By User</small>
-                                <?php } ?>
-                                </h3>
-                                <p><?php echo $restaurant->address; ?></p>
-                              </div>
-                              <div class="schedule">
-                                <ul class="scheduleRow">
-                                  <li class="date">
-                                    <p>1</p>
-                                    <small>
-                                      <strong><?php echo $date = date('M',strtotime($cancel->date)); ?></strong>
-                                      <span style="color:red; font-weight: 600;"> <?php echo $date = date('d,',strtotime($cancel->date)); ?></span>
-                                      <?php echo $date = date('Y',strtotime($cancel->date)); ?>
-                                    </small>
-                                  </li>
-                                  <li class="time">
-                                    <p>at</p>
-                                    <small><span style="color:red; font-weight: 600;" ><?php if(isset($discount) and $discount->rtime != "") echo $discount->rtime; ?></span></small>
-                                  </li>
-                                  <li class="people">
-                                    <p>for</p>
-                                    <small><span style="color:red; font-weight: 600;"><?php echo $cancel->people; ?> </span>person</small>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>  
-                        <?php }
-                      } else { ?>
-                      No order Yet
-                      <?php } ?>                             
-                    </div>
-                  </div>
-                </div> -->
 
                 <div role="tabpanel" class="tab-pane fade <?php if( $active == 4) echo "in active"; ?>" id="credit">
                  <div class="container-fluid">
@@ -387,29 +328,29 @@
                   <?php if(isset($cardlist) and $cardlist != NULL) {
                     foreach ($cardlist as $card) { ?>
                     <div id="bookinglist">
-                      <div class="display_booking" style="display:block;width: 715px; height:61px">
-                        <div class="history-Right" style="width:703px;min-height: 57px;">
-                          <div class="schedule" style="width: 711px; ">
-                            <ul class="scheduleRow">
-                              <li class="date" style="width:50%">
-                                <p>Card Number</p>
-                                <small>
-                                  <strong><?php echo $card->cardnumber; ?></strong>
-                                </small>
-                              </li>
-                              <li class="time" style="width:15%">
-                                <p>Expiry Date</p>
-                                <small><span style="color:red; font-weight: 600;"><?php echo $card->expmonth; ?>/<?php echo $card->expyear; ?> </span></small>
-                              </li>
-                              <li class="people">
-                                <p>Action</p>
-                                <small><a href="<?php echo base_url();?>index.php/CustomerController/card_delete/<?php echo $card->no; ?>" onclick="return confirm('Are you sure you want to Delete your Card ?');"><i style="color:red;" class="fa fa-trash"></i></a></small>
-                              </li>
-                            </ul>
+                        <div class="display_booking col-md-12 no-padding" style="display:block;">
+                          <div class="history-Right col-md-12 col-sm-12 no-padding min_h">
+                            <div class="schedule">
+                              <ul class="scheduleRow">
+                                <li class="date date_w">
+                                  <p>Card Number</p>
+                                  <small>
+                                    <strong><?php echo $card->cardnumber; ?></strong>
+                                  </small>
+                                </li>
+                                <li class="time time_w">
+                                  <p>Expiry Date</p>
+                                  <small><span style="color:red; font-weight: 600;"><?php echo $card->expmonth; ?>/<?php echo $card->expyear; ?> </span></small>
+                                </li>
+                                <li class="people">
+                                  <p>Action</p>
+                                  <small><a href="<?php echo base_url();?>index.php/CustomerController/card_delete/<?php echo $card->no; ?>" onclick="return confirm('Are you sure you want to Delete your Card ?');"><i style="color:red;" class="fa fa-trash"></i></a></small>
+                                </li>
+                              </ul>
+                            </div>
                           </div>
-                        </div>
-                      </div>                                
-                    </div>
+                        </div>                                
+                      </div>
                     <?php } } else { echo "No Card Now"; } ?>
 
                     <form action="<?php echo base_url();?>index.php/CustomerController/profile/5">
@@ -434,7 +375,7 @@
                       <div class="form-group col-md-6">
                         <label class="control-label" for="address">Expiry Date<span class="required">*</span></label>
                         <div class="row">
-                          <div class="col-md-6" style="padding-right:7px;">
+                          <div class="col-md-6">
                             <select class="form-control" name="emonth" required="required">
                             <option value="">Select Month</option>
                               <option value="01">01</option>
@@ -451,7 +392,7 @@
                               <option value="12">12</option>
                             </select>
                           </div>
-                          <div class="col-md-6" style="padding-left:7px;">
+                          <div class="col-md-6">
                             <select class="form-control" name="eyear" required="required">
                             <option value="">Select Year</option>
                               <option value="2017">2017</option>
@@ -489,17 +430,21 @@
                 <div class="container-fluid">
                   <div class="row products">
                     <div id="bookinglist">
-                      <div class="display_booking" style="display:block;width: 715px; height:61px;border: none;box-shadow: unset;">
-                        <div class="history-Right" style="width:703px;min-height: 57px;">
-                          <div class="schedule" style="width: 711px; ">
-                            <ul class="scheduleRow">
-                              <li class="date" style="width:50%">
+                        <div class="display_booking col-md-12 no-padding" style="display:block;">
+                          <div class="history-Right col-md-12 col-sm-12 no-padding min_h">
+                            <div class="schedule">
+                              <ul class="scheduleRow">
+                                <li class="date date_w">
                                 <small>
                                   <strong>Total Credits</strong>
                                 </small>
                               </li>
-                              <li class="time" style="width:15%">
-                                <small><span style="color:red; font-weight: 600;"><?php echo $customer->credit; ?></span></small>
+                                <li class="time time_w">
+                                <?php if($customer->membership == 3) { ?>
+                                  <small><span style="color:red; font-weight: 600;">Unlimited</span></small>
+                                <?php } else { ?>                                
+                                  <small><span style="color:red; font-weight: 600;"><?php echo $customer->credit; ?></span></small>
+                                <?php } ?>
                               </li>
                             </ul>
                           </div>
@@ -511,6 +456,38 @@
                     </form>   
                   </div>    
                 </div>
+              </div>
+
+              <div role="tabpanel" class="tab-pane fade <?php if( $active == 7) echo "in active"; ?>" id="add_reviewd">
+                                  
+                    <h1>Write Your Report</h1>
+                    <form action="<?php echo base_url(); ?>index.php/CustomerController/submit_reviewed" method="post" enctype="multipart/form-data">    
+                      <div class="row">                           
+                      <input type="hidden" name="reservation" value="<?php if(isset($selected_reserv_id) and $selected_reserv_id != NULL) echo $selected_reserv_id; ?>"> 
+
+                      <div class="form-group col-md-12">
+                        <!-- Text input-->
+                        <div class="form-group">
+                        <label class=" control-label" for="reviewtitle">Report Title</label>
+                          <div class=" ">
+                            <input id="reviewtitle" name="title" type="text" placeholder="Report Title" class="form-control input-md" required>
+                          </div>
+                        </div>
+                        <!-- Textarea -->
+                        <div class="form-group">
+                          <label class=" control-label">Descirtion</label>
+                          <div class="">
+                            <textarea class="form-control" name="review" rows="8" placeholder="Write Description"></textarea>
+                          </div>
+                        </div>
+                        <!-- Button -->
+                        <div class="form-group">
+                          <button name="submit" class="btn tp-btn-default tp-btn-lg">Submit Report</button>
+                        </div>
+                        </div>
+                        </div>
+                    </form>
+                 
               </div>
 
 

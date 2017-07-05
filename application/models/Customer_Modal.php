@@ -5,7 +5,11 @@ class Customer_Modal extends CI_Model{
 
     public function __construct() {
         parent::__construct();
-        $this->load->database(); 
+        $this->load->database();  
+        if ($this->session->userdata('customer_login') == 1)
+        {            
+            $this->check_credit_limit(); 
+        }      
     }
 
     public function create_vendor() {
@@ -27,6 +31,19 @@ class Customer_Modal extends CI_Model{
         $data['role']               = '1';
         $this->db->insert('tbl_user',$data);  
         return true;    
+    }
+
+    public function submit_reviewed() {      
+
+        $user_data              = $this->customer_details();
+
+        $data['rid']            = $this->input->post('reservation');
+        $data['uid']            = $user_data->no;
+        $data['email']            = $user_data->email;
+        $data['phone']            = $user_data->mobile;
+        $data['title']          = $this->input->post('title');
+        $data['content']        = $this->input->post('review');
+        $this->db->insert('tbl_report',$data); 
     }
 
     public function create_customer() { 
@@ -280,10 +297,18 @@ class Customer_Modal extends CI_Model{
 
     public function cancel_order($id = "") { 
 
-        $data['state']            = 3; 
+        $reservation_details = $this->db->get_where('tbl_reservation', array('no' => $id))->row();
+        $resto_credit = $this->db->get_where('tbl_restaurant', array('no' => $reservation_details->rid))->row()->level;
+        $user_credit = $this->db->get_where('tbl_user', array('no' => $reservation_details->uid))->row()->credit;
+        $updated_credit = $user_credit + ($reservation_details->people*$resto_credit);
 
+        $data['state']            = 3; 
         $this->db->where('no',$id);
-        $this->db->update('tbl_reservation',$data);      
+        $this->db->update('tbl_reservation',$data);     
+
+        $data1['credit'] = $updated_credit;
+        $this->db->where('no',$reservation_details->uid);
+        $this->db->update('tbl_user',$data1);  
     }
 
 
@@ -316,6 +341,13 @@ class Customer_Modal extends CI_Model{
 
         $sql = $this->db->get_where('tbl_map_discount_restaurant', array('rid' => $rid));
         $result = $sql->result();
+        return $result;     
+    }
+
+    public function restaurant_facility($rid="") {   
+
+        $sql = $this->db->get_where('tbl_map_facility_restaurant', array('rid' => $rid));
+        $result = $sql->result();        
         return $result;     
     }
 
@@ -388,31 +420,41 @@ class Customer_Modal extends CI_Model{
 
     public function booking($rid = "") {
 
+        $user_id               = $this->session->userdata('login_user_id');
+
         $booked_amount = 0;
         $booked_did = $this->input->post('discount');
         $total_amount = $this->db->get_where('tbl_map_discount_restaurant', array('no' => $booked_did))->row()->amount;
-        $reservation_no = $this->db->get_where('tbl_reservation', array('rid' => $rid))->result();
+        $reservation_no = $this->db->get_where('tbl_reservation', array('rid' => $rid, 'state !=' => 3))->result();
 
         foreach ($reservation_no as $reserve) { 
             $booked_amount += $reserve->people;
         }
 
         $people = $this->input->post('people');
+        $resto_membership = $this->db->get_where('tbl_user', array('no' => $user_id))->row()->membership;
+        $resto_credit = $this->db->get_where('tbl_restaurant', array('no' => $rid))->row()->level;
+        $user_credit = $this->db->get_where('tbl_user', array('no' => $user_id))->row()->credit;
+        if($user_credit - ($people*$resto_credit) >= 0 || $resto_membership == 3) {
 
-        if($total_amount - $booked_amount >= $people) {
-            $user_id               = $this->session->userdata('login_user_id');
-            $data['uid']           = $user_id;
-            $data['rid']           = $rid;    
-            $data['did']           = $booked_did;
-            $data['people']        = $people;
-            $data['date']          = $this->input->post('date');
-            $data['cardid']        = $this->input->post('savedcard');
-            $data['state']         = '2';
-            $this->db->insert('tbl_reservation',$data); 
-            $reservation_id = $this->db->insert_id(); 
-            return $reservation_id;    
+            if($total_amount - $booked_amount >= $people) {
+                $user_id               = $this->session->userdata('login_user_id');
+                $data['uid']           = $user_id;
+                $data['rid']           = $rid;    
+                $data['did']           = $booked_did;
+                $data['people']        = $people;
+                $data['date']          = $this->input->post('date');
+                // $data['cardid']        = $this->input->post('savedcard');
+                $data['state']         = '2';
+                $this->db->insert('tbl_reservation',$data); 
+                $reservation_id = $this->db->insert_id(); 
+                return $reservation_id;    
+            } else {
+                return false;
+            }
+
         } else {
-            return false;
+            return "credit_error";
         }
     }
 
@@ -438,9 +480,22 @@ class Customer_Modal extends CI_Model{
     }
 
     // Method for changing status of reservation to 0: progress when payment is done 
-    public function payment_complete($trasactionid, $reservationid) {
-       $sql = "UPDATE tbl_reservation SET state='0', cardid='$trasactionid' WHERE no='$reservationid'";
-       $this->db->query($sql);
+    public function payment_complete($reservationid) {
+        $sql = "UPDATE tbl_reservation SET state='0' WHERE no='$reservationid'";
+        $this->db->query($sql);
+
+        $reservation_details = $this->db->get_where('tbl_reservation', array('no' => $reservationid))->row();
+    $resto_credit = $this->db->get_where('tbl_restaurant', array('no' => $reservation_details->rid))->row()->level;
+        $user_membership = $this->db->get_where('tbl_user', array('no' => $reservation_details->uid))->row()->membership;
+        $user_credit = $this->db->get_where('tbl_user', array('no' => $reservation_details->uid))->row()->credit;
+        
+        if($user_membership != 3) {
+
+            $updated_credit = $user_credit - ($reservation_details->people*$resto_credit);
+            $sql = "UPDATE tbl_user SET credit='$updated_credit' WHERE no='$reservation_details->uid'";
+            $this->db->query($sql);
+        }
+
        return true;
     }
 
@@ -522,17 +577,74 @@ class Customer_Modal extends CI_Model{
         return $result;
     }
 
-    public function updateusercredit($planid,$credit) { 
+    public function updateusercredit($planid,$credit,$price) { 
 
         $user_id                    = $this->session->userdata('login_user_id');
+        if($planid != 3) {
+            $p_credit                   = $this->db->get_where('tbl_user', array('no' => $user_id))->row()->credit;
+            $n_credit                   = $p_credit + $credit;
+            $data['membership']         = $planid;
+            $data['mdate']              = date('Y-m-d');
+            $data['credit']             = $n_credit;
+            $this->db->where('no',$user_id);
+            $this->db->update('tbl_user',$data);
+        } else {
+            $data['membership']         = $planid;
+            $data['mdate']              = date('Y-m-d');
+            $data['credit']             = 0;
+            $this->db->where('no',$user_id);
+            $this->db->update('tbl_user',$data);
+        }  
 
-        $p_credit                   = $this->db->get_where('tbl_user', array('no' => $user_id))->row()->credit;
-        $n_credit                   = $p_credit + $credit;
-        $data['membership']         = $planid;
-        $data['mdate']              = date('M,d-Y');
-        $data['credit']             = $n_credit;
-        $this->db->where('no',$user_id);
-        $this->db->update('tbl_user',$data);      
+        $data1['transaction']      = "Demo_qwErr123ASDvddDRFrfdrv"; 
+        $data1['price']             = $price;  
+        $data1['mid']               = $planid; 
+        $data1['uid']               = $user_id;  
+        $this->db->insert('tbl_transaction',$data1); 
     }
+
+    public function check_credit_limit() {        
+        $user_id                    = $this->session->userdata('login_user_id');
+
+        $user_details = $this->db->get_where('tbl_user', array('no' => $user_id))->row();
+
+        $currentdate = date('Y-m-d');
+        $date = $user_details->mdate;
+
+        $monthdate = strtotime ( '+1 month' , strtotime ( $date ) ) ;
+        $monthdate = date ( 'Y-m-d' , $monthdate );
+        $onedaymonthdate = strtotime ( '+1 day' , strtotime ( $monthdate ) ) ;
+        $onedaymonthdate = date ( 'Y-m-d' , $onedaymonthdate );
+        if ($currentdate == $onedaymonthdate){
+          
+            $data['credit']             = 0;
+            $this->db->where('no',$user_id);
+            $this->db->update('tbl_user',$data); 
+        
+        }
+        $updated_user_details = $this->db->get_where('tbl_user', array('no' => $user_id))->row();
+        return $updated_user_details->credit;
+    }
+
+    public function submit_reviews() {      
+
+        $user_id                = $this->session->userdata('login_user_id');
+        $rid                    = $this->input->post('restaurant');
+        $reserv_id              = $this->input->post('reservation');
+
+        $data['rating']         = $this->input->post('radio1');
+        $data['rid']            = $rid;
+        $data['uid']            = $user_id;
+        $data['title']          = $this->input->post('title');
+        $data['content']        = $this->input->post('review');
+        $this->db->insert('tbl_review_restaurant',$data); 
+
+        $data1['state']   = 2;
+        $this->db->where('no',$reserv_id);
+        $this->db->update('tbl_reservation',$data1);
+
+        return $rid;   
+    }
+
 
 } ?>

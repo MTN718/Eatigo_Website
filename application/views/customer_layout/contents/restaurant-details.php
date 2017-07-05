@@ -38,13 +38,13 @@
                 <label style="color:#ffffff;">( <?php echo $restaurantdetails->reviews;?> )</label>
             </div>            
         </div>
-        <div class="col-md-4 venue-action"> <a href="#googleMap" class="btn tp-btn-primary findhover"  style="background-color: #8E203E">VIEW MAP</a> <a href="#inquiry" class="btn tp-btn-default findhover"  style="background-color: #8E203E">Book Restaurant</a> </div>
+        <div class="col-md-4 venue-action"> <a href="#googleMap" class="btn tp-btn-primary findhover"  style="background-color: #8E203E">VIEW MAP</a> <a href="#inquiry" class="btn tp-btn-default findhover"  style="background-color: #8E203E">Book Place</a> </div>
     </div>
 </div>
 <div class="main-container">
     <div class="container">
         <div class="row">
-            <div class="col-md-8 page-description">
+            <div class="col-md-8 page-description" style="margin-bottom: 30px;">
                 <div class="container-fluid">
                     <div class="row st-tabs woo-product-tabs"> 
                         <!-- Nav tabs -->
@@ -60,7 +60,7 @@
                                     <label>About Us</label>
                                     <p><?php echo $restaurantdetails->about; ?></p>
                                     <hr>
-                                    <label>Restaurant Languages</label>
+                                    <label>Languages</label>
                                     <p>
                                         <?php
                                         $languages_id = $this->db->get_where('tbl_map_language_restaurant', array('rid' => $restaurantdetails->no))->result();
@@ -73,59 +73,60 @@
                                         ?>
                                     </p>
                                     <hr>
-                                    <label>Restaurant Timing</label>
+                                    <label>Services</label>
+                                    <p>
+                                        <?php
+                                        if (isset($restaurantfacilities) and $restaurantfacilities != NULL) {
+                                            foreach ($restaurantfacilities as $restaurantfacility) {
+                                                $facilityname = $this->db->get_where('tbl_base_facility', array('no' => $restaurantfacility->fid))->row();
+                                                if($restaurantfacility->state == 1) {
+                                                    echo  "<i class='fa fa-check' style='color:green;'> </i> ".$facilityname->name."</br>";
+                                                } else {
+                                                    echo  "<i class='fa fa-times' style='color:red;'> </i> ".$facilityname->name."</br>";
+                                                }
+                                            }
+                                        }
+                                        ?>
+                                    </p>
+                                    <hr>
+                                    <label>Timing</label>
                                     <p> 
                                             <?php if(isset($restaurantdetails->mon_starttime) and $restaurantdetails->mon_starttime != NULL) { ?>
-                                            <span class="col-md-4 no-padding">Monday</span>
-                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->mon_starttime;?></span>
-                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->mon_endtime;?></span>
+                                            <span class="col-md-3 no-padding">Monday</span><?php echo $restaurantdetails->mon_starttime;?> ~ <?php echo $restaurantdetails->mon_endtime;?>
                                             <br>
                                             <?php } ?>
                                             <?php if(isset($restaurantdetails->tue_starttime) and $restaurantdetails->tue_starttime != NULL) { ?>
-                                            <span class="col-md-4 no-padding">Tuesday</span>
-                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->tue_starttime;?></span>
-                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->tue_endtime;?></span>
+                                            <span class="col-md-3 no-padding">Tuesday</span><?php echo $restaurantdetails->tue_starttime;?> ~ <?php echo $restaurantdetails->tue_endtime;?>
                                             <br>
                                             <?php } ?>
                                             <?php if(isset($restaurantdetails->wed_starttime) and $restaurantdetails->wed_starttime != NULL) { ?>
-                                            <span class="col-md-4 no-padding">Wednesday</span>
-                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->wed_starttime;?></span>
-                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->wed_endtime;?></span>
+                                            <span class="col-md-3 no-padding">Wednesday</span><?php echo $restaurantdetails->wed_starttime;?> ~ <?php echo $restaurantdetails->wed_endtime;?>
                                             <br>
                                             <?php } ?>
                                             <?php if(isset($restaurantdetails->thu_starttime) and $restaurantdetails->thu_starttime != NULL) { ?>
-                                            <span class="col-md-4 no-padding">Thusday </span>
-                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->thu_starttime;?></span>
-                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->thu_endtime;?></span>
+                                            <span class="col-md-3 no-padding">Thusday </span><?php echo $restaurantdetails->thu_starttime;?> ~ <?php echo $restaurantdetails->thu_endtime;?>
                                             <br>
                                             <?php } ?>
                                             <?php if(isset($restaurantdetails->fri_starttime) and $restaurantdetails->fri_starttime != NULL) { ?>
-                                            <span class="col-md-4 no-padding">Friday</span>
-                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->fri_starttime;?></span>
-                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->fri_endtime;?></span>
+                                            <span class="col-md-3 no-padding">Friday</span><?php echo $restaurantdetails->fri_starttime;?> ~ <?php echo $restaurantdetails->fri_endtime;?>
                                             <br>
                                             <?php } ?>
                                             <?php if(isset($restaurantdetails->sat_starttime) and $restaurantdetails->sat_starttime != NULL) { ?>
-                                            <span class="col-md-4 no-padding">Saturday</span>
-                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->sat_starttime;?></span>
-                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->sat_endtime;?></span>
+                                            <span class="col-md-3 no-padding">Saturday</span><?php echo $restaurantdetails->sat_starttime;?> ~ <?php echo $restaurantdetails->sat_endtime;?>
                                             <br>
                                             <?php } ?>
                                             <?php if(isset($restaurantdetails->sun_starttime) and $restaurantdetails->sun_starttime != NULL) { ?>
-                                            <span class="col-md-4 no-padding">Sunday</span>
-                                            <span class="col-md-4 no-padding" > Open Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->sun_starttime;?></span>
-                                            <span class="col-md-4 no-padding" > close Time <i class="fa fa-clock-o"></i> <?php echo $restaurantdetails->sun_endtime;?></span>
+                                            <span class="col-md-3 no-padding">Sunday</span><?php echo $restaurantdetails->sun_starttime;?> ~ <?php echo $restaurantdetails->sun_endtime;?>
                                             <br> 
                                             <?php } ?>
-
                                     </p>
+                                    <hr>
                                 </div>
                             </div>
 
                             <div role="tabpanel" class="tab-pane fade <?php if ($active == 3) echo "in active"; ?>" id="photo" style="padding: 16px 0 8px 0;">              
                                 <div id="sync1" class="owl-carousel">
-                                    <?php
-                                    if (isset($restaurantimages) and $restaurantimages != NULL) {
+                                    <?php if (isset($restaurantimages) and $restaurantimages != NULL) {
                                         foreach ($restaurantimages as $restaurantimage) {
                                             ?>
                                             <div class="item"> <img src="<?php echo base_url(); ?><?php echo $restaurantimage->image; ?>" alt="" class="img-responsive" style="height:400px; width:100%;"> </div>
@@ -137,8 +138,7 @@
                                     ?>
                                 </div>
                                 <div id="sync2" class="owl-carousel">
-                                    <?php
-                                    if (isset($restaurantimages) and $restaurantimages != NULL) {
+                                    <?php if (isset($restaurantimages) and $restaurantimages != NULL) {
                                         foreach ($restaurantimages as $restaurantimage) {
                                             ?>
                                             <div class="item"> <img src="<?php echo base_url(); ?><?php echo $restaurantimage->image; ?>" alt="" class="img-responsive" style="height:95px; width:100%;"> </div>
@@ -155,9 +155,9 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <h1>Write Your Review</h1>
-                                        <form action="<?php echo base_url(); ?>index.php/CustomerController/add_review" method="post" enctype="multipart/form-data">                              
+                                        <form action="<?php echo base_url(); ?>index.php/CustomerController/submit_review" method="post" enctype="multipart/form-data">                              
                                             <input type="hidden" name="restaurant" value="<?php echo $restaurantdetails->no; ?>">                            
-
+                                            <input type="hidden" name="reservation" value="<?php if(isset($reserv_id) and $reserv_id != NULL) echo $reserv_id; ?>"> 
                                             <div class="form-group col-md-12 no-padding">
                                                 <label class=" control-label" for="reviewtitle">Rating<span class="required">*</span></label>
                                                 <div class="rating-group">
@@ -315,30 +315,6 @@
                                         <?php } ?>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label" for="guest">Pick your Time / Discount<span class="required">*</span></label>
-                                    <div class="">
-                                        <select id="discount" name="discount" class="form-control" required>
-
-                                            <?php if (isset($restaurantdiscounts) and $restaurantdiscounts != NULL) { ?>
-                                                <option value="">Select Time - Discount</option>
-                                                <?php
-                                                foreach ($restaurantdiscounts as $resto_discount) {
-                                                    $discount = $this->db->get_where('tbl_base_discount', array('no' => $resto_discount->did))->row();
-                                                    ?>
-                                                    <option value="<?php echo $resto_discount->no; ?>">
-                                                        <?php echo $resto_discount->rtime; ?> / 
-                                                        <?php echo $discount->percent; ?>% off
-                                                    </option>                            
-                                                    <?php
-                                                }
-                                            } else {
-                                                ?>                            
-                                                <option value="">No Discount Now</option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                </div>
                                 <!-- Select Basic -->
                                 <div class="form-group">
                                     <label class="control-label" for="date">Date:</label>
@@ -347,7 +323,16 @@
                                             <i class="fa fa-calendar">
                                             </i>
                                         </div>
-                                        <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text" value="" required="required">
+                                        <input class="form-control" id="date" data_id="<?php echo $restaurantdetails->no; ?>" name="date" placeholder="MM/DD/YYYY" type="text" value="" required="required">
+                                    </div>
+                                </div>
+                                <!-- Select Basic -->
+                                <div class="form-group">
+                                    <label class="control-label" for="guest">Pick your Time / Discount<span class="required">*</span></label>
+                                    <div class="">
+                                        <select id="discount" name="discount" class="form-control" required>
+
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -361,7 +346,7 @@
                                     </div>
                                 </div>
 
-                                <?php if ($account_type == 'customer') { ?>
+                                <!-- <?php if ($account_type == 'customer') { ?>
                                     <div class="form-group">
                                         <label class="control-label" for="savedcard">Saved Cards<span class="required">*</label>
                                         <div class="">
@@ -373,11 +358,11 @@
                                             </select>
                                         </div>
                                     </div>
-                                <?php } ?>
+                                <?php } ?> -->
 
                                 <div class="form-group">
                                     <?php if ($this->session->userdata('customer_login') == 1) { ?>
-                                        <button name="submit" class="btn tp-btn-default tp-btn-lg btn-block findhover Book_Venue" style="background-color: #8E203E">Book Restaurant</button>
+                                        <button name="submit" class="btn tp-btn-default tp-btn-lg btn-block findhover Book_Venue" style="background-color: #8E203E">Book Place</button>
                                     <?php } else { ?>
                                         <a href="<?php echo base_url(); ?>index.php/LoginController/logout" class="btn tp-btn-default tp-btn-lg btn-block findhover" style="background-color: #8E203E">Please Login</a>  
                                     <?php } ?>
@@ -391,39 +376,27 @@
     </div>
 </div>
 <script src="<?php echo base_url(); ?>js/customer/jquery.min.js"></script>
-
-
-<!--
-<script>
-  $("#people").focusout(function(){
-    var no_people = $('#people').val();
-    var did = $('#discount').val();
-    $.ajax({
-      url : "<?php echo base_url(); ?>index.php/CustomerController/check_seat/<?php echo $restaurantdetails->no; ?>/",
-      type: 'post',
-      data : {
-        people : no_people,
-        people : did
-      },
-      dataType: 'json', 
-      success:function(data)
-      {
-        var response = JSON.parse(data);
-        if(response.status == 'true')
-        {
-          $("#error_block").show();
-        }
-        else
-        {
-          $("#success_block").show();
-        }
-      }
-    });
-    
-  });
-</script>
--->
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#date').on('change',function(){
+                    var dateval = $(this).val();
+                    var id = $(this).attr("data_id");
+                    if(dateval){
+                        $.ajax({
+                            type:'POST',
+                            url:'<?php echo base_url();?>index.php/customerController/datediscount/'+id,
+                            data:'dateval='+dateval,
+                            success:function(html){
+                                $('#discount').html(html);
+                            }
+                        }); 
+                    }else{
+                        $('#discount').html('<option value="">Select Time - Discount</option>');
+                    }
+                });   
+            });
+        </script>
 
 <div id="googleMap" class="map"></div>
 

@@ -161,7 +161,7 @@ $(document).ready(function() {
 	var tableElement = $('#example');
 
     tableElement.dataTable( {
-		"sDom": "<'row'<'col-md-6'l T><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
+		"sDom": "<'row col-md-12'l T f r t <p i>>",
 			"oTableTools": {
 			"aButtons": [
 				
@@ -244,14 +244,10 @@ $(document).ready(function() {
 		},
     });
 	var oTable3 = $('#example3').dataTable( {
-	   "sDom": "<'row'<'col-md-6'l <'toolbar'>><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
-        			"oTableTools": {
+	   "sDom": "<'container-fluid pd0'l T f r t <p i>>",
+			"oTableTools": {
 			"aButtons": [
-				{
-					"sExtends":    "collection",
-					"sButtonText": "<i class='fa fa-cloud-download'></i>",
-					"aButtons":    [ "csv", "xls", "pdf", "copy"]
-				}
+				
 			]
 		},
         "aoColumnDefs": [
@@ -264,14 +260,10 @@ $(document).ready(function() {
 		},
     });
 	 var oTable3 = $('#example4').dataTable( {
-	   "sDom": "<'row'<'col-md-6'l <'toolbar'>><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
-        			"oTableTools": {
+	   "sDom": "<'row col-md-12'l T f r t <p i>>",
+			"oTableTools": {
 			"aButtons": [
-				{
-					"sExtends":    "collection",
-					"sButtonText": "<i class='fa fa-cloud-download'></i>",
-					"aButtons":    [ "csv", "xls", "pdf", "copy"]
-				}
+				
 			]
 		},
         "aoColumnDefs": [

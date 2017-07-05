@@ -104,14 +104,14 @@
                   <?php foreach ($restaurantlist as $restaurant) { 
                     ?>
                     <tr class="odd gradeX">
-                      <td><a style="color:#e41d27;" href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $restaurant->no; ?>"><?php echo $restaurant->name;?></a></td>
-                      <td class="row">                        
+                      <td class="agencylist"><a style="color:#e41d27;" href="<?php echo base_url();?>index.php/CustomerController/restaurantdetails/<?php echo $restaurant->no; ?>"><?php echo $restaurant->name;?></a></td>
+                      <td class="agencylist">                        
                         <?php if(isset($restaurant->status) and $restaurant->status != NULL) {
                           if($restaurant->status == 0) echo "<span style='color:green'>Open</span>";
                           else echo "<span style='color:red'>Close</span>";
                         } ?>
                       </td>
-                      <td>
+                      <td class="agencylist">
                         <?php
                         $subcategorylisttoshow = $this->db->get_where('tbl_map_sub_restaurant', array('rid' => $restaurant->no))->result();
                           foreach ($subcategorylisttoshow as $subcategorytoshow) { 
@@ -120,8 +120,9 @@
                               echo "<br>";
                           }
                         ?>
+                        &nbsp;
                       </td>
-                      <td style="width: 120px;">
+                      <td class="agencylist w12">
                         <?php $level = $restaurant->level; 
 
                         $dont_show_button1 = "";
@@ -156,7 +157,7 @@
 
                         <div class="rating dont_show <?php echo $dont_show_button5 ?>"><i class="fa fa-usd"></i> <i class="fa fa-usd"></i> <i class="fa fa-usd"></i> <i class="fa fa-usd"></i> <i class="fa fa-usd"></i></div>
                       </td>
-                      <td style="width: 120px;">
+                      <td class="agencylist w120">
                         <?php $reviews = $restaurant->reviews; 
 
                         $dont_show_button1 = "";
@@ -164,6 +165,7 @@
                         $dont_show_button3 = "";
                         $dont_show_button4 = "";
                         $dont_show_button5 = "";
+                        $dont_show_button6 = "";
 
                         if($reviews == 1){
                           $dont_show_button1 = 'show';
@@ -180,6 +182,9 @@
                         else if($reviews == 5){
                           $dont_show_button5 = "show";
                         }
+                        else if($reviews == 0){
+                          $dont_show_button6 = "show";
+                        }
                         ?>
                         <div class="rating dont_show <?php echo $dont_show_button1 ?>"><i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
 
@@ -190,8 +195,10 @@
                         <div class="rating dont_show <?php echo $dont_show_button4 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i></div>
 
                         <div class="rating dont_show <?php echo $dont_show_button5 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></div>
+
+                        <div class="rating dont_show <?php echo $dont_show_button6 ?>"><i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
                       </td>
-                      <td>
+                      <td class="agencylist">
                         <div class="dropdown">
                           <button class="btn btn-default dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Option
                             <span class="caret"></span></button>
@@ -599,7 +606,7 @@
                 <table class="table table-hover table-condensed" id="example4">
                   <thead>
                     <tr>
-                      <th>Name</th>
+                      <th>Restaurant Name</th>
                       <th>Discount Time / Discount Persent</th>
                       <th>No. of People</th>
                       <th>status</th>
@@ -612,23 +619,21 @@
                       $discount_data = $this->db->get_where('tbl_base_discount', array('no' => $data->did))->row()->percent;
                       ?>
                       <tr class="odd gradeX">
-                        <td><?php echo  $data->name; ?></td>
-                        <td>
-                          <div class="row">
-                            <span class="col-md-6" style="width: 19%;"><i class="fa fa-clock-o"></i> <?php echo  $data->rtime; ?> </span>
-                            <span class="col-md-1"><i class="fa fa-arrow-right"></i></span>
-                            <span class="col-md-5"> <?php echo  $discount_data; ?> % </span>
-                          </div>
+                        <td class="contactlist"><?php echo  $data->name; ?></td>
+                        <td class="contactlist">
+                            <i class="fa fa-clock-o"></i> <?php echo  $data->rtime; ?>
+                            <i class="fa fa-arrow-right"></i>
+                            <?php echo  $discount_data; ?> % 
                         </td>
-                        <td><?php echo  $data->amount; ?></td>
-                        <td>
+                        <td class="contactlist"><?php echo  $data->amount; ?></td>
+                        <td class="contactlist">
                           <?php if($data->status == 1) { ?>
                           Active
                           <?php } else { ?>
                           Deactive
                           <?php } ?>
                         </td>
-                        <td>
+                        <td class="contactlist">
                           <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Option
                               <span class="caret"></span></button>
@@ -749,7 +754,7 @@
                           </div>
                         </form>
                       </div>
-                      <div role="tabpanel" class="tab-pane fade <?php if( $active == 4) echo "in active"; ?>" id="reviews"> 
+                     <div role="tabpanel" class="tab-pane fade <?php if( $active == 4) echo "in active"; ?>" id="reviews"> 
                         <!-- comments -->
                         <div class="customer-review">
                           <div class="row">
@@ -784,6 +789,7 @@
                                                 $dont_show_button3 = "";
                                                 $dont_show_button4 = "";
                                                 $dont_show_button5 = "";
+                                                $dont_show_button6 = "";
 
                                                 if($reviews == 1){
                                                   $dont_show_button1 = 'show';
@@ -800,12 +806,16 @@
                                                 else if($reviews == 5){
                                                   $dont_show_button5 = "show";
                                                 }
+                                                else if($reviews == 0){
+                                                  $dont_show_button6 = "show";
+                                                }
                                                 ?>
                                                 <div class="rating dont_show <?php echo $dont_show_button1 ?>"><i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
                                                 <div class="rating dont_show <?php echo $dont_show_button2 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
                                                 <div class="rating dont_show <?php echo $dont_show_button3 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
                                                 <div class="rating dont_show <?php echo $dont_show_button4 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i></div>
                                                 <div class="rating dont_show <?php echo $dont_show_button5 ?>"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></div>                               </div>
+                                                <div class="rating dont_show <?php echo $dont_show_button6 ?>"><i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></div>
                                                 <div class="review-post">
                                                   <p> <?php echo $restaurantreview->content; ?></p>
                                                 </div>
@@ -821,72 +831,82 @@
                                           </div>
                                         </div>
                                         <?php }
-                                      } else { echo "No reviews Now";}
-                                    } ?>
+                                      } else { ?>
 
+                                      <div> 
+                                        <span><strong><?php echo $resto_data->name; ?></strong></span>
+                                        <span class="pull-right">No Reviews Now</span>
+                                        <hr>
+                                      </div>
+
+                                      <?php }} ?>
+
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
+
                           <div role="tabpanel" class="tab-pane fade <?php if( $active == 3) echo "in active"; ?>" id="Reservation"> 
                             <table class="table table-hover table-condensed" id="example3">
-                              <thead>
-                                <tr>
-                                  <th>Place Name</th>
-                                  <th>User</th>
-                                  <th>Booking Date</th>
-                                  <th>Time / Discount</th>
-                                  <th>Price</th>
-                                  <th>Status</th>
-                                  <th style="width:100px;">Action</th>
-                                </tr>
-                              </thead>
-                              <tbody class="timediscount">
-                                <?php foreach ($restaurantlist as $resto_data) { 
-                                  $reservationlist = $this->db->get_where('tbl_reservation', array('rid' => $resto_data->no))->result();
+                                <thead>
+                                  <tr>
+                                    <th>Restaurant</th>
+                                    <th>User</th>
+                                    <th>Booking Date</th>
+                                    <th>Time / Discount</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th style="width:100px;">Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody class="timediscount">
+                                  <?php foreach ($restaurantlist as $resto_data) { 
+                                    $reservationlist = $this->db->get_where('tbl_reservation', array('rid' => $resto_data->no))->result();
 
-                                  foreach ($reservationlist as $reservation) { 
+                                    foreach ($reservationlist as $reservationdata) { 
 
-                                    $user = $this->db->get_where('tbl_user', array('no' => $reservation->uid))->row();
-                                    $rastaurant = $this->db->get_where('tbl_restaurant', array('no' => $reservation->rid))->row();
-                                    $discount = $this->db->get_where('tbl_map_discount_restaurant', array('no' => $reservation->did))->row();
-                                    $discount_data = $this->db->get_where('tbl_base_discount', array('no' => $discount->did))->row();
+                                      $user = $this->db->get_where('tbl_user', array('no' => $reservationdata->uid))->row();
+                                      $rastaurant = $this->db->get_where('tbl_restaurant', array('no' => $reservationdata->rid))->row();
+                                      $discount = $this->db->get_where('tbl_map_discount_restaurant', array('no' => $reservationdata->did))->row();
+                                      $discount_data = $this->db->get_where('tbl_base_discount', array('no' => $discount->did))->row();
 
-                                    ?>
-                                    <tr class="odd gradeX">
-                                      <td><?php echo  $rastaurant->name; ?></td>
-                                      <td><?php echo  $user->name; ?></td>
-                                      <td><?php echo  $reservation->date; ?></td>
-                                      <td><i class="fa fa-clock-o"></i> <?php echo  $discount->rtime; ?> / <?php echo  $discount_data->percent; ?>%</td>
-                                      <td><?php echo  $discount->price; ?></td>
-                                      <td>
-                                        <?php if($reservation->state == 0) { ?>
-                                        Process
-                                        <?php } else if ($reservation->state == 1) { ?>
-                                        Complete
-                                        <?php } else if ($reservation->state == 3) { ?>
-                                        Cancel
-                                        <?php } ?>
-                                      </td>
-                                      <td>
-                                        <div class="dropdown">
-                                          <button class="btn btn-default dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Option
-                                            <span class="caret"></span></button>
-                                            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                                              <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/view_reservation/<?php echo $reservation->no; ?>">View</a></li>
-                                              <li role="presentation" class="divider"></li>
-                                              <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/complete_reservation/<?php echo $reservation->no; ?>" onclick="return confirm('Are you sure you want to Complete this Reservation ?');">Complete Booking</a></li>   
-                                              <li role="presentation" class="divider"></li>
-                                              <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/cancel_reservation/<?php echo $reservation->no; ?>" onclick="return confirm('Are you sure you want to Cancel this Reservation ?');">Cancel Booking</a></li>       
-                                            </ul>
-                                          </div>
+                                      ?>
+                                      <tr class="odd gradeX">
+                                        <td class="citylist"><?php echo  $rastaurant->name; ?></td>
+                                        <td class="citylist"><?php echo  $user->name; ?></td>
+                                        <td class="citylist"><?php echo  $reservationdata->date; ?></td>
+                                        <td class="citylist"><i class="fa fa-clock-o"></i> <?php echo  $discount->rtime; ?> / <?php echo  $discount_data->percent; ?>%</td>
+                                        <td class="citylist"><?php echo  $discount->price; ?>$</td>
+                                        <td class="citylist">
+                                          <?php if($reservationdata->state == 0) { ?>
+                                          Process
+                                          <?php } else if ($reservationdata->state == 1) { ?>
+                                          Complete
+                                          <?php } else if ($reservationdata->state == 2) { ?>
+                                          Reviewed                                          
+                                          <?php } else if ($reservationdata->state == 3) { ?>
+                                          Cancel
+                                          <?php } ?>
                                         </td>
-                                      </tr>
-                                      <?php }
-                                    } ?>                     
+                                        <td class="citylist">
+                                          <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Option
+                                              <span class="caret"></span></button>
+                                              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                                <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/view_reservation/<?php echo $reservationdata->no; ?>">View</a></li>
+                                                <li role="presentation" class="divider"></li>
+                                                <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/complete_reservation/<?php echo $reservationdata->no; ?>" onclick="return confirm('Are you sure you want to Complete this Reservation ?');">Complete Booking</a></li>   
+                                                <li role="presentation" class="divider"></li>
+                                                <li role="presentation"><a role="menuitem" href="<?php echo base_url();?>index.php/VendorController/cancel_reservation/<?php echo $reservationdata->no; ?>" onclick="return confirm('Are you sure you want to Cancel this Reservation ?');">Cancel Booking</a></li>       
+                                              </ul>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                        <?php }
+                                      } ?>                     
 
-                                  </tbody>
+                                    </tbody>
                                 </table>
                               </div>
                               <div role="tabpanel" class="tab-pane fade <?php if( $active == 'view_reservation') echo "in active"; ?>" id="view_reservation"> 

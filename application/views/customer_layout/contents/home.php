@@ -33,7 +33,7 @@
                                     <?php } ?>
                                 </select>
                             </div>
-                            <button type="submit" class="h btn tp-btn-default tp-btn-lg findhover" style="height: 48px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <button type="submit" class="h btn tp-btn-default tp-btn-lg findhover" style="height: 48px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find Places&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                         </form>
                     </div>
                     <div class="finder-caption" style="margin-top: 35px;">
@@ -100,7 +100,7 @@
         <div role="tabpanel" class="tab-pane fade in active" id="recentproducts">
             <div class="portfolio-grid clearfix" id="portfolioList">
                 <?php foreach ($categorylist as $category) { ?>
-                <div class="mix Categories">
+                    <div class="col-md-4 Categories">
                     <a href="<?php echo base_url(); ?>index.php/CustomerController/subcategory/<?php echo $category->no; ?>">
                         <div class="home-group-img location-block"><!-- location block -->
                             <div class="home-group-img lazy vendor-image">
@@ -121,7 +121,7 @@
             </div>
         </div>
 
-        <div role="tabpanel" class="tab-pane fade" id="featuredproduct">
+        <!-- <div role="tabpanel" class="tab-pane fade" id="featuredproduct">
             <div class="portfolio-grid clearfix" id="portfolioList">
 
 
@@ -236,7 +236,7 @@
             }
             ?>
         </div>
-    </div>
+    </div> -->
 </div>
 </div>
 
@@ -264,9 +264,11 @@
                                     $query = $this->db->get();
                                     if ($query->num_rows() > 0) {
                                         $row = $query->row_array();
-                                        ?>      
+                                        if($row['device_type'] == 0) { ?>      
                                         <img src="<?php echo base_url(); ?><?php echo $row['image']; ?>" alt="" class="img-circle" width="200" height="200">
-                                        <?php
+                                        <?php } else { ?>                                        
+                                        <img src="<?php echo $row['image']; ?>" alt="" class="img-circle" width="200" height="200">
+                                        <?php }
                                     }
                                     ?>
 
