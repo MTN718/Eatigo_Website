@@ -196,7 +196,7 @@
                                             <div class="form-group">
                                                 <label class=" control-label">Write Review</label>
                                                 <div class="">
-                                                    <textarea class="form-control" name="review" rows="8">Write Review</textarea>
+                                                    <textarea class="form-control" name="review" rows="8" placeholder="Write Review"></textarea>
                                                 </div>
                                             </div>
                                             <!-- Button -->

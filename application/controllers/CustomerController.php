@@ -558,7 +558,8 @@ public function faqPage()
 
 public function ajaxSearchRestaurant()
 {
-    $postVars = $this->utils->inflatePost(array('discount','level','rate','subcategory'));        
+    $postVars = $this->utils->inflatePost(array('discount','level','rate','subcategory'));  
+
     $sql = "";
     if ($postVars['discount'] == '')
         $sql = "select no as rid from tbl_restaurant";            
@@ -587,14 +588,14 @@ public function ajaxSearchRestaurant()
 
     if ($sqlIn !='')
     {
-        $sql = "select no as rid from tbl_map_sub_restaurant where sid in (".$sqlIn.")";
+    
+        $sql = "select rid from tbl_map_sub_restaurant where sid in (".$sqlIn.")";
     }
     else
-        $sql = "select no as rid from tbl_restaurant";      
+        $sql = "select rid from tbl_restaurant";      
 
 
     $rids3 = $this->sqllibs->rawSelectSql($this->db, $sql);        
-
 
     $sqlIn = "";
     foreach($postVars['rate'] as $rate)

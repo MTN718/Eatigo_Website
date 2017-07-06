@@ -55,7 +55,7 @@ class Customer_Modal extends CI_Model{
         if($num > 0) {
             return false;   
         }
-       
+        
         $data['name']               = $this->input->post('name');
         $data['email']              = $this->input->post('email'); 
         $data['password']           = $this->input->post('password');
@@ -220,7 +220,7 @@ class Customer_Modal extends CI_Model{
         
         $this->db->where('status',0);
         $rows = $this->db->get()->result();
-   
+        
     }
 
     public function customer_details() {  
@@ -485,7 +485,7 @@ class Customer_Modal extends CI_Model{
         $this->db->query($sql);
 
         $reservation_details = $this->db->get_where('tbl_reservation', array('no' => $reservationid))->row();
-    $resto_credit = $this->db->get_where('tbl_restaurant', array('no' => $reservation_details->rid))->row()->level;
+        $resto_credit = $this->db->get_where('tbl_restaurant', array('no' => $reservation_details->rid))->row()->level;
         $user_membership = $this->db->get_where('tbl_user', array('no' => $reservation_details->uid))->row()->membership;
         $user_credit = $this->db->get_where('tbl_user', array('no' => $reservation_details->uid))->row()->credit;
         
@@ -496,7 +496,7 @@ class Customer_Modal extends CI_Model{
             $this->db->query($sql);
         }
 
-       return true;
+        return true;
     }
 
     public function confirm_order($oid) {        
@@ -620,7 +620,7 @@ class Customer_Modal extends CI_Model{
             $data['credit']             = 0;
             $this->db->where('no',$user_id);
             $this->db->update('tbl_user',$data); 
-        
+            
         }
         $updated_user_details = $this->db->get_where('tbl_user', array('no' => $user_id))->row();
         return $updated_user_details->credit;
@@ -637,11 +637,34 @@ class Customer_Modal extends CI_Model{
         $data['uid']            = $user_id;
         $data['title']          = $this->input->post('title');
         $data['content']        = $this->input->post('review');
-        $this->db->insert('tbl_review_restaurant',$data); 
+        $this->db->insert('tbl_review_restaurant',$data);
+        $review_id = $this->db->insert_id(); 
 
         $data1['state']   = 2;
         $this->db->where('no',$reserv_id);
         $this->db->update('tbl_reservation',$data1);
+
+        if(isset($review_id) and $review_id != NULL) {
+
+            $sql = "SELECT COUNT(rid) AS noofrids, SUM(rating) as totalrating from tbl_review_restaurant WHERE rid='$rid'";
+            $result = $this->db->query($sql)->row_array();
+            
+            $noofrids = $result['noofrids'];
+            $totalrating = $result['totalrating'];
+
+            if ($noofrids == 0)
+            {
+                $temprating = 0;
+            }  
+            if ($noofrids != 0)
+            {
+                $temprating = $totalrating/$noofrids;            
+            }
+            $data2['avgrate'] = round($temprating);
+            $data2['reviews']     =  $noofrids;
+            $this->db->where('no',$rid);
+            $this->db->update('tbl_restaurant',$data2);
+        }
 
         return $rid;   
     }
